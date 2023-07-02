@@ -1,0 +1,71 @@
+id,source,text,arguments
+0,EGRAM,"FGF8b, as we and others have shown, efficicently transforms the midbrain into a cerebellum fate, whereas FGF8a can promote midbrain development.","{'0': 'FGF8b', '1': 'the midbrain', 'M-MOD': 'can'}"
+1,EGRAM,"FGF8b, as we and others have shown, has the ability to efficicently transform the midbrain into a cerebellum fate, whereas FGF8a can promote midbrain development.","{'0': 'FGF8b', '1': 'the midbrain', 'M-MOD': 'can'}"
+2,EGRAM,"FGF8b, as we and others have shown, has transformed the midbrain into a cerebellum fate, whereas FGF8a can promote midbrain development.","{'0': 'FGF8b', '1': 'the midbrain', 'M-MOD': 'can'}"
+3,EGRAM,"FGF8b, as we and others have shown, is observed to transform the midbrain into a cerebellum fate, whereas FGF8a can promote midbrain development.","{'0': 'FGF8b', '1': 'the midbrain', 'M-MOD': 'can'}"
+4,EGRAM,"FGF8b, as we and others have shown, may efficicently transform the midbrain into a cerebellum fate, whereas FGF8a can promote midbrain development.","{'0': 'FGF8b', '1': 'the midbrain', 'M-MOD': 'can'}"
+5,EGRAM,"FGF8b, as we and others have shown, may have efficicently transformed the midbrain into a cerebellum fate, whereas FGF8a can promote midbrain development.","{'0': 'FGF8b', '1': 'the midbrain', 'M-MOD': 'can'}"
+6,EGRAM,"For expression of the recombinant protein, pET28a-5 has been shown to be efficiently transformed into Escherichia coli strain BL21(DE3).",{'1': 'pET28a-5'}
+7,EGRAM,"For expression of the recombinant protein, pET28a-5 has been shown to be transformed into Escherichia coli strain BL21(DE3).",{'1': 'pET28a-5'}
+8,EGRAM,This construct can be transformed into the yeast strain HF7c (Clontech).,{'1': 'This construct'}
+9,EGRAM,This construct is likely to be transformed into the yeast strain HF7c (Clontech).,{'1': 'This construct'}
+10,EGRAM,This construct may be dramatically transformed into the yeast strain HF7c (Clontech).,{'1': 'This construct'}
+11,EGRAM,This construct may have been dramatically transformed into the yeast strain HF7c (Clontech).,{'1': 'This construct'}
+12,EGRAM,"This construct, as our study suggested, can be efficiently transformed into the yeast strain HF7c (Clontech).","{'1': 'This construct, as our study suggested,'}"
+13,EGRAM,"This construct, as our study suggested, is able to be transformed into the yeast strain HF7c (Clontech).","{'1': 'This construct, as our study suggested,'}"
+14,EGRAM,"This construct, as our study suggested, may be efficiently transformed into the yeast strain HF7c (Clontech).","{'1': 'This construct, as our study suggested,'}"
+15,EGRAM,"This construct, as our study suggested, will be transformed into the yeast strain HF7c (Clontech).","{'1': 'This construct, as our study suggested,'}"
+16,EGRAM,"We and others have shown that FGF8b has been found to transform the midbrain into a cerebellum fate, whereas FGF8a can promote midbrain development.","{'0': 'FGF8b', '1': 'the midbrain', 'M-MOD': 'can'}"
+17,EGRAM,"We and others have shown that FGF8b has transformed the midbrain into a cerebellum fate, whereas FGF8a can promote midbrain development.","{'0': 'FGF8b', '1': 'the midbrain', 'M-MOD': 'can'}"
+18,EGRAM,"We and others have shown that FGF8b may have efficiently transformed the midbrain into a cerebellum fate, whereas FGF8a can promote midbrain development.","{'0': 'FGF8b', '1': 'the midbrain', 'M-MOD': 'can'}"
+19,EGRAM,"We and others have shown that FGF8b may transform the midbrain into a cerebellum fate, whereas FGF8a can promote midbrain development.","{'0': 'FGF8b', '1': 'the midbrain', 'M-MOD': 'can'}"
+20,EGRAM,"We and others have shown that FGF8b transforms the midbrain into a cerebellum fate, whereas FGF8a can promote midbrain development.","{'0': 'FGF8b', '1': 'the midbrain', 'M-MOD': 'can'}"
+21,EGRAM,"We and others have shown that FGF8b will efficiently transform the midbrain into a cerebellum fate, whereas FGF8a can promote midbrain development.","{'0': 'FGF8b', '1': 'the midbrain', 'M-MOD': 'can'}"
+22,EGRAM,"We and others have shown that FGF8b will efficiently transform the midbrain into a cerebellum fate, whereas FGF8a can promote midbrain development.","{'0': 'FGF8b', '1': 'the midbrain', 'M-MOD': 'can'}"
+23,EGRAM,"pET28a-5, for expression of the recombinant protein, has been probably transformed into Escherichia coli strain BL21(DE3).","{'1': 'pET28a-5, for expression of the recombinant protein,'}"
+24,EGRAM,"pET28a-5, for expression of the recombinant protein, has been transformed into Escherichia coli strain BL21(DE3).","{'1': 'pET28a-5, for expression of the recombinant protein,'}"
+25,EGRAM,"pET28a-5, for expression of the recombinant protein, is likely to be transformed into Escherichia coli strain BL21(DE3).","{'1': 'pET28a-5, for expression of the recombinant protein,'}"
+26,EGRAM,"pET28a-5, for expression of the recombinant protein, is likely to be transformed into Escherichia coli strain BL21(DE3).","{'1': 'pET28a-5, for expression of the recombinant protein,'}"
+27,EGRAM,"pET28a-5, for expression of the recombinant protein, is observed to be transformed into Escherichia coli strain BL21(DE3).","{'1': 'pET28a-5, for expression of the recombinant protein,'}"
+28,EGRAM,"pET28a-5, for expression of the recombinant protein, may have been transformed into Escherichia coli strain BL21(DE3).","{'1': 'pET28a-5, for expression of the recombinant protein,'}"
+29,MEDLINE,This construct was transformed into the yeast strain HF7c (Clontech).,{'1': 'This construct'}
+30,PERMUTATE,"For expression of the recombinant protein, This construct has the ability to be transformed into the yeast strain HF7c (Clontech).",{'1': 'This construct'}
+31,PERMUTATE,"For expression of the recombinant protein, This construct is observed to be efficiently transformed into the yeast strain HF7c (Clontech).",{'1': 'This construct'}
+32,PERMUTATE,"For expression of the recombinant protein, This construct is observed to be transformed into the yeast strain HF7c (Clontech).",{'1': 'This construct'}
+33,PERMUTATE,"For expression of the recombinant protein, This construct, as our study suggested, has the ability to be efficiently transformed into the yeast strain HF7c (Clontech).","{'1': 'This construct, as our study suggested,'}"
+34,PERMUTATE,"For expression of the recombinant protein, This construct, as our study suggested, is able to be efficiently transformed into the yeast strain HF7c (Clontech).","{'1': 'This construct, as our study suggested,'}"
+35,PERMUTATE,"For expression of the recombinant protein, This construct, as our study suggested, is efficiently transformed into the yeast strain HF7c (Clontech).","{'1': 'This construct, as our study suggested,'}"
+36,PERMUTATE,"For expression of the recombinant protein, This construct, as our study suggested, is likely to be efficiently transformed into the yeast strain HF7c (Clontech).","{'1': 'This construct, as our study suggested,'}"
+37,PERMUTATE,"For expression of the recombinant protein, pET28a-5, for expression of the recombinant protein, is likely to be transformed into Escherichia coli strain BL21(DE3).","{'1': 'pET28a-5, for expression of the recombinant protein,'}"
+38,PERMUTATE,"For expression of the recombinant protein, pET28a-5, for expression of the recombinant protein, is observed to be efficiently transformed into Escherichia coli strain BL21(DE3).","{'1': 'pET28a-5, for expression of the recombinant protein,'}"
+39,PERMUTATE,"For expression of the recombinant protein, pET28a-5, for expression of the recombinant protein, is observed to be transformed into Escherichia coli strain BL21(DE3).","{'1': 'pET28a-5, for expression of the recombinant protein,'}"
+40,PERMUTATE,"For expression of the recombinant protein, pET28a-5, for expression of the recombinant protein, is transformed into Escherichia coli strain BL21(DE3).","{'1': 'pET28a-5, for expression of the recombinant protein,'}"
+41,PERMUTATE,"For expression of the recombinant protein, pET28a-5, for expression of the recombinant protein, may have been transformed into Escherichia coli strain BL21(DE3).","{'1': 'pET28a-5, for expression of the recombinant protein,'}"
+42,PERMUTATE,"For expression of the recombinant protein, pET28a-5, for expression of the recombinant protein, may have been transformed into Escherichia coli strain BL21(DE3).","{'1': 'pET28a-5, for expression of the recombinant protein,'}"
+43,PERMUTATE,"For expression of the recombinant protein, pET28a-5, for expression of the recombinant protein, was transformed into Escherichia coli strain BL21(DE3).","{'1': 'pET28a-5, for expression of the recombinant protein,'}"
+44,PERMUTATE,This construct can be efficiently transformed into the yeast strain HF7c (Clontech).,{'1': 'This construct'}
+45,PERMUTATE,This construct has been proven to be efficiently transformed into the yeast strain HF7c (Clontech).,{'1': 'This construct'}
+46,PERMUTATE,This construct has the ability to be efficiently transformed into the yeast strain HF7c (Clontech).,{'1': 'This construct'}
+47,PERMUTATE,This construct is likely to be probably transformed into the yeast strain HF7c (Clontech).,{'1': 'This construct'}
+48,PERMUTATE,This construct is likely to be probably transformed into the yeast strain HF7c (Clontech).,{'1': 'This construct'}
+49,PERMUTATE,This construct may have been probably transformed into the yeast strain HF7c (Clontech).,{'1': 'This construct'}
+50,PERMUTATE,This construct will be efficiently transformed into the yeast strain HF7c (Clontech).,{'1': 'This construct'}
+51,PERMUTATE,"This construct, as our study suggested, can be dramatically transformed into the yeast strain HF7c (Clontech).","{'1': 'This construct, as our study suggested,'}"
+52,PERMUTATE,"This construct, as our study suggested, has been shown to be dramatically transformed into the yeast strain HF7c (Clontech).","{'1': 'This construct, as our study suggested,'}"
+53,PERMUTATE,"This construct, as our study suggested, has been shown to be probably transformed into the yeast strain HF7c (Clontech).","{'1': 'This construct, as our study suggested,'}"
+54,PERMUTATE,"This construct, as our study suggested, is able to be probably transformed into the yeast strain HF7c (Clontech).","{'1': 'This construct, as our study suggested,'}"
+55,PERMUTATE,"This construct, as our study suggested, is observed to be dramatically transformed into the yeast strain HF7c (Clontech).","{'1': 'This construct, as our study suggested,'}"
+56,PERMUTATE,"This construct, as our study suggested, is probably transformed into the yeast strain HF7c (Clontech).","{'1': 'This construct, as our study suggested,'}"
+57,PERMUTATE,"This construct, as our study suggested, may be probably transformed into the yeast strain HF7c (Clontech).","{'1': 'This construct, as our study suggested,'}"
+58,PERMUTATE,"This construct, as our study suggested, will be dramatically transformed into the yeast strain HF7c (Clontech).","{'1': 'This construct, as our study suggested,'}"
+59,PERMUTATE,pET28a-5 has been proven to be dramatically transformed into Escherichia coli strain BL21(DE3).,{'1': 'pET28a-5'}
+60,PERMUTATE,pET28a-5 may be dramatically transformed into Escherichia coli strain BL21(DE3).,{'1': 'pET28a-5'}
+61,PERMUTATE,pET28a-5 may have been efficiently transformed into Escherichia coli strain BL21(DE3).,{'1': 'pET28a-5'}
+62,PERMUTATE,pET28a-5 will be efficiently transformed into Escherichia coli strain BL21(DE3).,{'1': 'pET28a-5'}
+63,PERMUTATE,"pET28a-5, for expression of the recombinant protein, has been proven to be transformed into Escherichia coli strain BL21(DE3).","{'1': 'pET28a-5, for expression of the recombinant protein,'}"
+64,PERMUTATE,"pET28a-5, for expression of the recombinant protein, is able to be efficiently transformed into Escherichia coli strain BL21(DE3).","{'1': 'pET28a-5, for expression of the recombinant protein,'}"
+65,PERMUTATE,"pET28a-5, for expression of the recombinant protein, is dramatically transformed into Escherichia coli strain BL21(DE3).","{'1': 'pET28a-5, for expression of the recombinant protein,'}"
+66,PERMUTATE,"pET28a-5, for expression of the recombinant protein, is observed to be efficiently transformed into Escherichia coli strain BL21(DE3).","{'1': 'pET28a-5, for expression of the recombinant protein,'}"
+67,PERMUTATE,"pET28a-5, for expression of the recombinant protein, may be dramatically transformed into Escherichia coli strain BL21(DE3).","{'1': 'pET28a-5, for expression of the recombinant protein,'}"
+68,PERMUTATE,"pET28a-5, for expression of the recombinant protein, was transformed into Escherichia coli strain BL21(DE3).","{'1': 'pET28a-5, for expression of the recombinant protein,'}"
+69,PERMUTATE,"pET28a-5, for expression of the recombinant protein, will be efficiently transformed into Escherichia coli strain BL21(DE3).","{'1': 'pET28a-5, for expression of the recombinant protein,'}"
