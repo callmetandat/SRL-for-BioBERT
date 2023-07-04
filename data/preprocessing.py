@@ -1,8 +1,8 @@
-import pandas as pd
-from xml.dom import minidom
-import spacy
 import os
+import spacy
+import pandas as pd
 from tqdm import tqdm
+from xml.dom import minidom
 
 PATH_DATA = '../data/'
 
@@ -111,5 +111,6 @@ for filename in filenames:
    preprocessor = Preprocessing(filename)
    preprocessor.read_xml_file()
    preprocessor.dependency_parsing()
+
 
 
