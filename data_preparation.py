@@ -1,7 +1,8 @@
 import json
-import tqdm
+from tqdm import tqdm
 import argparse
 import os
+import multiprocessing as mp
 from ast import literal_eval
 from utils.task_utils import TasksParam
 from utils.data_utils import TaskType, NLP_MODELS
@@ -22,27 +23,13 @@ def load_data(dataPath, taskType, hasLabels):
     for line in open(dataPath):
         cols = line.strip("\n").split("\t")
 
-        if taskType == TaskType.SingleSenClassification:
-            if hasLabels is True:
-                if not  len(cols) == 3:
-                    print(line)
-                assert len(cols) == 3, "Data is not in Single Sentence Classification format"
-                row = {"uid": cols[0], "label": cols[1], "sentenceA": cols[2]}
-            else:
-                row = {"uid": cols[0], "label": '0', "sentenceA": cols[1]}
-
-            
-        elif taskType == TaskType.NER:
-            if hasLabels is True:
-                assert len(cols) == 3, "Data not in NER format"
-                row = {"uid":cols[0], "label":literal_eval(cols[1]), "sentence":literal_eval(cols[2])}
-                assert type(row['label'])==list, "Label should be in list of token labels format in data"
-            else:
-                row = {"uid":cols[0], "label": ["O"]*len(literal_eval(cols[1])), "sentence":literal_eval(cols[1])}
-            assert type(row['sentence'])==list, "Sentence should be in list of token labels format in data"
-
+        if hasLabels is True:
+            assert len(cols) == 3, "Data not in NER format"
+            row = {"uid":cols[0], "label":literal_eval(cols[1]), "sentence":literal_eval(cols[2])}
+            assert type(row['label'])==list, "Label should be in list of token labels format in data"
         else:
-            raise ValueError(taskType)
+            row = {"uid":cols[0], "label": ["O"]*len(literal_eval(cols[1])), "sentence":literal_eval(cols[1])}
+        assert type(row['sentence'])==list, "Sentence should be in list of token labels format in data"
 
         allData.append(row)
 
@@ -114,7 +101,7 @@ def create_data_ner(data, chunkNumber, tempList, maxSeqLen, tokenizer, labelMap)
                 progress.update(1)  
         tempList.append(name)
 
-def create_data_multithreaded(data, wrtPath, tokenizer, taskObj, taskName, maxSeqLen):
+def create_data_multithreaded(data, wrtPath, tokenizer, taskObj, taskName, maxSeqLen, multithreaded):
     '''
     This function uses multi-processing to create the data in the required format
     for base models as per the task. Utilizing multiple Cores help in processing
@@ -124,14 +111,16 @@ def create_data_multithreaded(data, wrtPath, tokenizer, taskObj, taskName, maxSe
 
     # shared list to store all temp files written by processes
     tempFilesList = man.list()
-    numProcess = 1
+    
+    if multithreaded:
+        numProcess = mp.cpu_count() - 1
 
     '''
     Dividing the entire data into chunks which can be sent to different processes.
     Each process will write its chunk into a file. 
     After all processes are done writing, we will combine all the files into one
     '''
-    taskType = taskObj.taskTypeMap[taskName]
+
     labelMap = taskObj.labelMap[taskName]
 
     chunkSize = int(len(data) / (numProcess))
@@ -142,14 +131,7 @@ def create_data_multithreaded(data, wrtPath, tokenizer, taskObj, taskName, maxSe
     for i in range(numProcess):
         dataChunk = data[chunkSize*i : chunkSize*(i+1)]
 
-        if taskType == TaskType.SingleSenClassification:
-            p = mp.Process(target = create_data_single_sen_classification, args = (dataChunk, i, tempFilesList, maxSeqLen, tokenizer, labelMap))
-
-        if taskType == TaskType.SentencePairClassification:
-            p = mp.Process(target = create_data_sentence_pair_classification, args = (dataChunk, i, tempFilesList, maxSeqLen, tokenizer))
-
-        if taskType == TaskType.NER:
-            p = mp.Process(target = create_data_ner, args = (dataChunk, i, tempFilesList, maxSeqLen, tokenizer, labelMap))
+        p = mp.Process(target = create_data_ner, args = (dataChunk, i, tempFilesList, maxSeqLen, tokenizer, labelMap))
         
         p.start()
         processes.append(p)
@@ -177,6 +159,8 @@ def main():
     parser.add_argument('--has_labels', type=bool, default=True,
                         help = "If labels are not present in file then False. \
                             To be used when preparing data for inference ")
+    parser.add_argument('--multithreaded', type=bool, default=True, \
+                        help = "use multiple threads for processing data with speed")
     args = parser.parse_args()
     
     # print current directory
