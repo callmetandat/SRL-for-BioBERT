@@ -199,7 +199,6 @@ class multiTaskModel:
         #changing to train mode
         self.network.train()
         target = batchData[batchMetaData['label_pos']]
-
         #transfering label to gpu if present
         if self.params['gpu']:
             target = self._to_cuda(target)
@@ -214,23 +213,30 @@ class multiTaskModel:
         # we are not going to send labels in batch
         logger.debug('len of batch data {}'.format(len(batchData)))
         logger.debug('label position in batch data {}'.format(batchMetaData['label_pos']))
-
+        print('len of batch data {}'.format(len(batchData)))
         modelInputs = batchData[:batchMetaData['label_pos']]
+        print('model.py len of model inputs {}'.format(len(modelInputs)))
         modelInputs += [taskId]
         modelInputs += [taskName]
-
+        print('model.py model inputs {}'.format(modelInputs))
+        
         logger.debug('size of model inputs {}'.format(len(modelInputs)))
         logits = self.network(*modelInputs)
+        print("model.py logits", len(logits))
         #calculating task loss
         self.taskLoss = 0
         logger.debug('size of model output logits {}'.format(logits.size()))
-        logger.debug('size of target {}'.format(target.size()))
+        logger.debug('size of target {}'.format(target.size())) #torch.Size([32, 50])
+        print("target",target.size())
         if self.lossClassList[taskId] and (target is not None):
+            print("len of loss class list", self.lossClassList[taskId]())
             self.taskLoss = self.lossClassList[taskId](logits, target, attnMasks=modelInputs[2])
+            print("hello")
             #tensorboard details
             self.tbTaskId = taskId
             self.tbTaskLoss = self.taskLoss.item()
         taskLoss = self.taskLoss / self.params['grad_accumulation_steps']
+        print("model.py task loss", len(taskLoss) )
         taskLoss.backward()
         self.accumulatedStep += 1
 

@@ -150,6 +150,7 @@ def make_data_handlers(taskParams, mode, isTrain, gpu):
     allTaskslist = []
     for taskId, taskName in taskParams.taskIdNameMap.items():
         taskType = taskParams.taskTypeMap[taskName]
+        print("train.py taskType:", taskType)
         if mode == "test":
             assert len(taskParams.fileNamesMap[taskName])!=100, "test file is required along with train, dev"
         #dataFileName =  '{}.json'.format(taskParams.fileNamesMap[taskName][modeIdx].split('.')[0])
@@ -163,9 +164,15 @@ def make_data_handlers(taskParams, mode, isTrain, gpu):
         allTaskslist.append(taskDict)
 
     allData = allTasksDataset(allTaskslist)
+    print("train.py allData:", allData)
+    print("train.py batchsize:", args.train_batch_size)
+    print("MODE: ", mode, "isTrain: ", isTrain, "modelType: ", taskParams.modelType, "maxSeqLen: ", args.max_seq_len)
     if mode == "train":
+        print("train.py mode:", mode)
         batchSize = args.train_batch_size
+        print("train.py train batchSize:", batchSize)
     else:
+        print("train.py mode eval:", mode)
         batchSize = args.eval_batch_size
 
     batchSampler = Batcher(allData, batchSize=batchSize, seed = args.seed)
@@ -546,6 +553,7 @@ def main():
     logger.info("len of dataloader: {}".format(len(multiTaskDataLoaderTrain)))
     logger.info("Making multi-task model...")
     model = multiTaskModel(allParams)
+    print(model)
     #logger.info('################ Network ###################')
     #logger.info('\n{}\n'.format(model.network))
 
@@ -567,9 +575,12 @@ def main():
         totalEpochLoss = 0
         text = "Epoch: {}".format(epoch)
         tt = int(allParams['num_train_steps']*args.grad_accumulation_steps/args.epochs)
+        print("train.py: tt: ", tt)
         with tqdm(total = tt, position=epoch, desc=text) as progress:
+            
             for i, (batchMetaData, batchData) in enumerate(multiTaskDataLoaderTrain):
                 batchMetaData, batchData = BatchSamplerTrain.patch_data(batchMetaData,batchData, gpu = allParams['gpu'])
+                
                 if args.resume_train and args.load_saved_model and resCnt*args.grad_accumulation_steps < model.globalStep:
                     '''
                     NOTE: - Resume function is only to be used in case the training process couldnt
