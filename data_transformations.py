@@ -2,6 +2,8 @@
 For transforming the raw data in different formats to standard tsv format 
 to be consumed for multi-task
 '''
+
+# !python ../data_transformations.py --transform_file 'transform_file_conll.yml'
 import argparse
 import os
 from utils.transform_utils import TransformParams
