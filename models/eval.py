@@ -39,53 +39,47 @@ def evaluate(dataSet, batchSampler, dataLoader, taskParams,
         if allPreds[i] == []:
             continue
         taskName = taskParams.taskIdNameMap[i]
-        # taskType = taskParams.taskTypeMap[taskName]
+        taskType = taskParams.taskTypeMap[taskName]
         labMap = taskParams.labelMap[taskName]
 
 
-        # if taskType == TaskType.NER:
+        if taskType == TaskType.NER:
         # NER requires label clipping. We''ve already clipped our predictions
         #using attn Masks, so we will clip labels to predictions len
         # Also we need to remove the extra tokens from predictions based on labels
         #print(labMap)
-        labMapRevN = {v:k for k,v in labMap.items()}
+            labMapRevN = {v:k for k,v in labMap.items()}
 
-        for j, (p, l) in enumerate(zip(allPreds[i], allLabels[i])):
-            allLabels[i][j] = l[:len(p)]
-            allPreds[i][j] = [labMapRevN[int(ele)] for ele in p]
-            allLabels[i][j] = [labMapRevN[int(ele)] for ele in allLabels[i][j]]
-        #allPreds[i] = [ [ labMapRev[int(p)] for p in pp ] for pp in allPreds[i] ]
-        #allLabels[i] = [ [labMapRev[int(l)] for l in ll] for ll in allLabels[i] ]
+            for j, (p, l) in enumerate(zip(allPreds[i], allLabels[i])):
+                allLabels[i][j] = l[:len(p)]
+                allPreds[i][j] = [labMapRevN[int(ele)] for ele in p]
+                allLabels[i][j] = [labMapRevN[int(ele)] for ele in allLabels[i][j]]
+            #allPreds[i] = [ [ labMapRev[int(p)] for p in pp ] for pp in allPreds[i] ]
+            #allLabels[i] = [ [labMapRev[int(l)] for l in ll] for ll in allLabels[i] ]
 
-        newPreds = []
-        newLabels = []
-        newScores = []
-        for m, samp in enumerate(allLabels[i]):
-            Preds = []
-            Labels = []
-            Scores = []
-            for n, ele in enumerate(samp):
-                #print(ele)
-                if ele != '[CLS]' and ele != '[SEP]' and ele != 'X':
-                    #print('inside')
-                    Preds.append(allPreds[i][m][n])
-                    Labels.append(ele)
-                    Scores.append(allScores[i][m][n])
-                    #del allLabels[i][m][n]
-                    #del allPreds[i][m][n]
-            newPreds.append(Preds)
-            newLabels.append(Labels)
-            newScores.append(Scores)
-        
-        allLabels[i] = newLabels
-        allPreds[i] = newPreds
-        allScores[i] = newScores
-
-        # if taskType == TaskType.SingleSenClassification and labMap is not None:
-        
-        #     labMapRevC = {v:k for k,v in labMap.items()}
-        #     allPreds[i] = [labMapRevC[int(ele)] for ele in allPreds[i]]
-        #     allLabels[i] = [labMapRevC[int(ele)] for ele in allLabels[i]]
+            newPreds = []
+            newLabels = []
+            newScores = []
+            for m, samp in enumerate(allLabels[i]):
+                Preds = []
+                Labels = []
+                Scores = []
+                for n, ele in enumerate(samp):
+                    #print(ele)
+                    if ele != '[CLS]' and ele != '[SEP]' and ele != 'X':
+                        #print('inside')
+                        Preds.append(allPreds[i][m][n])
+                        Labels.append(ele)
+                        Scores.append(allScores[i][m][n])
+                        #del allLabels[i][m][n]
+                        #del allPreds[i][m][n]
+                newPreds.append(Preds)
+                newLabels.append(Labels)
+                newScores.append(Scores)
+            
+            allLabels[i] = newLabels
+            allPreds[i] = newPreds
+            allScores[i] = newScores
 
     if needMetrics:
         # fetch metrics from task id
