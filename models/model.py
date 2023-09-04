@@ -222,7 +222,6 @@ class multiTaskModel:
         logger.debug('size of target {}'.format(target.size())) #torch.Size([32, 50])
         if self.lossClassList[taskId] and (target is not None):
             self.taskLoss = self.lossClassList[taskId](logits, target, attnMasks=modelInputs[2])
-            print("hello")
             #tensorboard details
             self.tbTaskId = taskId
             self.tbTaskLoss = self.taskLoss.item()

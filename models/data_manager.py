@@ -156,8 +156,6 @@ class batchUtils:
     def check_samples_len(self, batch):
         #function to check whether all samples are having the maxSeqLen mentioned
         for samp in batch:
-            print("token_id", len(samp['token_id']))
-            print("maxseq", self.maxSeqLen)
             assert len(samp['token_id']) == self.maxSeqLen, "token_id len doesn't match max seq len"
             # for multiple encoders
             if samp['type_id'] is not None:
