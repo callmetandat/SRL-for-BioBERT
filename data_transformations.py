@@ -1,6 +1,6 @@
 '''
 For transforming the raw data in different formats to standard tsv format 
-to be consumed for multi-task
+to be consumed for SRL task.
 '''
 
 # !python ../data_transformations.py --transform_file 'transform_file_conll.yml'
@@ -20,7 +20,7 @@ def main():
     for transformName, transformFn in transformParams.transformFnMap.items():
         transformParameters = transformParams.transformParamsMap[transformName]
         dataDir = transformParams.readDirMap[transformName]
-        print("tien dat", dataDir)
+        
         assert os.path.exists(dataDir), "{} doesnt exist".format(dataDir)
         saveDir = transformParams.saveDirMap[transformName]
         if not os.path.exists(saveDir):

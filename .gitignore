@@ -1,10 +1,8 @@
-dataset/
+data/
 __pycache__/
 output/
 output2/
 *.pt
 *.log
 *.0
-!model/SRL_model.ipynb
-!model/task_file_SRL.yml
-!model/transform_file_conll.yml
+*.tsv
