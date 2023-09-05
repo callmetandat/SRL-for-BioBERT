@@ -9,7 +9,6 @@ from models.loss import *
 from utils.tranform_functions import *
 from utils.eval_metrics import *
 
-from transformers import BertTokenizer
 bioBertTokenizer = BertTokenizer.from_pretrained('dmis-lab/biobert-base-cased-v1.2', do_lower_case=True,truncation=True)
 
 NLP_MODELS = {
