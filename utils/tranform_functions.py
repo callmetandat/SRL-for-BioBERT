@@ -4,11 +4,15 @@ import os
 import re
 import json
 import random
+import torch
 import pandas as pd
 from tqdm import tqdm
 from collections import defaultdict
 from statistics import median
 from sklearn.model_selection import train_test_split
+
+from transformers import BertTokenizer, BertModel
+
 SEED = 42
 
 def bio_ner_to_tsv(dataDir, readFile, wrtDir, transParamDict, isTrainFile=False):
@@ -183,4 +187,48 @@ def coNLL_ner_pos_to_tsv(dataDir, readFile, wrtDir, transParamDict, isTrainFile=
     print('Median len of sentences: ', median(senLens))
 
 
+model = BertModel.from_pretrained('dmis-lab/biobert-base-cased-v1.2',
+                                    output_hidden_states = True # Whether the model returns all hidden-states.
+                                    )
+
+def read_data(readPath):
+
+    with open(readPath, 'r', encoding = 'utf-8') as file:
+        taskData = []
+        for i, line in enumerate(file):
+            sample = json.loads(line)
+            taskData.append(sample)
+            
+    return taskData
+
+def get_embedding(dataDir, readFile, wrtDir):
+    
+    data = read_data(os.path.join(dataDir, readFile))
+    
+    vecs_wri = open(os.path.join(wrtDir, 'vecs_{}.json'.format(readFile.split('.')[0])), 'w')
+    
+    for i, line in enumerate(data):
+        tokens_id = line['token_id']
+        segments_id = line['type_id']
+        u_id = line['uid']
+        
+        # Convert inputs to PyTorch tensors
+        tokens_tensor = torch.tensor([tokens_id])
+        segments_tensors = torch.tensor([segments_id])
+        
+        with torch.no_grad():
+            outputs = model(tokens_tensor, segments_tensors)
+            hidden_states = outputs[2]
+           
+        # `hidden_states` is a Python list.
+        # Each layer in the list is a torch tensor.
+        # `token_vecs` is a tensor with shape [50 x 768]
+        
+        token_vecs = hidden_states[-2][0]
+        
+        # Calculate the average of all 22 token vectors.
+        sentence_embedding = torch.mean(token_vecs, dim=0)
+        
+        vecs_wri.write("{}\t{}\n".format(u_id, sentence_embedding))
+        print("Processed {} rows...".format(i))
     

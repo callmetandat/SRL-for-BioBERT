@@ -18,6 +18,7 @@ NLP_MODELS = {
 TRANSFORM_FUNCS = {
     "coNLL_ner_pos_to_tsv" : coNLL_ner_pos_to_tsv,
     "bio_ner_to_tsv" : bio_ner_to_tsv,
+    "get_embedding" : get_embedding,
 }
 
 class ModelType(IntEnum):
