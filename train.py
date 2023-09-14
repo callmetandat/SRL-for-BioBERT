@@ -560,6 +560,7 @@ def main():
     if args.load_saved_model:
         if args.finetune is True:
             model.load_shared_model(loadedDict, args.freeze_shared_model)
+            
             logger.info('shared model loaded for finetune from {}'.format(args.load_saved_model))
         else:
             model.load_multi_task_model(loadedDict)
@@ -591,6 +592,8 @@ def main():
                     progress.update(1)
                     continue
                 model.update_step(batchMetaData, batchData)
+                print("len batchMetaData", len(batchMetaData))
+                print("len batchData", len(batchData))
                 totalEpochLoss += model.taskLoss.item()
 
                 if model.globalStep % args.log_per_updates == 0 and (model.accumulatedStep+1 == args.grad_accumulation_steps):
@@ -608,7 +611,7 @@ def main():
                                             model.taskLoss.item(),
                                             global_step=model.globalStep)
                 
-                if args.save_per_updates > 0 and  ( (model.globalStep+1) % args.save_per_updates)==0 and (model.accumulatedStep+1==args.grad_accumulation_steps):
+                if args.save_per_updates > 0 and  ((model.globalStep+1) % args.save_per_updates)==0 and (model.accumulatedStep+1==args.grad_accumulation_steps):
                     savePath = os.path.join(args.out_dir, 'multi_task_model_{}_{}.pt'.format(epoch,
                                                                                             model.globalStep))
                     model.save_multi_task_model(savePath)

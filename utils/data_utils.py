@@ -1,4 +1,5 @@
 from enum import IntEnum
+
 from transformers import BertConfig, BertModel, BertTokenizer
 from transformers import DistilBertConfig, DistilBertModel, DistilBertTokenizer
 from transformers import AlbertConfig, AlbertModel, AlbertTokenizer
@@ -19,6 +20,7 @@ TRANSFORM_FUNCS = {
     "coNLL_ner_pos_to_tsv" : coNLL_ner_pos_to_tsv,
     "bio_ner_to_tsv" : bio_ner_to_tsv,
     "get_embedding" : get_embedding,
+    "get_embedding_finetuned" : get_embedding_finetuned,
 }
 
 class ModelType(IntEnum):

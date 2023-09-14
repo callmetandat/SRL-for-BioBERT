@@ -73,10 +73,10 @@ def create_data_ner(data, chunkNumber, tempList, maxSeqLen, tokenizer, labelMap)
                 # adding [SEP] at end
                 tempTokens.append('[SEP]')
                 tempLabels.append('[SEP]')
-
                 out = tokenizer.encode_plus(text = tempTokens, add_special_tokens=False,
                                         truncation_strategy ='only_first',
                                         max_length = maxSeqLen, pad_to_max_length=True)
+                # print("len vocab: ", len(tokenizer.get_vocab()))  #30522
                 typeIds = None
                 inputMask = None
                 tokenIds = out['input_ids']
@@ -88,7 +88,7 @@ def create_data_ner(data, chunkNumber, tempList, maxSeqLen, tokenizer, labelMap)
                 tempLabelsEnc = pad_sequences([ [labelMap[l] for l in tempLabels] ], 
                                     maxlen=maxSeqLen, value=labelMap["O"], padding="post",
                                     dtype="long", truncating="post").tolist()[0]
-                #print(tempLabelsEnc)
+                
                 assert len(tempLabelsEnc) == len(tokenIds), "mismatch between processed tokens and labels"
                 features = {
                 'uid': ids,

@@ -61,5 +61,5 @@ transform1:
     - ner_coNLL_testb_translate.json
     - ner_coNLL_testa_truncate.json
     - ner_coNLL_testb_truncate.json
-  read_dir: ./data/coNLL_tsv/bert-base-uncased_prepared_data
+  read_dir: ./data/coNLL_tsv/dmis-lab/biobert-base-cased-v1.2_prepared_data
   save_dir: word_vecs_output

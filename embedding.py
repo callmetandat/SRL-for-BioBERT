@@ -2,8 +2,8 @@
 import json
 import argparse
 import os
-from utils.transform_utils import TransformParams
-from utils.data_utils import TRANSFORM_FUNCS
+from utils import transform_utils
+from utils import data_utils 
 def main():
     parser = argparse.ArgumentParser()
     
@@ -12,7 +12,7 @@ def main():
     parser.add_argument('--transform_file', type=str, required=True, default="embedding.yml")
     
     args = parser.parse_args()
-    transformParams = TransformParams(args.transform_file)
+    transformParams = transform_utils.TransformParams(args.transform_file)
     
     for transformName, transformFn in transformParams.transformFnMap.items():
         transformParameters = transformParams.transformParamsMap[transformName]
@@ -25,7 +25,7 @@ def main():
  
     for file in transformParams.readFileNamesMap[transformName]:
         #calling respective transform function over file
-        TRANSFORM_FUNCS[transformFn](dataDir = dataDir, readFile=file,
+        data_utils.TRANSFORM_FUNCS[transformFn](dataDir = dataDir, readFile=file,
                                     wrtDir=saveDir)
  
 if __name__ == '__main__':

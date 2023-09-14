@@ -2,8 +2,8 @@ import torch
 import torch.nn as nn
 import logging
 import numpy as np
-from models.dropout import DropoutWrapper
-from utils.data_utils import ModelType, NLP_MODELS, TaskType, LOSSES
+from models import dropout 
+from utils import data_utils
 from transformers import AdamW, get_linear_schedule_with_warmup
 logger = logging.getLogger("multi_task")
 
@@ -12,7 +12,7 @@ class multiTaskNetwork(nn.Module):
         super(multiTaskNetwork, self).__init__()
         self.params = params
         self.taskParams = self.params['task_params']
-        assert self.taskParams.modelType in ModelType._value2member_map_, "Model Type is recognized, check in data_utils"
+        assert self.taskParams.modelType in data_utils.ModelType._value2member_map_, "Model Type is recognized, check in data_utils"
         self.modelType = self.taskParams.modelType
 
         # making shared base encoder model
@@ -20,13 +20,13 @@ class multiTaskNetwork(nn.Module):
         # only the configuration. Check out the from_pretrained() method to load the model weights.
         #modelName = ModelType(self.modelType).name.lower()
         modelName = self.modelType.name.lower()
-        configClass, modelClass, tokenizerClass, defaultName = NLP_MODELS[modelName]
+        configClass, modelClass, tokenizerClass, defaultName = data_utils.NLP_MODELS[modelName]
         if self.taskParams.modelConfig is not None:
             logger.info('Making shared model from given config name {}'.format(self.taskParams.modelConfig))
-            self.sharedModel = modelClass.from_pretrained(self.taskParams.modelConfig)
+            self.sharedModel = modelClass.from_pretrained(self.taskParams.modelConfig, output_hidden_states=True)
         else:
             logger.info("Making shared model with default config")
-            self.sharedModel = modelClass.from_pretrained(defaultName)
+            self.sharedModel = modelClass.from_pretrained(defaultName, output_hidden_states=True)
         self.hiddenSize = self.sharedModel.config.hidden_size
         
         #making headers
@@ -51,7 +51,7 @@ class multiTaskNetwork(nn.Module):
             taskType = self.taskParams.taskTypeMap[taskName]
             numClasses = int(self.taskParams.classNumMap[taskName])
             dropoutValue = self.taskParams.dropoutProbMap[taskName]
-            dropoutLayer = DropoutWrapper(dropoutValue)
+            dropoutLayer = dropout.DropoutWrapper(dropoutValue)
             outLayer = nn.Linear(self.hiddenSize, numClasses)
             allDropouts[taskName] = dropoutLayer
             allHeaders[taskName] = outLayer
@@ -75,6 +75,7 @@ class multiTaskNetwork(nn.Module):
         shared model forward
         '''
         poolerLayer = nn.Linear(self.hiddenSize, self.hiddenSize)
+        
         return poolerLayer
 
     def forward(self, tokenIds, typeIds, attentionMasks, taskId, taskName):
@@ -104,7 +105,7 @@ class multiTaskNetwork(nn.Module):
 
         taskType = self.taskParams.taskTypeMap[self.taskParams.taskIdNameMap[taskId]]
 
-        if taskType == TaskType.NER:
+        if taskType == data_utils.TaskType.NER:
             sequenceOutput = self.allDropouts[taskName](sequenceOutput)
             #task specific header. In NER case, sequence output is 3-D, also has maxSeqLen.
             # but the pytorch liner layer now can hangle this as long as the last dimension is the given dimensions
@@ -176,7 +177,7 @@ class multiTaskModel:
         lossClassList = []
         for taskId, taskName in self.taskParams.taskIdNameMap.items():
             lossName = self.taskParams.lossMap[taskName].name.lower()
-            lossClass = LOSSES[lossName](alpha=self.taskParams.lossWeightMap[taskName])
+            lossClass = data_utils.LOSSES[lossName](alpha=self.taskParams.lossWeightMap[taskName])
             lossClassList.append(lossClass)
         return lossClassList
 
@@ -211,11 +212,15 @@ class multiTaskModel:
         logger.debug('len of batch data {}'.format(len(batchData)))
         logger.debug('label position in batch data {}'.format(batchMetaData['label_pos']))
         modelInputs = batchData[:batchMetaData['label_pos']]
+        
+       
         modelInputs += [taskId]
         modelInputs += [taskName]
         
         logger.debug('size of model inputs {}'.format(len(modelInputs)))
         logits = self.network(*modelInputs)
+        
+            
         #calculating task loss
         self.taskLoss = 0
         logger.debug('size of model output logits {}'.format(logits.size()))
@@ -244,7 +249,7 @@ class multiTaskModel:
             self.globalStep += 1
             #resetting accumulated steps
             self.accumulatedStep = 0
-
+        
     def predict_step(self, batchMetaData, batchData):
         '''
         Function for predicting on a batch from model. Will be used for inference and dev/test set.
