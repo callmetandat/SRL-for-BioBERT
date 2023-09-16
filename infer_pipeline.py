@@ -186,20 +186,7 @@ class inferPipeline:
             returnList.append(resDict)
         #print(returnList)
         return returnList
-      
-    def get_word_representations(self, text, layer_number):
-        # Tokenize the input text
-        inputs = self.tokenizer(text, return_tensors='pt', padding=True, truncation=True)
-        inputs_ids = self.tokenizer.convert_tokens_to_ids(inputs)
-        # Forward pass through the model up to the desired layer
-        with torch.no_grad():
-            outputs = self.model.network(inputs_ids)
-            hidden_states = outputs['last_hidden_state']
-
-        # Extract the hidden states (embeddings) from the desired layer
-        layer_embeddings = hidden_states[layer_number]
-
-        return layer_embeddings          
+                
 
     def infer(self, dataList, taskNamesList, batchSize = 8, seed=42):
 
@@ -285,8 +272,11 @@ class inferPipeline:
                         "data_task_type" : taskType,
                         "data_task_name" : taskName}
             allTasksList.append(tasksDict)
-
+        print("allTasksList : ", allTasksList)
+        
         allData = allTasksDataset(allTasksList, pipeline=True)
+        
+        
         batchSampler = Batcher(allData, batchSize=batchSize, seed =seed,
                              shuffleBatch=False, shuffleTask=False)
         # VERY IMPORTANT TO TURN OFF BATCH SHUFFLE IN INFERENCE. ELSE PREDICTION SCORES
@@ -297,7 +287,7 @@ class inferPipeline:
         inferDataLoader = DataLoader(allData, batch_sampler=batchSampler,
                                     collate_fn=batchSamplerUtils.collate_fn,
                                     pin_memory=torch.cuda.is_available())
-
+        print("inferDataLoader : ", inferDataLoader)
         with torch.no_grad():
             allIds, allPreds, allScores = evaluate(allData, batchSampler, inferDataLoader, self.taskParams,
                     self.model, gpu=torch.cuda.is_available(), evalBatchSize=batchSize, needMetrics=False, hasTrueLabels=False,

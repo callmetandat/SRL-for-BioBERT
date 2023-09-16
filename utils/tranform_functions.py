@@ -181,13 +181,13 @@ def read_data(readPath):
 def get_embedding(dataDir, readFile, wrtDir):
     
     data = read_data(os.path.join(dataDir, readFile))
+    features = []
     for i, line in enumerate(data):
         tokens_id = line['token_id']
         segments_id = line['type_id']
         u_id = line['uid']
         # Convert inputs to PyTorch tensors
         tokens_tensor = torch.tensor([tokens_id])
-        print("max tokens_tensor: ", torch.max(tokens_tensor))
         
         segments_tensors = torch.tensor([segments_id])
         
@@ -224,12 +224,11 @@ def get_embedding(dataDir, readFile, wrtDir):
             # Use `cat_vec` to represent `token`.
             token_vecs_cat.append(cat_vec)
 
-        features = {
-                'uid': u_id,
-                'vec': token_vecs_cat}
-        # write u_id and token_vecs_cat to file
-        with open(os.path.join(wrtDir, 'vecs_{}.pkl'.format(readFile.split('.')[0])), 'wb') as vecs_wri:
-            pickle.dump(features, vecs_wri)
+        features.append({'uid': u_id, 'vec': token_vecs_cat})
+        
+    # write u_id and token_vecs_cat to file
+    with open(os.path.join(wrtDir, 'vecs_{}.pkl'.format(readFile.split('.')[0])), 'wb') as vecs_wri:
+        pickle.dump(features, vecs_wri)
             
 def get_embedding_finetuned(dataDir, readFile, wrtDir):
     data = read_data(os.path.join(dataDir, readFile))
@@ -301,3 +300,7 @@ def get_embedding_finetuned(dataDir, readFile, wrtDir):
         # write u_id and token_vecs_cat to file
         with open(os.path.join(wrtDir, 'finetuned_vecs_{}.pkl'.format(readFile.split('.')[0])), 'wb') as vecs_wri:
             pickle.dump(features, vecs_wri)
+            
+
+
+    
