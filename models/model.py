@@ -220,7 +220,6 @@ class multiTaskModel:
         logger.debug('size of model inputs {}'.format(len(modelInputs)))
         logits = self.network(*modelInputs)
         
-            
         #calculating task loss
         self.taskLoss = 0
         logger.debug('size of model output logits {}'.format(logits.size()))
