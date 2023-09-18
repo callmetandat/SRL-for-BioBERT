@@ -1,4 +1,5 @@
 from enum import IntEnum
+
 from transformers import BertConfig, BertModel, BertTokenizer
 from transformers import DistilBertConfig, DistilBertModel, DistilBertTokenizer
 from transformers import AlbertConfig, AlbertModel, AlbertTokenizer
@@ -9,7 +10,6 @@ from models.loss import *
 from utils.tranform_functions import *
 from utils.eval_metrics import *
 
-from transformers import BertTokenizer
 bioBertTokenizer = BertTokenizer.from_pretrained('dmis-lab/biobert-base-cased-v1.2', do_lower_case=True,truncation=True)
 
 NLP_MODELS = {
@@ -19,6 +19,8 @@ NLP_MODELS = {
 TRANSFORM_FUNCS = {
     "coNLL_ner_pos_to_tsv" : coNLL_ner_pos_to_tsv,
     "bio_ner_to_tsv" : bio_ner_to_tsv,
+    "get_embedding" : get_embedding,
+    "get_embedding_finetuned" : get_embedding_finetuned,
 }
 
 class ModelType(IntEnum):

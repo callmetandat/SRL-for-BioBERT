@@ -1,100 +1,241 @@
 id,source,text,arguments
-0,EGRAM,A retained intron in the 5 UTR of HYAL1 mRNA is spliced out by the cell lines.,"{'0': 'the 5 UTR of HYAL1 mRNA', '1': 'a retained intron'}"
-1,EGRAM,CD1c has a duplicated form of this exon observed to be completely spliced out.,"{'0': 'CD1c', '1': 'a duplicated form of this exon'}"
-2,EGRAM,CD1c has a duplicated form of this exon that is observed to be completely spliced out.,"{'0': 'CD1c', '1': 'a duplicated form of this exon'}"
-3,EGRAM,"Exon 16, Moreover, is able to be spliced out from the mature transcripts that contain exons 15 to 24.","{'0': 'the mature transcripts', '1': 'exon 16'}"
-4,EGRAM,"Exon 16, Moreover, is spliced out from the mature transcripts that contain exons 15 to 24.","{'0': 'the mature transcripts', '1': 'exon 16'}"
-5,EGRAM,"Exon 16, Moreover, will be spliced out from the mature transcripts that contain exons 15 to 24.","{'0': 'the mature transcripts', '1': 'exon 16'}"
-6,EGRAM,"In both human and chicken, one exon, as our study suggested, has the ability to be spliced out of the MLC3nm transcript in smooth muscle to give an alternative product.","{'0': 'MLC3nm transcript', '1': 'one exon, as our study suggested,'}"
-7,EGRAM,"In both human and chicken, one exon, as our study suggested, is able to be spliced out of the MLC3nm transcript in smooth muscle to give an alternative product.","{'0': 'MLC3nm transcript', '1': 'one exon, as our study suggested,'}"
-8,EGRAM,"In the remaining allelic p53 gene, there was a single-base substitution of G to T at position 1 within the splice donor site of intron 7, and the mutated intron has been shown not to be spliced out during the mRNA maturation process.","{'0': 'the mRNA maturation process', '1': 'the mutated intron'}"
-9,EGRAM,"In the remaining allelic p53 gene, there was a single-base substitution of G to T at position 1 within the splice donor site of intron 7, and the mutated intron is not spliced out during the mRNA maturation process.","{'0': 'the mRNA maturation process', '1': 'the mutated intron'}"
-10,EGRAM,"In the remaining allelic p53 gene, there was a single-base substitution of G to T at position 1 within the splice donor site of intron 7, and the mutated intron is not spliced out during the mRNA maturation process.","{'0': 'the mRNA maturation process', '1': 'the mutated intron'}"
-11,EGRAM,It did not splice out this intron and resulted in a substitution of the final 13 amino acids of the deduced amino acid sequence.,{'1': 'this intron'}
-12,EGRAM,It was observed that the cell lines may have differed in their ability to completely splice out a retained intron in the 5 UTR of HYAL1 mRNA.,"{'0': 'the 5 UTR of HYAL1 mRNA', '1': 'a retained intron'}"
-13,EGRAM,It was observed that the cell lines will differ in their ability to completely splice out a retained intron in the 5 UTR of HYAL1 mRNA.,"{'0': 'the 5 UTR of HYAL1 mRNA', '1': 'a retained intron'}"
-14,EGRAM,"Moreover, exon 16 has the ability to be efficiently spliced out from the mature transcripts that contain exons 15 to 24.","{'0': 'the mature transcripts', '1': 'exon 16'}"
-15,EGRAM,"Moreover, exon 16 is able to be spliced out from the mature transcripts that contain exons 15 to 24.","{'0': 'the mature transcripts', '1': 'exon 16'}"
-16,EGRAM,"Moreover, exon 16 will be spliced out from the mature transcripts that contain exons 15 to 24.","{'0': 'the mature transcripts', '1': 'exon 16'}"
-17,EGRAM,"Moreover, exon 16 will be spliced out from the mature transcripts that contain exons 15 to 24.","{'0': 'the mature transcripts', '1': 'exon 16'}"
-18,EGRAM,That putative intron sequences fail to be properly spliced out in transcripts which spanned exon-intron boundaries is expected in antisense transcripts.,"{'0': 'transcripts', '1': 'putative intron sequences'}"
-19,EGRAM,That putative intron sequences may fail to be spliced out in transcripts which spanned exon-intron boundaries is expected in antisense transcripts.,"{'0': 'transcripts', '1': 'putative intron sequences'}"
-20,EGRAM,That putative intron sequences will fail to be properly spliced out in transcripts which spanned exon-intron boundaries is expected in antisense transcripts.,"{'0': 'transcripts', '1': 'putative intron sequences'}"
-21,EGRAM,That this intron has not been spliced out resulted in a substitution of the final 13 amino acids of the deduced amino acid sequence.,{'1': 'this intron'}
-22,EGRAM,That this intron is not able to be properly spliced out results in a substitution of the final 13 amino acids of the deduced amino acid sequence.,{'1': 'this intron'}
-23,EGRAM,That this intron is not observed to be properly spliced out results in a substitution of the final 13 amino acids of the deduced amino acid sequence.,{'1': 'this intron'}
-24,EGRAM,That this intron is not observed to be spliced out results in a substitution of the final 13 amino acids of the deduced amino acid sequence.,{'1': 'this intron'}
-25,EGRAM,The cell lines are able to spliced out a retained intron in the 5 UTR of HYAL1 mRNA.,"{'0': 'the 5 UTR of HYAL1 mRNA', '1': 'a retained intron'}"
-26,EGRAM,This isoform results from the fact that an intron is not found to be spliced out during mRNA processing.,"{'0': 'mRNA processing', '1': 'an intron'}"
-27,EGRAM,"Three of the revertants obtained from the null allele unc-68(e540), which displayed normal motility, had intragenic mutations resulting in failure to splice out intron 21.",{'0': 'intragenic mutations'}
-28,EGRAM,"Three of the revertants obtained from the null allele unc-68(e540), which displayed normal motility, had intragenic mutations that fail to splice out intron 21.",{'0': 'intragenic mutations'}
-29,EGRAM,"Three of the revertants obtained from the null allele unc-68(e540), which displayed normal motility, had intragenic mutations that may fail to splice out intron 21.",{'0': 'intragenic mutations'}
-30,EGRAM,"Three of the revertants obtained from the null allele unc-68(e540), which displayed normal motility, had intragenic mutations that may have failed to splice out intron 21.",{'0': 'intragenic mutations'}
-31,EGRAM,"Three of the revertants obtained from the null allele unc-68(e540), which displayed normal motility, had intragenic mutations that will fail to splice out intron 21.",{'0': 'intragenic mutations'}
-32,EGRAM,"We have shown that in the human, as in the chicken, one exon has been spliced out of the MLC3nm transcript in smooth muscle to give an alternative product.","{'0': 'MLC3nm transcript', '1': 'one exon'}"
-33,EGRAM,"We have shown that in the human, as in the chicken, one exon is observed to be spliced out of the MLC3nm transcript in smooth muscle to give an alternative product.","{'0': 'MLC3nm transcript', '1': 'one exon'}"
-34,EGRAM,"We have shown that in the human, as in the chicken, one exon is observed to be spliced out of the MLC3nm transcript in smooth muscle to give an alternative product.","{'0': 'MLC3nm transcript', '1': 'one exon'}"
-35,EGRAM,"We have shown that in the human, as in the chicken, one exon will be efficiently spliced out of the MLC3nm transcript in smooth muscle to give an alternative product.","{'0': 'MLC3nm transcript', '1': 'one exon'}"
-36,EGRAM,an intron has been spliced out during mRNA processing.,"{'0': 'mRNA processing', '1': 'an intron'}"
-37,EGRAM,an intron is spliced out during mRNA processing.,"{'0': 'mRNA processing', '1': 'an intron'}"
-38,MEDLINE,"Three of the revertants obtained from the null allele unc-68(e540), which displayed normal motility, had intragenic mutations that resulted in failure to splice out intron 21.",{'0': 'intragenic mutations'}
-39,PERMUTATE,"In both human and chicken, one exon can be spliced out of the MLC3nm transcript in smooth muscle to an alternative product.","{'0': 'MLC3nm transcript', '1': 'one exon'}"
-40,PERMUTATE,"In both human and chicken, one exon has been shown to be spliced out of the MLC3nm transcript in smooth muscle to give an alternative product.","{'0': 'MLC3nm transcript', '1': 'one exon'}"
-41,PERMUTATE,"In both human and chicken, one exon has been spliced out of the MLC3nm transcript in smooth muscle to an alternative product.","{'0': 'MLC3nm transcript', '1': 'one exon'}"
-42,PERMUTATE,"In both human and chicken, one exon has been spliced out of the MLC3nm transcript in smooth muscle to give an alternative product.","{'0': 'MLC3nm transcript', '1': 'one exon'}"
-43,PERMUTATE,"Moreover, a duplicated form of this exon is observed to be spliced out from CD1c that contain exons 15 to 24.","{'0': 'CD1c', '1': 'a duplicated form of this exon'}"
-44,PERMUTATE,"Moreover, a duplicated form of this exon may have been spliced out from CD1c that contain exons 15 to 24.","{'0': 'CD1c', '1': 'a duplicated form of this exon'}"
-45,PERMUTATE,"Moreover, a duplicated form of this exon might be efficiently spliced out from CD1c that contain exons 15 to 24.","{'0': 'CD1c', '1': 'a duplicated form of this exon'}"
-46,PERMUTATE,"Moreover, a duplicated form of this exon might be spliced out from CD1c that contain exons 15 to 24.","{'0': 'CD1c', '1': 'a duplicated form of this exon'}"
-47,PERMUTATE,"Moreover, an intron has ben efficiently spliced out from mRNA processing that contain exons 15 to 24.","{'0': 'mRNA processing', '1': 'an intron'}"
-48,PERMUTATE,"Moreover, an intron has ben efficiently spliced out from mRNA processing that contain exons 15 to 24.","{'0': 'mRNA processing', '1': 'an intron'}"
-49,PERMUTATE,"Moreover, an intron is able to be spliced out from mRNA processing that contain exons 15 to 24.","{'0': 'mRNA processing', '1': 'an intron'}"
-50,PERMUTATE,"Moreover, an intron may have been efficiently spliced out from mRNA processing that contain exons 15 to 24.","{'0': 'mRNA processing', '1': 'an intron'}"
-51,PERMUTATE,"Moreover, an intron may have been spliced out from mRNA processing that contain exons 15 to 24.","{'0': 'mRNA processing', '1': 'an intron'}"
-52,PERMUTATE,"Moreover, an intron was efficiently spliced out from mRNA processing that contain exons 15 to 24.","{'0': 'mRNA processing', '1': 'an intron'}"
-53,PERMUTATE,"Moreover, putative intron sequences can be spliced out from transcripts that contain exons 15 to 24.","{'0': 'transcripts', '1': 'putative intron sequences'}"
-54,PERMUTATE,That a duplicated form of this exon fail to be properly spliced out in CD1c which spanned exon-intron boundaries is expected in antisense transcripts.,"{'0': 'CD1c', '1': 'a duplicated form of this exon'}"
-55,PERMUTATE,That a duplicated form of this exon will fail to be spliced out in CD1c which spanned exon-intron boundaries is expected in antisense transcripts.,"{'0': 'CD1c', '1': 'a duplicated form of this exon'}"
-56,PERMUTATE,That an intron can fail to be spliced out in mRNA processing which spanned exon-intron boundaries is expected in antisense transcripts.,"{'0': 'mRNA processing', '1': 'an intron'}"
-57,PERMUTATE,That an intron fail to be properly spliced out in mRNA processing which spanned exon-intron boundaries is expected in antisense transcripts.,"{'0': 'mRNA processing', '1': 'an intron'}"
-58,PERMUTATE,That an intron will fail to be spliced out in mRNA processing which spanned exon-intron boundaries is expected in antisense transcripts.,"{'0': 'mRNA processing', '1': 'an intron'}"
-59,PERMUTATE,That exon 16 failed to be spliced out in the mature transcripts which spanned exon-intron boundaries is expected in antisense transcripts.,"{'0': 'the mature transcripts', '1': 'exon 16'}"
-60,PERMUTATE,That exon 16 has not been shown to be spliced out in the mature transcripts which spanned exon-intron boundaries is expected in antisense transcripts.,"{'0': 'the mature transcripts', '1': 'exon 16'}"
-61,PERMUTATE,That exon 16 is able to fail to be spliced out in the mature transcripts which spanned exon-intron boundaries is expected in antisense transcripts.,"{'0': 'the mature transcripts', '1': 'exon 16'}"
-62,PERMUTATE,That exon 16 will fail to be properly spliced out in the mature transcripts which spanned exon-intron boundaries is expected in antisense transcripts.,"{'0': 'the mature transcripts', '1': 'exon 16'}"
-63,PERMUTATE,"We have shown that in the human, as in the chicken, one exon can be efficiently spliced out of the MLC3nm transcript in smooth muscle to an alternative product.","{'0': 'MLC3nm transcript', '1': 'one exon'}"
-64,PERMUTATE,"We have shown that in the human, as in the chicken, one exon may be spliced out of the MLC3nm transcript in smooth muscle to an alternative product.","{'0': 'MLC3nm transcript', '1': 'one exon'}"
-65,PERMUTATE,"We have shown that in the human, as in the chicken, one exon, as our study suggested, can be spliced out of the MLC3nm transcript in smooth muscle to give an alternative product.","{'0': 'MLC3nm transcript', '1': 'one exon, as our study suggested,'}"
-66,PERMUTATE,"We have shown that in the human, as in the chicken, one exon, as our study suggested, has been efficiently spliced out of the MLC3nm transcript in smooth muscle to give an alternative product.","{'0': 'MLC3nm transcript', '1': 'one exon, as our study suggested,'}"
-67,PERMUTATE,"We have shown that in the human, as in the chicken, one exon, as our study suggested, has been shown to be spliced out of the MLC3nm transcript in smooth muscle to give an alternative product.","{'0': 'MLC3nm transcript', '1': 'one exon, as our study suggested,'}"
-68,PERMUTATE,"We have shown that in the human, as in the chicken, one exon, as our study suggested, was efficiently spliced out of the MLC3nm transcript in smooth muscle to give an alternative product.","{'0': 'MLC3nm transcript', '1': 'one exon, as our study suggested,'}"
-69,PERMUTATE,a duplicated form of this exon has been efficiently spliced out during CD1c.,"{'0': 'CD1c', '1': 'a duplicated form of this exon'}"
-70,PERMUTATE,a duplicated form of this exon has been spliced out during CD1c.,"{'0': 'CD1c', '1': 'a duplicated form of this exon'}"
-71,PERMUTATE,exon 16 is efficiently spliced out during the mature transcripts.,"{'0': 'the mature transcripts', '1': 'exon 16'}"
-72,PERMUTATE,mRNA processing has an intron that has been shown to be completely spliced out.,"{'0': 'mRNA processing', '1': 'an intron'}"
-73,PERMUTATE,mRNA processing has an intron that has been shown to be spliced out.,"{'0': 'mRNA processing', '1': 'an intron'}"
-74,PERMUTATE,mRNA processing has an intron that is observed to be completely spliced out.,"{'0': 'mRNA processing', '1': 'an intron'}"
-75,PERMUTATE,mRNA processing has an intron that may have been spliced out.,"{'0': 'mRNA processing', '1': 'an intron'}"
-76,PERMUTATE,putative intron sequences may have been efficiently spliced out during transcripts.,"{'0': 'transcripts', '1': 'putative intron sequences'}"
-77,PERMUTATE,the mature transcripts has exon 16 being shown to be spliced out.,"{'0': 'the mature transcripts', '1': 'exon 16'}"
-78,PERMUTATE,the mature transcripts has exon 16 completely spliced out.,"{'0': 'the mature transcripts', '1': 'exon 16'}"
-79,PERMUTATE,the mature transcripts has exon 16 that is spliced out.,"{'0': 'the mature transcripts', '1': 'exon 16'}"
-80,PERMUTATE,the mature transcripts has exon 16 that may have been completely spliced out.,"{'0': 'the mature transcripts', '1': 'exon 16'}"
-81,PERMUTATE,transcripts has putative intron sequences observed to be spliced out.,"{'0': 'transcripts', '1': 'putative intron sequences'}"
-82,PERMUTATE,transcripts has putative intron sequences spliced out.,"{'0': 'transcripts', '1': 'putative intron sequences'}"
-83,PERMUTATE,transcripts has putative intron sequences that may have been completely spliced out.,"{'0': 'transcripts', '1': 'putative intron sequences'}"
-84,REPLACE,"Moreover, the mutated intron has been shown to be efficiently spliced out from the mRNA maturation process that contain exons 15 to 24.","{'0': 'the mRNA maturation process', '1': 'the mutated intron'}"
-85,REPLACE,"Moreover, the mutated intron has ben spliced out from the mRNA maturation process that contain exons 15 to 24.","{'0': 'the mRNA maturation process', '1': 'the mutated intron'}"
-86,REPLACE,"Moreover, the mutated intron is observed to be efficiently spliced out from the mRNA maturation process that contain exons 15 to 24.","{'0': 'the mRNA maturation process', '1': 'the mutated intron'}"
-87,REPLACE,"Moreover, the mutated intron might be spliced out from the mRNA maturation process that contain exons 15 to 24.","{'0': 'the mRNA maturation process', '1': 'the mutated intron'}"
-88,REPLACE,That the mutated intron failed to be properly spliced out in the mRNA maturation process which spanned exon-intron boundaries is expected in antisense transcripts.,"{'0': 'the mRNA maturation process', '1': 'the mutated intron'}"
-89,REPLACE,That the mutated intron failed to be spliced out in the mRNA maturation process which spanned exon-intron boundaries is expected in antisense transcripts.,"{'0': 'the mRNA maturation process', '1': 'the mutated intron'}"
-90,REPLACE,That the mutated intron have failed to be properly spliced out in the mRNA maturation process which spanned exon-intron boundaries is expected in antisense transcripts.,"{'0': 'the mRNA maturation process', '1': 'the mutated intron'}"
-91,REPLACE,That the mutated intron is likely to fail to be properly spliced out in the mRNA maturation process which spanned exon-intron boundaries is expected in antisense transcripts.,"{'0': 'the mRNA maturation process', '1': 'the mutated intron'}"
-92,REPLACE,That the mutated intron is likely to fail to be properly spliced out in the mRNA maturation process which spanned exon-intron boundaries is expected in antisense transcripts.,"{'0': 'the mRNA maturation process', '1': 'the mutated intron'}"
-93,REPLACE,The failure to splice out the mutated intron in the mRNA maturation process which spanned exon-intron boundaries is expected in antisense transcripts.,"{'0': 'the mRNA maturation process', '1': 'the mutated intron'}"
-94,REPLACE,the mRNA maturation process has the mutated intron that has been completely spliced out.,"{'0': 'the mRNA maturation process', '1': 'the mutated intron'}"
-95,REPLACE,the mRNA maturation process has the mutated intron that is able to be completely spliced out.,"{'0': 'the mRNA maturation process', '1': 'the mutated intron'}"
-96,REPLACE,the mRNA maturation process has the mutated intron that is observed to be spliced out.,"{'0': 'the mRNA maturation process', '1': 'the mutated intron'}"
-97,REPLACE,the mutated intron was efficiently spliced out during the mRNA maturation process.,"{'0': 'the mRNA maturation process', '1': 'the mutated intron'}"
-98,REPLACE,the mutated intron was spliced out during the mRNA maturation process.,"{'0': 'the mRNA maturation process', '1': 'the mutated intron'}"
+0,EGRAM,A retained intron in the 5 UTR of HYAL1 mRNA has been completely spliced out by the cell lines.,"{'0': 'the 5 UTR of HYAL1 mRNA', '1': 'a retained intron'}"
+1,EGRAM,A retained intron in the 5 UTR of HYAL1 mRNA has been shown to be completely spliced out by the cell lines.,"{'0': 'the 5 UTR of HYAL1 mRNA', '1': 'a retained intron'}"
+2,EGRAM,A retained intron in the 5 UTR of HYAL1 mRNA has been shown to be spliced out by the cell lines.,"{'0': 'the 5 UTR of HYAL1 mRNA', '1': 'a retained intron'}"
+3,EGRAM,A retained intron in the 5 UTR of HYAL1 mRNA has been spliced out by the cell lines.,"{'0': 'the 5 UTR of HYAL1 mRNA', '1': 'a retained intron'}"
+4,EGRAM,A retained intron in the 5 UTR of HYAL1 mRNA is able to be completely spliced out by the cell lines.,"{'0': 'the 5 UTR of HYAL1 mRNA', '1': 'a retained intron'}"
+5,EGRAM,A retained intron in the 5 UTR of HYAL1 mRNA is able to be spliced out by the cell lines.,"{'0': 'the 5 UTR of HYAL1 mRNA', '1': 'a retained intron'}"
+6,EGRAM,A retained intron in the 5 UTR of HYAL1 mRNA is completely spliced out by the cell lines.,"{'0': 'the 5 UTR of HYAL1 mRNA', '1': 'a retained intron'}"
+7,EGRAM,A retained intron in the 5 UTR of HYAL1 mRNA is observed to be completely spliced out by the cell lines.,"{'0': 'the 5 UTR of HYAL1 mRNA', '1': 'a retained intron'}"
+8,EGRAM,A retained intron in the 5 UTR of HYAL1 mRNA is observed to be spliced out by the cell lines.,"{'0': 'the 5 UTR of HYAL1 mRNA', '1': 'a retained intron'}"
+9,EGRAM,A retained intron in the 5 UTR of HYAL1 mRNA is spliced out by the cell lines.,"{'0': 'the 5 UTR of HYAL1 mRNA', '1': 'a retained intron'}"
+10,EGRAM,A retained intron in the 5 UTR of HYAL1 mRNA may have been completely spliced out by the cell lines.,"{'0': 'the 5 UTR of HYAL1 mRNA', '1': 'a retained intron'}"
+11,EGRAM,A retained intron in the 5 UTR of HYAL1 mRNA may have been spliced out by the cell lines.,"{'0': 'the 5 UTR of HYAL1 mRNA', '1': 'a retained intron'}"
+12,EGRAM,A retained intron in the 5 UTR of HYAL1 mRNA was completely spliced out by the cell lines.,"{'0': 'the 5 UTR of HYAL1 mRNA', '1': 'a retained intron'}"
+13,EGRAM,A retained intron in the 5 UTR of HYAL1 mRNA was spliced out by the cell lines.,"{'0': 'the 5 UTR of HYAL1 mRNA', '1': 'a retained intron'}"
+14,EGRAM,CD1c has a duplicated form of this exon being able to be completely spliced out.,"{'0': 'CD1c', '1': 'a duplicated form of this exon'}"
+15,EGRAM,CD1c has a duplicated form of this exon being able to be spliced out.,"{'0': 'CD1c', '1': 'a duplicated form of this exon'}"
+16,EGRAM,CD1c has a duplicated form of this exon being shown to be completely spliced out.,"{'0': 'CD1c', '1': 'a duplicated form of this exon'}"
+17,EGRAM,CD1c has a duplicated form of this exon being shown to be spliced out.,"{'0': 'CD1c', '1': 'a duplicated form of this exon'}"
+18,EGRAM,CD1c has a duplicated form of this exon completely spliced out.,"{'0': 'CD1c', '1': 'a duplicated form of this exon'}"
+19,EGRAM,CD1c has a duplicated form of this exon having the ability to be completely spliced out.,"{'0': 'CD1c', '1': 'a duplicated form of this exon'}"
+20,EGRAM,CD1c has a duplicated form of this exon having the ability to be spliced out.,"{'0': 'CD1c', '1': 'a duplicated form of this exon'}"
+21,EGRAM,CD1c has a duplicated form of this exon observed to be completely spliced out.,"{'0': 'CD1c', '1': 'a duplicated form of this exon'}"
+22,EGRAM,CD1c has a duplicated form of this exon observed to be spliced out.,"{'0': 'CD1c', '1': 'a duplicated form of this exon'}"
+23,EGRAM,CD1c has a duplicated form of this exon spliced out.,"{'0': 'CD1c', '1': 'a duplicated form of this exon'}"
+24,EGRAM,CD1c has a duplicated form of this exon that has been completely spliced out.,"{'0': 'CD1c', '1': 'a duplicated form of this exon'}"
+25,EGRAM,CD1c has a duplicated form of this exon that has been shown to be completely spliced out.,"{'0': 'CD1c', '1': 'a duplicated form of this exon'}"
+26,EGRAM,CD1c has a duplicated form of this exon that has been shown to be spliced out.,"{'0': 'CD1c', '1': 'a duplicated form of this exon'}"
+27,EGRAM,CD1c has a duplicated form of this exon that has been spliced out.,"{'0': 'CD1c', '1': 'a duplicated form of this exon'}"
+28,EGRAM,CD1c has a duplicated form of this exon that has the ability to be completely spliced out.,"{'0': 'CD1c', '1': 'a duplicated form of this exon'}"
+29,EGRAM,CD1c has a duplicated form of this exon that has the ability to be spliced out.,"{'0': 'CD1c', '1': 'a duplicated form of this exon'}"
+30,EGRAM,CD1c has a duplicated form of this exon that is able to be completely spliced out.,"{'0': 'CD1c', '1': 'a duplicated form of this exon'}"
+31,EGRAM,CD1c has a duplicated form of this exon that is able to be spliced out.,"{'0': 'CD1c', '1': 'a duplicated form of this exon'}"
+32,EGRAM,CD1c has a duplicated form of this exon that is completely spliced out.,"{'0': 'CD1c', '1': 'a duplicated form of this exon'}"
+33,EGRAM,CD1c has a duplicated form of this exon that is observed to be completely spliced out.,"{'0': 'CD1c', '1': 'a duplicated form of this exon'}"
+34,EGRAM,CD1c has a duplicated form of this exon that is observed to be spliced out.,"{'0': 'CD1c', '1': 'a duplicated form of this exon'}"
+35,EGRAM,CD1c has a duplicated form of this exon that is spliced out.,"{'0': 'CD1c', '1': 'a duplicated form of this exon'}"
+36,EGRAM,CD1c has a duplicated form of this exon that may have been completely spliced out.,"{'0': 'CD1c', '1': 'a duplicated form of this exon'}"
+37,EGRAM,CD1c has a duplicated form of this exon that may have been spliced out.,"{'0': 'CD1c', '1': 'a duplicated form of this exon'}"
+38,EGRAM,"Exon 16, Moreover, has been shown to be spliced out from the mature transcripts that contain exons 15 to 24.","{'0': 'the mature transcripts', '1': 'exon 16'}"
+39,EGRAM,"Exon 16, Moreover, has ben spliced out from the mature transcripts that contain exons 15 to 24.","{'0': 'the mature transcripts', '1': 'exon 16'}"
+40,EGRAM,"Exon 16, Moreover, has the ability to be spliced out from the mature transcripts that contain exons 15 to 24.","{'0': 'the mature transcripts', '1': 'exon 16'}"
+41,EGRAM,"Exon 16, Moreover, is able to be spliced out from the mature transcripts that contain exons 15 to 24.","{'0': 'the mature transcripts', '1': 'exon 16'}"
+42,EGRAM,"Exon 16, Moreover, is observed to be spliced out from the mature transcripts that contain exons 15 to 24.","{'0': 'the mature transcripts', '1': 'exon 16'}"
+43,EGRAM,"Exon 16, Moreover, is spliced out from the mature transcripts that contain exons 15 to 24.","{'0': 'the mature transcripts', '1': 'exon 16'}"
+44,EGRAM,"Exon 16, Moreover, may have been spliced out from the mature transcripts that contain exons 15 to 24.","{'0': 'the mature transcripts', '1': 'exon 16'}"
+45,EGRAM,"Exon 16, Moreover, might be spliced out from the mature transcripts that contain exons 15 to 24.","{'0': 'the mature transcripts', '1': 'exon 16'}"
+46,EGRAM,"Exon 16, Moreover, was spliced out from the mature transcripts that contain exons 15 to 24.","{'0': 'the mature transcripts', '1': 'exon 16'}"
+47,EGRAM,"Exon 16, Moreover, will be spliced out from the mature transcripts that contain exons 15 to 24.","{'0': 'the mature transcripts', '1': 'exon 16'}"
+48,EGRAM,"In both human and chicken, one exon, as our study suggested, can be spliced out of the MLC3nm transcript in smooth muscle to give an alternative product.","{'0': 'MLC3nm transcript', '1': 'one exon, as our study suggested,'}"
+49,EGRAM,"In both human and chicken, one exon, as our study suggested, has been shown to be spliced out of the MLC3nm transcript in smooth muscle to give an alternative product.","{'0': 'MLC3nm transcript', '1': 'one exon, as our study suggested,'}"
+50,EGRAM,"In both human and chicken, one exon, as our study suggested, has been spliced out of the MLC3nm transcript in smooth muscle to give an alternative product.","{'0': 'MLC3nm transcript', '1': 'one exon, as our study suggested,'}"
+51,EGRAM,"In both human and chicken, one exon, as our study suggested, has the ability to be spliced out of the MLC3nm transcript in smooth muscle to give an alternative product.","{'0': 'MLC3nm transcript', '1': 'one exon, as our study suggested,'}"
+52,EGRAM,"In both human and chicken, one exon, as our study suggested, is able to be spliced out of the MLC3nm transcript in smooth muscle to give an alternative product.","{'0': 'MLC3nm transcript', '1': 'one exon, as our study suggested,'}"
+53,EGRAM,"In both human and chicken, one exon, as our study suggested, is observed to be spliced out of the MLC3nm transcript in smooth muscle to give an alternative product.","{'0': 'MLC3nm transcript', '1': 'one exon, as our study suggested,'}"
+54,EGRAM,"In both human and chicken, one exon, as our study suggested, is spliced out of the MLC3nm transcript in smooth muscle to give an alternative product.","{'0': 'MLC3nm transcript', '1': 'one exon, as our study suggested,'}"
+55,EGRAM,"In both human and chicken, one exon, as our study suggested, may be spliced out of the MLC3nm transcript in smooth muscle to give an alternative product.","{'0': 'MLC3nm transcript', '1': 'one exon, as our study suggested,'}"
+56,EGRAM,"In both human and chicken, one exon, as our study suggested, may have been spliced out of the MLC3nm transcript in smooth muscle to give an alternative product.","{'0': 'MLC3nm transcript', '1': 'one exon, as our study suggested,'}"
+57,EGRAM,"In both human and chicken, one exon, as our study suggested, was spliced out of the MLC3nm transcript in smooth muscle to give an alternative product.","{'0': 'MLC3nm transcript', '1': 'one exon, as our study suggested,'}"
+58,EGRAM,"In both human and chicken, one exon, as our study suggested, will be spliced out of the MLC3nm transcript in smooth muscle to give an alternative product.","{'0': 'MLC3nm transcript', '1': 'one exon, as our study suggested,'}"
+59,EGRAM,"In the remaining allelic p53 gene, there was a single-base substitution of G to T at position 1 within the splice donor site of intron 7, and the mutated intron cannot be properly spliced out during the mRNA maturation process.","{'0': 'the mRNA maturation process', '1': 'the mutated intron'}"
+60,EGRAM,"In the remaining allelic p53 gene, there was a single-base substitution of G to T at position 1 within the splice donor site of intron 7, and the mutated intron cannot be spliced out during the mRNA maturation process.","{'0': 'the mRNA maturation process', '1': 'the mutated intron'}"
+61,EGRAM,"In the remaining allelic p53 gene, there was a single-base substitution of G to T at position 1 within the splice donor site of intron 7, and the mutated intron could not be properly spliced out during the mRNA maturation process.","{'0': 'the mRNA maturation process', '1': 'the mutated intron'}"
+62,EGRAM,"In the remaining allelic p53 gene, there was a single-base substitution of G to T at position 1 within the splice donor site of intron 7, and the mutated intron could not be spliced out during the mRNA maturation process.","{'0': 'the mRNA maturation process', '1': 'the mutated intron'}"
+63,EGRAM,"In the remaining allelic p53 gene, there was a single-base substitution of G to T at position 1 within the splice donor site of intron 7, and the mutated intron has been shown not to be properly spliced out during the mRNA maturation process.","{'0': 'the mRNA maturation process', '1': 'the mutated intron'}"
+64,EGRAM,"In the remaining allelic p53 gene, there was a single-base substitution of G to T at position 1 within the splice donor site of intron 7, and the mutated intron has been shown not to be spliced out during the mRNA maturation process.","{'0': 'the mRNA maturation process', '1': 'the mutated intron'}"
+65,EGRAM,"In the remaining allelic p53 gene, there was a single-base substitution of G to T at position 1 within the splice donor site of intron 7, and the mutated intron has not been properly spliced out during the mRNA maturation process.","{'0': 'the mRNA maturation process', '1': 'the mutated intron'}"
+66,EGRAM,"In the remaining allelic p53 gene, there was a single-base substitution of G to T at position 1 within the splice donor site of intron 7, and the mutated intron has not been spliced out during the mRNA maturation process.","{'0': 'the mRNA maturation process', '1': 'the mutated intron'}"
+67,EGRAM,"In the remaining allelic p53 gene, there was a single-base substitution of G to T at position 1 within the splice donor site of intron 7, and the mutated intron is not able to be properly spliced out during the mRNA maturation process.","{'0': 'the mRNA maturation process', '1': 'the mutated intron'}"
+68,EGRAM,"In the remaining allelic p53 gene, there was a single-base substitution of G to T at position 1 within the splice donor site of intron 7, and the mutated intron is not able to be spliced out during the mRNA maturation process.","{'0': 'the mRNA maturation process', '1': 'the mutated intron'}"
+69,EGRAM,"In the remaining allelic p53 gene, there was a single-base substitution of G to T at position 1 within the splice donor site of intron 7, and the mutated intron is not properly spliced out during the mRNA maturation process.","{'0': 'the mRNA maturation process', '1': 'the mutated intron'}"
+70,EGRAM,"In the remaining allelic p53 gene, there was a single-base substitution of G to T at position 1 within the splice donor site of intron 7, and the mutated intron is not spliced out during the mRNA maturation process.","{'0': 'the mRNA maturation process', '1': 'the mutated intron'}"
+71,EGRAM,"In the remaining allelic p53 gene, there was a single-base substitution of G to T at position 1 within the splice donor site of intron 7, and the mutated intron is observed not to be properly spliced out during the mRNA maturation process.","{'0': 'the mRNA maturation process', '1': 'the mutated intron'}"
+72,EGRAM,"In the remaining allelic p53 gene, there was a single-base substitution of G to T at position 1 within the splice donor site of intron 7, and the mutated intron is observed not to be spliced out during the mRNA maturation process.","{'0': 'the mRNA maturation process', '1': 'the mutated intron'}"
+73,EGRAM,"In the remaining allelic p53 gene, there was a single-base substitution of G to T at position 1 within the splice donor site of intron 7, and the mutated intron may not have been properly spliced out during the mRNA maturation process.","{'0': 'the mRNA maturation process', '1': 'the mutated intron'}"
+74,EGRAM,"In the remaining allelic p53 gene, there was a single-base substitution of G to T at position 1 within the splice donor site of intron 7, and the mutated intron may not have been spliced out during the mRNA maturation process.","{'0': 'the mRNA maturation process', '1': 'the mutated intron'}"
+75,EGRAM,"In the remaining allelic p53 gene, there was a single-base substitution of G to T at position 1 within the splice donor site of intron 7, and the mutated intron will not be properly spliced out during the mRNA maturation process.","{'0': 'the mRNA maturation process', '1': 'the mutated intron'}"
+76,EGRAM,"In the remaining allelic p53 gene, there was a single-base substitution of G to T at position 1 within the splice donor site of intron 7, and the mutated intron will not be spliced out during the mRNA maturation process.","{'0': 'the mRNA maturation process', '1': 'the mutated intron'}"
+77,EGRAM,It did not properly splice out this intron and resulted in a substitution of the final 13 amino acids of the deduced amino acid sequence.,{'1': 'this intron'}
+78,EGRAM,It did not splice out this intron and resulted in a substitution of the final 13 amino acids of the deduced amino acid sequence.,{'1': 'this intron'}
+79,EGRAM,It does not properly splice out this intron and results in a substitution of the final 13 amino acids of the deduced amino acid sequence.,{'1': 'this intron'}
+80,EGRAM,It does not splice out this intron and results in a substitution of the final 13 amino acids of the deduced amino acid sequence.,{'1': 'this intron'}
+81,EGRAM,It was observed that the cell lines are able to differ in their ability to completely splice out a retained intron in the 5 UTR of HYAL1 mRNA.,"{'0': 'the 5 UTR of HYAL1 mRNA', '1': 'a retained intron'}"
+82,EGRAM,It was observed that the cell lines are able to differ in their ability to splice out a retained intron in the 5 UTR of HYAL1 mRNA.,"{'0': 'the 5 UTR of HYAL1 mRNA', '1': 'a retained intron'}"
+83,EGRAM,It was observed that the cell lines are likely to differ in their ability to splice out a retained intron in the 5 UTR of HYAL1 mRNA.,"{'0': 'the 5 UTR of HYAL1 mRNA', '1': 'a retained intron'}"
+84,EGRAM,It was observed that the cell lines are observed to differ in their ability to completely splice out a retained intron in the 5 UTR of HYAL1 mRNA.,"{'0': 'the 5 UTR of HYAL1 mRNA', '1': 'a retained intron'}"
+85,EGRAM,It was observed that the cell lines can differ in their ability to completely splice out a retained intron in the 5 UTR of HYAL1 mRNA.,"{'0': 'the 5 UTR of HYAL1 mRNA', '1': 'a retained intron'}"
+86,EGRAM,It was observed that the cell lines can differ in their ability to splice out a retained intron in the 5 UTR of HYAL1 mRNA.,"{'0': 'the 5 UTR of HYAL1 mRNA', '1': 'a retained intron'}"
+87,EGRAM,It was observed that the cell lines differ in their ability to completely splice out a retained intron in the 5 UTR of HYAL1 mRNA.,"{'0': 'the 5 UTR of HYAL1 mRNA', '1': 'a retained intron'}"
+88,EGRAM,It was observed that the cell lines differ in their ability to splice out a retained intron in the 5 UTR of HYAL1 mRNA.,"{'0': 'the 5 UTR of HYAL1 mRNA', '1': 'a retained intron'}"
+89,EGRAM,It was observed that the cell lines differed in their ability to completely splice out a retained intron in the 5 UTR of HYAL1 mRNA.,"{'0': 'the 5 UTR of HYAL1 mRNA', '1': 'a retained intron'}"
+90,EGRAM,It was observed that the cell lines have been shown to differ in their ability to completely splice out a retained intron in the 5 UTR of HYAL1 mRNA.,"{'0': 'the 5 UTR of HYAL1 mRNA', '1': 'a retained intron'}"
+91,EGRAM,It was observed that the cell lines have been shown to differ in their ability to splice out a retained intron in the 5 UTR of HYAL1 mRNA.,"{'0': 'the 5 UTR of HYAL1 mRNA', '1': 'a retained intron'}"
+92,EGRAM,It was observed that the cell lines have differed in their ability to completely splice out a retained intron in the 5 UTR of HYAL1 mRNA.,"{'0': 'the 5 UTR of HYAL1 mRNA', '1': 'a retained intron'}"
+93,EGRAM,It was observed that the cell lines have differed in their ability to splice out a retained intron in the 5 UTR of HYAL1 mRNA.,"{'0': 'the 5 UTR of HYAL1 mRNA', '1': 'a retained intron'}"
+94,EGRAM,It was observed that the cell lines may have differed in their ability to completely splice out a retained intron in the 5 UTR of HYAL1 mRNA.,"{'0': 'the 5 UTR of HYAL1 mRNA', '1': 'a retained intron'}"
+95,EGRAM,It was observed that the cell lines may have differed in their ability to splice out a retained intron in the 5 UTR of HYAL1 mRNA.,"{'0': 'the 5 UTR of HYAL1 mRNA', '1': 'a retained intron'}"
+96,EGRAM,It was observed that the cell lines will differ in their ability to completely splice out a retained intron in the 5 UTR of HYAL1 mRNA.,"{'0': 'the 5 UTR of HYAL1 mRNA', '1': 'a retained intron'}"
+97,EGRAM,It was observed that the cell lines will differ in their ability to splice out a retained intron in the 5 UTR of HYAL1 mRNA.,"{'0': 'the 5 UTR of HYAL1 mRNA', '1': 'a retained intron'}"
+98,EGRAM,"Moreover, exon 16 has been shown to be efficiently spliced out from the mature transcripts that contain exons 15 to 24.","{'0': 'the mature transcripts', '1': 'exon 16'}"
+99,EGRAM,"Moreover, exon 16 has been shown to be spliced out from the mature transcripts that contain exons 15 to 24.","{'0': 'the mature transcripts', '1': 'exon 16'}"
+100,EGRAM,"Moreover, exon 16 has ben efficiently spliced out from the mature transcripts that contain exons 15 to 24.","{'0': 'the mature transcripts', '1': 'exon 16'}"
+101,EGRAM,"Moreover, exon 16 has ben spliced out from the mature transcripts that contain exons 15 to 24.","{'0': 'the mature transcripts', '1': 'exon 16'}"
+102,EGRAM,"Moreover, exon 16 has the ability to be efficiently spliced out from the mature transcripts that contain exons 15 to 24.","{'0': 'the mature transcripts', '1': 'exon 16'}"
+103,EGRAM,"Moreover, exon 16 has the ability to be spliced out from the mature transcripts that contain exons 15 to 24.","{'0': 'the mature transcripts', '1': 'exon 16'}"
+104,EGRAM,"Moreover, exon 16 is able to be efficiently spliced out from the mature transcripts that contain exons 15 to 24.","{'0': 'the mature transcripts', '1': 'exon 16'}"
+105,EGRAM,"Moreover, exon 16 is able to be spliced out from the mature transcripts that contain exons 15 to 24.","{'0': 'the mature transcripts', '1': 'exon 16'}"
+106,EGRAM,"Moreover, exon 16 is efficiently spliced out from the mature transcripts that contain exons 15 to 24.","{'0': 'the mature transcripts', '1': 'exon 16'}"
+107,EGRAM,"Moreover, exon 16 is observed to be efficiently spliced out from the mature transcripts that contain exons 15 to 24.","{'0': 'the mature transcripts', '1': 'exon 16'}"
+108,EGRAM,"Moreover, exon 16 is observed to be spliced out from the mature transcripts that contain exons 15 to 24.","{'0': 'the mature transcripts', '1': 'exon 16'}"
+109,EGRAM,"Moreover, exon 16 is spliced out from the mature transcripts that contain exons 15 to 24.","{'0': 'the mature transcripts', '1': 'exon 16'}"
+110,EGRAM,"Moreover, exon 16 may have been efficiently spliced out from the mature transcripts that contain exons 15 to 24.","{'0': 'the mature transcripts', '1': 'exon 16'}"
+111,EGRAM,"Moreover, exon 16 may have been spliced out from the mature transcripts that contain exons 15 to 24.","{'0': 'the mature transcripts', '1': 'exon 16'}"
+112,EGRAM,"Moreover, exon 16 might be efficiently spliced out from the mature transcripts that contain exons 15 to 24.","{'0': 'the mature transcripts', '1': 'exon 16'}"
+113,EGRAM,"Moreover, exon 16 might be spliced out from the mature transcripts that contain exons 15 to 24.","{'0': 'the mature transcripts', '1': 'exon 16'}"
+114,EGRAM,"Moreover, exon 16 was efficiently spliced out from the mature transcripts that contain exons 15 to 24.","{'0': 'the mature transcripts', '1': 'exon 16'}"
+115,EGRAM,"Moreover, exon 16 was spliced out from the mature transcripts that contain exons 15 to 24.","{'0': 'the mature transcripts', '1': 'exon 16'}"
+116,EGRAM,"Moreover, exon 16 will be efficiently spliced out from the mature transcripts that contain exons 15 to 24.","{'0': 'the mature transcripts', '1': 'exon 16'}"
+117,EGRAM,"Moreover, exon 16 will be spliced out from the mature transcripts that contain exons 15 to 24.","{'0': 'the mature transcripts', '1': 'exon 16'}"
+118,EGRAM,That putative intron sequences can fail to be properly spliced out in transcripts which spanned exon-intron boundaries is expected in antisense transcripts.,"{'0': 'transcripts', '1': 'putative intron sequences'}"
+119,EGRAM,That putative intron sequences can fail to be spliced out in transcripts which spanned exon-intron boundaries is expected in antisense transcripts.,"{'0': 'transcripts', '1': 'putative intron sequences'}"
+120,EGRAM,That putative intron sequences fail to be properly spliced out in transcripts which spanned exon-intron boundaries is expected in antisense transcripts.,"{'0': 'transcripts', '1': 'putative intron sequences'}"
+121,EGRAM,That putative intron sequences fail to be spliced out in transcripts which spanned exon-intron boundaries is expected in antisense transcripts.,"{'0': 'transcripts', '1': 'putative intron sequences'}"
+122,EGRAM,That putative intron sequences failed to be properly spliced out in transcripts which spanned exon-intron boundaries is expected in antisense transcripts.,"{'0': 'transcripts', '1': 'putative intron sequences'}"
+123,EGRAM,That putative intron sequences failed to be spliced out in transcripts which spanned exon-intron boundaries is expected in antisense transcripts.,"{'0': 'transcripts', '1': 'putative intron sequences'}"
+124,EGRAM,That putative intron sequences has not been shown to be properly spliced out in transcripts which spanned exon-intron boundaries is expected in antisense transcripts.,"{'0': 'transcripts', '1': 'putative intron sequences'}"
+125,EGRAM,That putative intron sequences has not been shown to be spliced out in transcripts which spanned exon-intron boundaries is expected in antisense transcripts.,"{'0': 'transcripts', '1': 'putative intron sequences'}"
+126,EGRAM,That putative intron sequences have failed to be properly spliced out in transcripts which spanned exon-intron boundaries is expected in antisense transcripts.,"{'0': 'transcripts', '1': 'putative intron sequences'}"
+127,EGRAM,That putative intron sequences have failed to be spliced out in transcripts which spanned exon-intron boundaries is expected in antisense transcripts.,"{'0': 'transcripts', '1': 'putative intron sequences'}"
+128,EGRAM,That putative intron sequences is able to fail to be properly spliced out in transcripts which spanned exon-intron boundaries is expected in antisense transcripts.,"{'0': 'transcripts', '1': 'putative intron sequences'}"
+129,EGRAM,That putative intron sequences is able to fail to be spliced out in transcripts which spanned exon-intron boundaries is expected in antisense transcripts.,"{'0': 'transcripts', '1': 'putative intron sequences'}"
+130,EGRAM,That putative intron sequences is likely to fail to be properly spliced out in transcripts which spanned exon-intron boundaries is expected in antisense transcripts.,"{'0': 'transcripts', '1': 'putative intron sequences'}"
+131,EGRAM,That putative intron sequences is likely to fail to be spliced out in transcripts which spanned exon-intron boundaries is expected in antisense transcripts.,"{'0': 'transcripts', '1': 'putative intron sequences'}"
+132,EGRAM,That putative intron sequences is not observed to be properly spliced out in transcripts which spanned exon-intron boundaries is expected in antisense transcripts.,"{'0': 'transcripts', '1': 'putative intron sequences'}"
+133,EGRAM,That putative intron sequences is not observed to be spliced out in transcripts which spanned exon-intron boundaries is expected in antisense transcripts.,"{'0': 'transcripts', '1': 'putative intron sequences'}"
+134,EGRAM,That putative intron sequences may fail to be properly spliced out in transcripts which spanned exon-intron boundaries is expected in antisense transcripts.,"{'0': 'transcripts', '1': 'putative intron sequences'}"
+135,EGRAM,That putative intron sequences may fail to be spliced out in transcripts which spanned exon-intron boundaries is expected in antisense transcripts.,"{'0': 'transcripts', '1': 'putative intron sequences'}"
+136,EGRAM,That putative intron sequences will fail to be properly spliced out in transcripts which spanned exon-intron boundaries is expected in antisense transcripts.,"{'0': 'transcripts', '1': 'putative intron sequences'}"
+137,EGRAM,That putative intron sequences will fail to be spliced out in transcripts which spanned exon-intron boundaries is expected in antisense transcripts.,"{'0': 'transcripts', '1': 'putative intron sequences'}"
+138,EGRAM,That this intron cannot be properly spliced out results in a substitution of the final 13 amino acids of the deduced amino acid sequence.,{'1': 'this intron'}
+139,EGRAM,That this intron cannot be spliced out results in a substitution of the final 13 amino acids of the deduced amino acid sequence.,{'1': 'this intron'}
+140,EGRAM,That this intron has not been properly spliced out resulted in a substitution of the final 13 amino acids of the deduced amino acid sequence.,{'1': 'this intron'}
+141,EGRAM,That this intron has not been shown to be properly spliced out results in a substitution of the final 13 amino acids of the deduced amino acid sequence.,{'1': 'this intron'}
+142,EGRAM,That this intron has not been shown to be spliced out results in a substitution of the final 13 amino acids of the deduced amino acid sequence.,{'1': 'this intron'}
+143,EGRAM,That this intron has not been spliced out resulted in a substitution of the final 13 amino acids of the deduced amino acid sequence.,{'1': 'this intron'}
+144,EGRAM,That this intron is not able to be properly spliced out results in a substitution of the final 13 amino acids of the deduced amino acid sequence.,{'1': 'this intron'}
+145,EGRAM,That this intron is not able to be spliced out results in a substitution of the final 13 amino acids of the deduced amino acid sequence.,{'1': 'this intron'}
+146,EGRAM,That this intron is not observed to be properly spliced out results in a substitution of the final 13 amino acids of the deduced amino acid sequence.,{'1': 'this intron'}
+147,EGRAM,That this intron is not observed to be spliced out results in a substitution of the final 13 amino acids of the deduced amino acid sequence.,{'1': 'this intron'}
+148,EGRAM,That this intron is not properly spliced out results in a substitution of the final 13 amino acids of the deduced amino acid sequence.,{'1': 'this intron'}
+149,EGRAM,That this intron is not spliced out results in a substitution of the final 13 amino acids of the deduced amino acid sequence.,{'1': 'this intron'}
+150,EGRAM,That this intron was not properly spliced out resulted in a substitution of the final 13 amino acids of the deduced amino acid sequence.,{'1': 'this intron'}
+151,EGRAM,That this intron was not spliced out resulted in a substitution of the final 13 amino acids of the deduced amino acid sequence.,{'1': 'this intron'}
+152,EGRAM,The cell lines are able to efficiently spliced out a retained intron in the 5 UTR of HYAL1 mRNA.,"{'0': 'the 5 UTR of HYAL1 mRNA', '1': 'a retained intron'}"
+153,EGRAM,The cell lines are able to spliced out a retained intron in the 5 UTR of HYAL1 mRNA.,"{'0': 'the 5 UTR of HYAL1 mRNA', '1': 'a retained intron'}"
+154,EGRAM,The cell lines are observed to efficiently spliced out a retained intron in the 5 UTR of HYAL1 mRNA.,"{'0': 'the 5 UTR of HYAL1 mRNA', '1': 'a retained intron'}"
+155,EGRAM,The cell lines are observed to spliced out a retained intron in the 5 UTR of HYAL1 mRNA.,"{'0': 'the 5 UTR of HYAL1 mRNA', '1': 'a retained intron'}"
+156,EGRAM,The cell lines efficiently spliced out a retained intron in the 5 UTR of HYAL1 mRNA.,"{'0': 'the 5 UTR of HYAL1 mRNA', '1': 'a retained intron'}"
+157,EGRAM,The cell lines have been shown to efficiently spliced out a retained intron in the 5 UTR of HYAL1 mRNA.,"{'0': 'the 5 UTR of HYAL1 mRNA', '1': 'a retained intron'}"
+158,EGRAM,The cell lines have been shown to spliced out a retained intron in the 5 UTR of HYAL1 mRNA.,"{'0': 'the 5 UTR of HYAL1 mRNA', '1': 'a retained intron'}"
+159,EGRAM,The cell lines have efficiently spliced out a retained intron in the 5 UTR of HYAL1 mRNA.,"{'0': 'the 5 UTR of HYAL1 mRNA', '1': 'a retained intron'}"
+160,EGRAM,The cell lines have spliced out a retained intron in the 5 UTR of HYAL1 mRNA.,"{'0': 'the 5 UTR of HYAL1 mRNA', '1': 'a retained intron'}"
+161,EGRAM,The cell lines spliced out a retained intron in the 5 UTR of HYAL1 mRNA.,"{'0': 'the 5 UTR of HYAL1 mRNA', '1': 'a retained intron'}"
+162,EGRAM,The cell lines splices out a retained intron in the 5 UTR of HYAL1 mRNA.,"{'0': 'the 5 UTR of HYAL1 mRNA', '1': 'a retained intron'}"
+163,EGRAM,This isoform results from the fact that an intron fails to be efficiently spliced out during mRNA processing.,"{'0': 'mRNA processing', '1': 'an intron'}"
+164,EGRAM,This isoform results from the fact that an intron fails to be spliced out during mRNA processing.,"{'0': 'mRNA processing', '1': 'an intron'}"
+165,EGRAM,This isoform results from the fact that an intron has failed to be efficiently spliced out during mRNA processing.,"{'0': 'mRNA processing', '1': 'an intron'}"
+166,EGRAM,This isoform results from the fact that an intron has failed to be spliced out during mRNA processing.,"{'0': 'mRNA processing', '1': 'an intron'}"
+167,EGRAM,This isoform results from the fact that an intron is not found to be efficiently spliced out during mRNA processing.,"{'0': 'mRNA processing', '1': 'an intron'}"
+168,EGRAM,This isoform results from the fact that an intron is not found to be spliced out during mRNA processing.,"{'0': 'mRNA processing', '1': 'an intron'}"
+169,EGRAM,"Three of the revertants obtained from the null allele unc-68(e540), which displayed normal motility, had intragenic mutations resulting in failure to splice out intron 21.",{'0': 'intragenic mutations'}
+170,EGRAM,"Three of the revertants obtained from the null allele unc-68(e540), which displayed normal motility, had intragenic mutations that can fail to splice out intron 21.",{'0': 'intragenic mutations'}
+171,EGRAM,"Three of the revertants obtained from the null allele unc-68(e540), which displayed normal motility, had intragenic mutations that fail to splice out intron 21.",{'0': 'intragenic mutations'}
+172,EGRAM,"Three of the revertants obtained from the null allele unc-68(e540), which displayed normal motility, had intragenic mutations that failed to splice out intron 21.",{'0': 'intragenic mutations'}
+173,EGRAM,"Three of the revertants obtained from the null allele unc-68(e540), which displayed normal motility, had intragenic mutations that has been shown to fail to splice out intron 21.",{'0': 'intragenic mutations'}
+174,EGRAM,"Three of the revertants obtained from the null allele unc-68(e540), which displayed normal motility, had intragenic mutations that has failed to splice out intron 21.",{'0': 'intragenic mutations'}
+175,EGRAM,"Three of the revertants obtained from the null allele unc-68(e540), which displayed normal motility, had intragenic mutations that have resulted in failure splicing out intron 21.",{'0': 'intragenic mutations'}
+176,EGRAM,"Three of the revertants obtained from the null allele unc-68(e540), which displayed normal motility, had intragenic mutations that is able to fail to splice out intron 21.",{'0': 'intragenic mutations'}
+177,EGRAM,"Three of the revertants obtained from the null allele unc-68(e540), which displayed normal motility, had intragenic mutations that is observed to fail to splice out intron 21.",{'0': 'intragenic mutations'}
+178,EGRAM,"Three of the revertants obtained from the null allele unc-68(e540), which displayed normal motility, had intragenic mutations that may fail to splice out intron 21.",{'0': 'intragenic mutations'}
+179,EGRAM,"Three of the revertants obtained from the null allele unc-68(e540), which displayed normal motility, had intragenic mutations that may have failed to splice out intron 21.",{'0': 'intragenic mutations'}
+180,EGRAM,"Three of the revertants obtained from the null allele unc-68(e540), which displayed normal motility, had intragenic mutations that will fail to splice out intron 21.",{'0': 'intragenic mutations'}
+181,EGRAM,Virtually all genes of higher organisms have non-coding introns interspersed between the coding exons being able to be efficiently spliced out in order to generate a mature messenger RNA molecule used to encode proteins.,{'1': 'the coding exons'}
+182,EGRAM,Virtually all genes of higher organisms have non-coding introns interspersed between the coding exons being able to be spliced out in order to generate a mature messenger RNA molecule used to encode proteins.,{'1': 'the coding exons'}
+183,EGRAM,Virtually all genes of higher organisms have non-coding introns interspersed between the coding exons being efficiently spliced out in order to generate a mature messenger RNA molecule used to encode proteins.,{'1': 'the coding exons'}
+184,EGRAM,Virtually all genes of higher organisms have non-coding introns interspersed between the coding exons being spliced out in order to generate a mature messenger RNA molecule used to encode proteins.,{'1': 'the coding exons'}
+185,EGRAM,Virtually all genes of higher organisms have non-coding introns interspersed between the coding exons efficiently spliced out in order to generate a mature messenger RNA molecule used to encode proteins.,{'1': 'the coding exons'}
+186,EGRAM,Virtually all genes of higher organisms have non-coding introns interspersed between the coding exons having the ability to be efficiently spliced out in order to generate a mature messenger RNA molecule used to encode proteins.,{'1': 'the coding exons'}
+187,EGRAM,Virtually all genes of higher organisms have non-coding introns interspersed between the coding exons having the ability to be spliced out in order to generate a mature messenger RNA molecule used to encode proteins.,{'1': 'the coding exons'}
+188,EGRAM,Virtually all genes of higher organisms have non-coding introns interspersed between the coding exons observed to be efficiently spliced out in order to generate a mature messenger RNA molecule used to encode proteins.,{'1': 'the coding exons'}
+189,EGRAM,Virtually all genes of higher organisms have non-coding introns interspersed between the coding exons observed to be spliced out in order to generate a mature messenger RNA molecule used to encode proteins.,{'1': 'the coding exons'}
+190,EGRAM,Virtually all genes of higher organisms have non-coding introns interspersed between the coding exons shown to be efficiently spliced out in order to generate a mature messenger RNA molecule used to encode proteins.,{'1': 'the coding exons'}
+191,EGRAM,Virtually all genes of higher organisms have non-coding introns interspersed between the coding exons shown to be spliced out in order to generate a mature messenger RNA molecule used to encode proteins.,{'1': 'the coding exons'}
+192,EGRAM,Virtually all genes of higher organisms have non-coding introns interspersed between the coding exons spliced out in order to generate a mature messenger RNA molecule used to encode proteins.,{'1': 'the coding exons'}
+193,EGRAM,Virtually all genes of higher organisms have non-coding introns interspersed between the coding exons that are able to be efficiently spliced out in order to generate a mature messenger RNA molecule used to encode proteins.,{'1': 'the coding exons'}
+194,EGRAM,Virtually all genes of higher organisms have non-coding introns interspersed between the coding exons that are able to be spliced out in order to generate a mature messenger RNA molecule used to encode proteins.,{'1': 'the coding exons'}
+195,EGRAM,Virtually all genes of higher organisms have non-coding introns interspersed between the coding exons that are efficiently spliced out in order to generate a mature messenger RNA molecule used to encode proteins.,{'1': 'the coding exons'}
+196,EGRAM,Virtually all genes of higher organisms have non-coding introns interspersed between the coding exons that are spliced out in order to generate a mature messenger RNA molecule used to encode proteins.,{'1': 'the coding exons'}
+197,EGRAM,Virtually all genes of higher organisms have non-coding introns interspersed between the coding exons that can be efficiently spliced out in order to generate a mature messenger RNA molecule used to encode proteins.,{'1': 'the coding exons'}
+198,EGRAM,Virtually all genes of higher organisms have non-coding introns interspersed between the coding exons that can be spliced out in order to generate a mature messenger RNA molecule used to encode proteins.,{'1': 'the coding exons'}
+199,EGRAM,Virtually all genes of higher organisms have non-coding introns interspersed between the coding exons that have been efficiently spliced out in order to generate a mature messenger RNA molecule used to encode proteins.,{'1': 'the coding exons'}
+200,EGRAM,Virtually all genes of higher organisms have non-coding introns interspersed between the coding exons that have been shown to be efficiently spliced out in order to generate a mature messenger RNA molecule used to encode proteins.,{'1': 'the coding exons'}
+201,EGRAM,Virtually all genes of higher organisms have non-coding introns interspersed between the coding exons that have been shown to be spliced out in order to generate a mature messenger RNA molecule used to encode proteins.,{'1': 'the coding exons'}
+202,EGRAM,Virtually all genes of higher organisms have non-coding introns interspersed between the coding exons that have been spliced out in order to generate a mature messenger RNA molecule used to encode proteins.,{'1': 'the coding exons'}
+203,EGRAM,Virtually all genes of higher organisms have non-coding introns interspersed between the coding exons that have the ability to be efficiently spliced out in order to generate a mature messenger RNA molecule used to encode proteins.,{'1': 'the coding exons'}
+204,EGRAM,Virtually all genes of higher organisms have non-coding introns interspersed between the coding exons that have the ability to be spliced out in order to generate a mature messenger RNA molecule used to encode proteins.,{'1': 'the coding exons'}
+205,EGRAM,Virtually all genes of higher organisms have non-coding introns interspersed between the coding exons that may be efficiently spliced out in order to generate a mature messenger RNA molecule used to encode proteins.,{'1': 'the coding exons'}
+206,EGRAM,Virtually all genes of higher organisms have non-coding introns interspersed between the coding exons that may be spliced out in order to generate a mature messenger RNA molecule used to encode proteins.,{'1': 'the coding exons'}
+207,EGRAM,Virtually all genes of higher organisms have non-coding introns interspersed between the coding exons that may have been efficiently spliced out in order to generate a mature messenger RNA molecule used to encode proteins.,{'1': 'the coding exons'}
+208,EGRAM,Virtually all genes of higher organisms have non-coding introns interspersed between the coding exons that may have been spliced out in order to generate a mature messenger RNA molecule used to encode proteins.,{'1': 'the coding exons'}
+209,EGRAM,Virtually all genes of higher organisms have non-coding introns interspersed between the coding exons that must be efficiently spliced out in order to generate a mature messenger RNA molecule used to encode proteins.,{'1': 'the coding exons'}
+210,EGRAM,Virtually all genes of higher organisms have non-coding introns interspersed between the coding exons that were observed to be efficiently spliced out in order to generate a mature messenger RNA molecule used to encode proteins.,{'1': 'the coding exons'}
+211,EGRAM,Virtually all genes of higher organisms have non-coding introns interspersed between the coding exons that were observed to be spliced out in order to generate a mature messenger RNA molecule used to encode proteins.,{'1': 'the coding exons'}
+212,EGRAM,"We have shown that in the human, as in the chicken, one exon can be efficiently spliced out of the MLC3nm transcript in smooth muscle to give an alternative product.","{'0': 'MLC3nm transcript', '1': 'one exon'}"
+213,EGRAM,"We have shown that in the human, as in the chicken, one exon can be spliced out of the MLC3nm transcript in smooth muscle to give an alternative product.","{'0': 'MLC3nm transcript', '1': 'one exon'}"
+214,EGRAM,"We have shown that in the human, as in the chicken, one exon has been efficiently spliced out of the MLC3nm transcript in smooth muscle to give an alternative product.","{'0': 'MLC3nm transcript', '1': 'one exon'}"
+215,EGRAM,"We have shown that in the human, as in the chicken, one exon has been shown to be efficiently spliced out of the MLC3nm transcript in smooth muscle to give an alternative product.","{'0': 'MLC3nm transcript', '1': 'one exon'}"
+216,EGRAM,"We have shown that in the human, as in the chicken, one exon has been shown to be spliced out of the MLC3nm transcript in smooth muscle to give an alternative product.","{'0': 'MLC3nm transcript', '1': 'one exon'}"
+217,EGRAM,"We have shown that in the human, as in the chicken, one exon has been spliced out of the MLC3nm transcript in smooth muscle to give an alternative product.","{'0': 'MLC3nm transcript', '1': 'one exon'}"
+218,EGRAM,"We have shown that in the human, as in the chicken, one exon has the ability to be efficiently spliced out of the MLC3nm transcript in smooth muscle to give an alternative product.","{'0': 'MLC3nm transcript', '1': 'one exon'}"
+219,EGRAM,"We have shown that in the human, as in the chicken, one exon has the ability to be spliced out of the MLC3nm transcript in smooth muscle to give an alternative product.","{'0': 'MLC3nm transcript', '1': 'one exon'}"
+220,EGRAM,"We have shown that in the human, as in the chicken, one exon is able to be efficiently spliced out of the MLC3nm transcript in smooth muscle to give an alternative product.","{'0': 'MLC3nm transcript', '1': 'one exon'}"
+221,EGRAM,"We have shown that in the human, as in the chicken, one exon is able to be spliced out of the MLC3nm transcript in smooth muscle to give an alternative product.","{'0': 'MLC3nm transcript', '1': 'one exon'}"
+222,EGRAM,"We have shown that in the human, as in the chicken, one exon is observed to be efficiently spliced out of the MLC3nm transcript in smooth muscle to give an alternative product.","{'0': 'MLC3nm transcript', '1': 'one exon'}"
+223,EGRAM,"We have shown that in the human, as in the chicken, one exon is observed to be spliced out of the MLC3nm transcript in smooth muscle to give an alternative product.","{'0': 'MLC3nm transcript', '1': 'one exon'}"
+224,EGRAM,"We have shown that in the human, as in the chicken, one exon may be efficiently spliced out of the MLC3nm transcript in smooth muscle to give an alternative product.","{'0': 'MLC3nm transcript', '1': 'one exon'}"
+225,EGRAM,"We have shown that in the human, as in the chicken, one exon may be spliced out of the MLC3nm transcript in smooth muscle to give an alternative product.","{'0': 'MLC3nm transcript', '1': 'one exon'}"
+226,EGRAM,"We have shown that in the human, as in the chicken, one exon may have been efficiently spliced out of the MLC3nm transcript in smooth muscle to give an alternative product.","{'0': 'MLC3nm transcript', '1': 'one exon'}"
+227,EGRAM,"We have shown that in the human, as in the chicken, one exon may have been spliced out of the MLC3nm transcript in smooth muscle to give an alternative product.","{'0': 'MLC3nm transcript', '1': 'one exon'}"
+228,EGRAM,"We have shown that in the human, as in the chicken, one exon was efficiently spliced out of the MLC3nm transcript in smooth muscle to give an alternative product.","{'0': 'MLC3nm transcript', '1': 'one exon'}"
+229,EGRAM,"We have shown that in the human, as in the chicken, one exon was spliced out of the MLC3nm transcript in smooth muscle to give an alternative product.","{'0': 'MLC3nm transcript', '1': 'one exon'}"
+230,EGRAM,"We have shown that in the human, as in the chicken, one exon will be efficiently spliced out of the MLC3nm transcript in smooth muscle to give an alternative product.","{'0': 'MLC3nm transcript', '1': 'one exon'}"
+231,EGRAM,"We have shown that in the human, as in the chicken, one exon will be spliced out of the MLC3nm transcript in smooth muscle to give an alternative product.","{'0': 'MLC3nm transcript', '1': 'one exon'}"
+232,EGRAM,an intron has been efficiently spliced out during mRNA processing.,"{'0': 'mRNA processing', '1': 'an intron'}"
+233,EGRAM,an intron has been spliced out during mRNA processing.,"{'0': 'mRNA processing', '1': 'an intron'}"
+234,EGRAM,an intron is efficiently spliced out during mRNA processing.,"{'0': 'mRNA processing', '1': 'an intron'}"
+235,EGRAM,an intron is spliced out during mRNA processing.,"{'0': 'mRNA processing', '1': 'an intron'}"
+236,EGRAM,an intron may have been efficiently spliced out during mRNA processing.,"{'0': 'mRNA processing', '1': 'an intron'}"
+237,EGRAM,an intron may have been spliced out during mRNA processing.,"{'0': 'mRNA processing', '1': 'an intron'}"
+238,EGRAM,an intron was efficiently spliced out during mRNA processing.,"{'0': 'mRNA processing', '1': 'an intron'}"
+239,EGRAM,an intron was spliced out during mRNA processing.,"{'0': 'mRNA processing', '1': 'an intron'}"
