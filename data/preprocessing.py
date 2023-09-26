@@ -4,7 +4,7 @@ import pandas as pd
 from tqdm import tqdm
 from xml.dom import minidom
 
-PATH_DATA = '../data/'
+PATH_DATA = '../MLM/'
 
 # create class to preprocess data
 class Preprocessing:
@@ -19,7 +19,7 @@ class Preprocessing:
       self.path_statistic_data = PATH_DATA + 'statistics/' + file_name.split('.')[0] + '.csv'
       
    def read_xml_file(self):
-      mydoc = minidom.parse(PATH_DATA + 'raw/' + self.file_name)
+      mydoc = minidom.parse(PATH_DATA + 'data/GramVar/' + self.file_name)
       self.predicate = mydoc.getElementsByTagName('predicate')[0].getAttribute('lemma')
       self.roles = dict()
       for arg in mydoc.getElementsByTagName('role'):
@@ -103,15 +103,17 @@ class Preprocessing:
       for index in sorted(lst_index_remove, reverse=True):
          self.__remove_argument__(index)
       self.data_arg.to_csv(self.output_data, index=False)
-      self.statistic_arg()
-
-filenames = os.listdir(PATH_DATA + 'raw')
+      # self.statistic_arg()
+   
+   
+   
+filenames = os.listdir(PATH_DATA + 'data/GramVar')
 for filename in filenames:
    print(filename)
    preprocessor = Preprocessing(filename)
    preprocessor.read_xml_file()
    preprocessor.dependency_parsing()
 
-
+   
 
 

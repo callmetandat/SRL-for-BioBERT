@@ -1,0 +1,141 @@
+id,source,text,arguments
+0,EGRAM,"FGF8b, as we and others have shown, can efficicently transform the midbrain into a cerebellum fate, whereas FGF8a can promote midbrain development.","{'0': 'FGF8b', '1': 'the midbrain', 'M-MOD': 'can'}"
+1,EGRAM,"FGF8b, as we and others have shown, can transform the midbrain into a cerebellum fate, whereas FGF8a can promote midbrain development.","{'0': 'FGF8b', '1': 'the midbrain', 'M-MOD': 'can'}"
+2,EGRAM,"FGF8b, as we and others have shown, could efficicently transform the midbrain into a cerebellum fate, whereas FGF8a can promote midbrain development.","{'0': 'FGF8b', '1': 'the midbrain', 'M-MOD': 'can'}"
+3,EGRAM,"FGF8b, as we and others have shown, could transform the midbrain into a cerebellum fate, whereas FGF8a can promote midbrain development.","{'0': 'FGF8b', '1': 'the midbrain', 'M-MOD': 'can'}"
+4,EGRAM,"FGF8b, as we and others have shown, efficicently transformed the midbrain into a cerebellum fate, whereas FGF8a can promote midbrain development.","{'0': 'FGF8b', '1': 'the midbrain', 'M-MOD': 'can'}"
+5,EGRAM,"FGF8b, as we and others have shown, efficicently transforms the midbrain into a cerebellum fate, whereas FGF8a can promote midbrain development.","{'0': 'FGF8b', '1': 'the midbrain', 'M-MOD': 'can'}"
+6,EGRAM,"FGF8b, as we and others have shown, has been found to efficicently transform the midbrain into a cerebellum fate, whereas FGF8a can promote midbrain development.","{'0': 'FGF8b', '1': 'the midbrain', 'M-MOD': 'can'}"
+7,EGRAM,"FGF8b, as we and others have shown, has been found to transform the midbrain into a cerebellum fate, whereas FGF8a can promote midbrain development.","{'0': 'FGF8b', '1': 'the midbrain', 'M-MOD': 'can'}"
+8,EGRAM,"FGF8b, as we and others have shown, has efficicently transformed the midbrain into a cerebellum fate, whereas FGF8a can promote midbrain development.","{'0': 'FGF8b', '1': 'the midbrain', 'M-MOD': 'can'}"
+9,EGRAM,"FGF8b, as we and others have shown, has the ability to efficicently transform the midbrain into a cerebellum fate, whereas FGF8a can promote midbrain development.","{'0': 'FGF8b', '1': 'the midbrain', 'M-MOD': 'can'}"
+10,EGRAM,"FGF8b, as we and others have shown, has the ability to transform the midbrain into a cerebellum fate, whereas FGF8a can promote midbrain development.","{'0': 'FGF8b', '1': 'the midbrain', 'M-MOD': 'can'}"
+11,EGRAM,"FGF8b, as we and others have shown, has transformed the midbrain into a cerebellum fate, whereas FGF8a can promote midbrain development.","{'0': 'FGF8b', '1': 'the midbrain', 'M-MOD': 'can'}"
+12,EGRAM,"FGF8b, as we and others have shown, is able to efficicently transform the midbrain into a cerebellum fate, whereas FGF8a can promote midbrain development.","{'0': 'FGF8b', '1': 'the midbrain', 'M-MOD': 'can'}"
+13,EGRAM,"FGF8b, as we and others have shown, is able to transform the midbrain into a cerebellum fate, whereas FGF8a can promote midbrain development.","{'0': 'FGF8b', '1': 'the midbrain', 'M-MOD': 'can'}"
+14,EGRAM,"FGF8b, as we and others have shown, is observed to efficicently transform the midbrain into a cerebellum fate, whereas FGF8a can promote midbrain development.","{'0': 'FGF8b', '1': 'the midbrain', 'M-MOD': 'can'}"
+15,EGRAM,"FGF8b, as we and others have shown, is observed to transform the midbrain into a cerebellum fate, whereas FGF8a can promote midbrain development.","{'0': 'FGF8b', '1': 'the midbrain', 'M-MOD': 'can'}"
+16,EGRAM,"FGF8b, as we and others have shown, may efficicently transform the midbrain into a cerebellum fate, whereas FGF8a can promote midbrain development.","{'0': 'FGF8b', '1': 'the midbrain', 'M-MOD': 'can'}"
+17,EGRAM,"FGF8b, as we and others have shown, may have efficicently transformed the midbrain into a cerebellum fate, whereas FGF8a can promote midbrain development.","{'0': 'FGF8b', '1': 'the midbrain', 'M-MOD': 'can'}"
+18,EGRAM,"FGF8b, as we and others have shown, may have transformed the midbrain into a cerebellum fate, whereas FGF8a can promote midbrain development.","{'0': 'FGF8b', '1': 'the midbrain', 'M-MOD': 'can'}"
+19,EGRAM,"FGF8b, as we and others have shown, may transform the midbrain into a cerebellum fate, whereas FGF8a can promote midbrain development.","{'0': 'FGF8b', '1': 'the midbrain', 'M-MOD': 'can'}"
+20,EGRAM,"FGF8b, as we and others have shown, transformed the midbrain into a cerebellum fate, whereas FGF8a can promote midbrain development.","{'0': 'FGF8b', '1': 'the midbrain', 'M-MOD': 'can'}"
+21,EGRAM,"FGF8b, as we and others have shown, transforms the midbrain into a cerebellum fate, whereas FGF8a can promote midbrain development.","{'0': 'FGF8b', '1': 'the midbrain', 'M-MOD': 'can'}"
+22,EGRAM,"FGF8b, as we and others have shown, will efficicently transform the midbrain into a cerebellum fate, whereas FGF8a can promote midbrain development.","{'0': 'FGF8b', '1': 'the midbrain', 'M-MOD': 'can'}"
+23,EGRAM,"FGF8b, as we and others have shown, will transform the midbrain into a cerebellum fate, whereas FGF8a can promote midbrain development.","{'0': 'FGF8b', '1': 'the midbrain', 'M-MOD': 'can'}"
+24,EGRAM,"For expression of the recombinant protein, pET28a-5 can be efficiently transformed into Escherichia coli strain BL21(DE3).",{'1': 'pET28a-5'}
+25,EGRAM,"For expression of the recombinant protein, pET28a-5 can be transformed into Escherichia coli strain BL21(DE3).",{'1': 'pET28a-5'}
+26,EGRAM,"For expression of the recombinant protein, pET28a-5 has been efficiently transformed into Escherichia coli strain BL21(DE3).",{'1': 'pET28a-5'}
+27,EGRAM,"For expression of the recombinant protein, pET28a-5 has been shown to be efficiently transformed into Escherichia coli strain BL21(DE3).",{'1': 'pET28a-5'}
+28,EGRAM,"For expression of the recombinant protein, pET28a-5 has been shown to be transformed into Escherichia coli strain BL21(DE3).",{'1': 'pET28a-5'}
+29,EGRAM,"For expression of the recombinant protein, pET28a-5 has been transformed into Escherichia coli strain BL21(DE3).",{'1': 'pET28a-5'}
+30,EGRAM,"For expression of the recombinant protein, pET28a-5 has the ability to be efficiently transformed into Escherichia coli strain BL21(DE3).",{'1': 'pET28a-5'}
+31,EGRAM,"For expression of the recombinant protein, pET28a-5 has the ability to be transformed into Escherichia coli strain BL21(DE3).",{'1': 'pET28a-5'}
+32,EGRAM,"For expression of the recombinant protein, pET28a-5 is able to be efficiently transformed into Escherichia coli strain BL21(DE3).",{'1': 'pET28a-5'}
+33,EGRAM,"For expression of the recombinant protein, pET28a-5 is able to be transformed into Escherichia coli strain BL21(DE3).",{'1': 'pET28a-5'}
+34,EGRAM,"For expression of the recombinant protein, pET28a-5 is efficiently transformed into Escherichia coli strain BL21(DE3).",{'1': 'pET28a-5'}
+35,EGRAM,"For expression of the recombinant protein, pET28a-5 is likely to be efficiently transformed into Escherichia coli strain BL21(DE3).",{'1': 'pET28a-5'}
+36,EGRAM,"For expression of the recombinant protein, pET28a-5 is likely to be transformed into Escherichia coli strain BL21(DE3).",{'1': 'pET28a-5'}
+37,EGRAM,"For expression of the recombinant protein, pET28a-5 is observed to be efficiently transformed into Escherichia coli strain BL21(DE3).",{'1': 'pET28a-5'}
+38,EGRAM,"For expression of the recombinant protein, pET28a-5 is observed to be transformed into Escherichia coli strain BL21(DE3).",{'1': 'pET28a-5'}
+39,EGRAM,"For expression of the recombinant protein, pET28a-5 is transformed into Escherichia coli strain BL21(DE3).",{'1': 'pET28a-5'}
+40,EGRAM,"For expression of the recombinant protein, pET28a-5 may be efficiently transformed into Escherichia coli strain BL21(DE3).",{'1': 'pET28a-5'}
+41,EGRAM,"For expression of the recombinant protein, pET28a-5 may be transformed into Escherichia coli strain BL21(DE3).",{'1': 'pET28a-5'}
+42,EGRAM,"For expression of the recombinant protein, pET28a-5 may have been efficiently transformed into Escherichia coli strain BL21(DE3).",{'1': 'pET28a-5'}
+43,EGRAM,"For expression of the recombinant protein, pET28a-5 may have been transformed into Escherichia coli strain BL21(DE3).",{'1': 'pET28a-5'}
+44,EGRAM,"For expression of the recombinant protein, pET28a-5 will be efficiently transformed into Escherichia coli strain BL21(DE3).",{'1': 'pET28a-5'}
+45,EGRAM,"For expression of the recombinant protein, pET28a-5 will be transformed into Escherichia coli strain BL21(DE3).",{'1': 'pET28a-5'}
+46,EGRAM,This construct can be dramatically transformed into the yeast strain HF7c (Clontech).,{'1': 'This construct'}
+47,EGRAM,This construct can be transformed into the yeast strain HF7c (Clontech).,{'1': 'This construct'}
+48,EGRAM,This construct has been dramatically transformed into the yeast strain HF7c (Clontech).,{'1': 'This construct'}
+49,EGRAM,This construct has been proven to be dramatically transformed into the yeast strain HF7c (Clontech).,{'1': 'This construct'}
+50,EGRAM,This construct has been proven to be transformed into the yeast strain HF7c (Clontech).,{'1': 'This construct'}
+51,EGRAM,This construct has been shown to be dramatically transformed into the yeast strain HF7c (Clontech).,{'1': 'This construct'}
+52,EGRAM,This construct has been shown to be transformed into the yeast strain HF7c (Clontech).,{'1': 'This construct'}
+53,EGRAM,This construct has been transformed into the yeast strain HF7c (Clontech).,{'1': 'This construct'}
+54,EGRAM,This construct has the ability to be dramatically transformed into the yeast strain HF7c (Clontech).,{'1': 'This construct'}
+55,EGRAM,This construct has the ability to be transformed into the yeast strain HF7c (Clontech).,{'1': 'This construct'}
+56,EGRAM,This construct is able to be dramatically transformed into the yeast strain HF7c (Clontech).,{'1': 'This construct'}
+57,EGRAM,This construct is able to be transformed into the yeast strain HF7c (Clontech).,{'1': 'This construct'}
+58,EGRAM,This construct is dramatically transformed into the yeast strain HF7c (Clontech).,{'1': 'This construct'}
+59,EGRAM,This construct is likely to be dramatically transformed into the yeast strain HF7c (Clontech).,{'1': 'This construct'}
+60,EGRAM,This construct is likely to be transformed into the yeast strain HF7c (Clontech).,{'1': 'This construct'}
+61,EGRAM,This construct is observed to be dramatically transformed into the yeast strain HF7c (Clontech).,{'1': 'This construct'}
+62,EGRAM,This construct is observed to be transformed into the yeast strain HF7c (Clontech).,{'1': 'This construct'}
+63,EGRAM,This construct is transformed into the yeast strain HF7c (Clontech).,{'1': 'This construct'}
+64,EGRAM,This construct may be dramatically transformed into the yeast strain HF7c (Clontech).,{'1': 'This construct'}
+65,EGRAM,This construct may be transformed into the yeast strain HF7c (Clontech).,{'1': 'This construct'}
+66,EGRAM,This construct may have been dramatically transformed into the yeast strain HF7c (Clontech).,{'1': 'This construct'}
+67,EGRAM,This construct may have been transformed into the yeast strain HF7c (Clontech).,{'1': 'This construct'}
+68,EGRAM,This construct will be dramatically transformed into the yeast strain HF7c (Clontech).,{'1': 'This construct'}
+69,EGRAM,This construct will be transformed into the yeast strain HF7c (Clontech).,{'1': 'This construct'}
+70,EGRAM,"This construct, as our study suggested, can be efficiently transformed into the yeast strain HF7c (Clontech).","{'1': 'This construct, as our study suggested,'}"
+71,EGRAM,"This construct, as our study suggested, can be transformed into the yeast strain HF7c (Clontech).","{'1': 'This construct, as our study suggested,'}"
+72,EGRAM,"This construct, as our study suggested, has been efficiently transformed into the yeast strain HF7c (Clontech).","{'1': 'This construct, as our study suggested,'}"
+73,EGRAM,"This construct, as our study suggested, has been proven to be efficiently transformed into the yeast strain HF7c (Clontech).","{'1': 'This construct, as our study suggested,'}"
+74,EGRAM,"This construct, as our study suggested, has been proven to be transformed into the yeast strain HF7c (Clontech).","{'1': 'This construct, as our study suggested,'}"
+75,EGRAM,"This construct, as our study suggested, has been shown to be efficiently transformed into the yeast strain HF7c (Clontech).","{'1': 'This construct, as our study suggested,'}"
+76,EGRAM,"This construct, as our study suggested, has been shown to be transformed into the yeast strain HF7c (Clontech).","{'1': 'This construct, as our study suggested,'}"
+77,EGRAM,"This construct, as our study suggested, has been transformed into the yeast strain HF7c (Clontech).","{'1': 'This construct, as our study suggested,'}"
+78,EGRAM,"This construct, as our study suggested, has the ability to be efficiently transformed into the yeast strain HF7c (Clontech).","{'1': 'This construct, as our study suggested,'}"
+79,EGRAM,"This construct, as our study suggested, has the ability to be transformed into the yeast strain HF7c (Clontech).","{'1': 'This construct, as our study suggested,'}"
+80,EGRAM,"This construct, as our study suggested, is able to be efficiently transformed into the yeast strain HF7c (Clontech).","{'1': 'This construct, as our study suggested,'}"
+81,EGRAM,"This construct, as our study suggested, is able to be transformed into the yeast strain HF7c (Clontech).","{'1': 'This construct, as our study suggested,'}"
+82,EGRAM,"This construct, as our study suggested, is efficiently transformed into the yeast strain HF7c (Clontech).","{'1': 'This construct, as our study suggested,'}"
+83,EGRAM,"This construct, as our study suggested, is likely to be efficiently transformed into the yeast strain HF7c (Clontech).","{'1': 'This construct, as our study suggested,'}"
+84,EGRAM,"This construct, as our study suggested, is likely to be transformed into the yeast strain HF7c (Clontech).","{'1': 'This construct, as our study suggested,'}"
+85,EGRAM,"This construct, as our study suggested, is observed to be efficiently transformed into the yeast strain HF7c (Clontech).","{'1': 'This construct, as our study suggested,'}"
+86,EGRAM,"This construct, as our study suggested, is observed to be transformed into the yeast strain HF7c (Clontech).","{'1': 'This construct, as our study suggested,'}"
+87,EGRAM,"This construct, as our study suggested, is transformed into the yeast strain HF7c (Clontech).","{'1': 'This construct, as our study suggested,'}"
+88,EGRAM,"This construct, as our study suggested, may be efficiently transformed into the yeast strain HF7c (Clontech).","{'1': 'This construct, as our study suggested,'}"
+89,EGRAM,"This construct, as our study suggested, may be transformed into the yeast strain HF7c (Clontech).","{'1': 'This construct, as our study suggested,'}"
+90,EGRAM,"This construct, as our study suggested, may have been efficiently transformed into the yeast strain HF7c (Clontech).","{'1': 'This construct, as our study suggested,'}"
+91,EGRAM,"This construct, as our study suggested, may have been transformed into the yeast strain HF7c (Clontech).","{'1': 'This construct, as our study suggested,'}"
+92,EGRAM,"This construct, as our study suggested, will be efficiently transformed into the yeast strain HF7c (Clontech).","{'1': 'This construct, as our study suggested,'}"
+93,EGRAM,"This construct, as our study suggested, will be transformed into the yeast strain HF7c (Clontech).","{'1': 'This construct, as our study suggested,'}"
+94,EGRAM,"We and others have shown that FGF8b can efficiently transform the midbrain into a cerebellum fate, whereas FGF8a can promote midbrain development.","{'0': 'FGF8b', '1': 'the midbrain', 'M-MOD': 'can'}"
+95,EGRAM,"We and others have shown that FGF8b can transform the midbrain into a cerebellum fate, whereas FGF8a can promote midbrain development.","{'0': 'FGF8b', '1': 'the midbrain', 'M-MOD': 'can'}"
+96,EGRAM,"We and others have shown that FGF8b could efficiently transform the midbrain into a cerebellum fate, whereas FGF8a can promote midbrain development.","{'0': 'FGF8b', '1': 'the midbrain', 'M-MOD': 'can'}"
+97,EGRAM,"We and others have shown that FGF8b could transform the midbrain into a cerebellum fate, whereas FGF8a can promote midbrain development.","{'0': 'FGF8b', '1': 'the midbrain', 'M-MOD': 'can'}"
+98,EGRAM,"We and others have shown that FGF8b efficiently transformed the midbrain into a cerebellum fate, whereas FGF8a can promote midbrain development.","{'0': 'FGF8b', '1': 'the midbrain', 'M-MOD': 'can'}"
+99,EGRAM,"We and others have shown that FGF8b efficiently transforms the midbrain into a cerebellum fate, whereas FGF8a can promote midbrain development.","{'0': 'FGF8b', '1': 'the midbrain', 'M-MOD': 'can'}"
+100,EGRAM,"We and others have shown that FGF8b has been found to efficiently transform the midbrain into a cerebellum fate, whereas FGF8a can promote midbrain development.","{'0': 'FGF8b', '1': 'the midbrain', 'M-MOD': 'can'}"
+101,EGRAM,"We and others have shown that FGF8b has been found to transform the midbrain into a cerebellum fate, whereas FGF8a can promote midbrain development.","{'0': 'FGF8b', '1': 'the midbrain', 'M-MOD': 'can'}"
+102,EGRAM,"We and others have shown that FGF8b has efficiently transformed the midbrain into a cerebellum fate, whereas FGF8a can promote midbrain development.","{'0': 'FGF8b', '1': 'the midbrain', 'M-MOD': 'can'}"
+103,EGRAM,"We and others have shown that FGF8b has the ability to efficiently transform the midbrain into a cerebellum fate, whereas FGF8a can promote midbrain development.","{'0': 'FGF8b', '1': 'the midbrain', 'M-MOD': 'can'}"
+104,EGRAM,"We and others have shown that FGF8b has the ability to transform the midbrain into a cerebellum fate, whereas FGF8a can promote midbrain development.","{'0': 'FGF8b', '1': 'the midbrain', 'M-MOD': 'can'}"
+105,EGRAM,"We and others have shown that FGF8b has transformed the midbrain into a cerebellum fate, whereas FGF8a can promote midbrain development.","{'0': 'FGF8b', '1': 'the midbrain', 'M-MOD': 'can'}"
+106,EGRAM,"We and others have shown that FGF8b is able to efficiently transform the midbrain into a cerebellum fate, whereas FGF8a can promote midbrain development.","{'0': 'FGF8b', '1': 'the midbrain', 'M-MOD': 'can'}"
+107,EGRAM,"We and others have shown that FGF8b is able to transform the midbrain into a cerebellum fate, whereas FGF8a can promote midbrain development.","{'0': 'FGF8b', '1': 'the midbrain', 'M-MOD': 'can'}"
+108,EGRAM,"We and others have shown that FGF8b is observed to efficiently transform the midbrain into a cerebellum fate, whereas FGF8a can promote midbrain development.","{'0': 'FGF8b', '1': 'the midbrain', 'M-MOD': 'can'}"
+109,EGRAM,"We and others have shown that FGF8b is observed to transform the midbrain into a cerebellum fate, whereas FGF8a can promote midbrain development.","{'0': 'FGF8b', '1': 'the midbrain', 'M-MOD': 'can'}"
+110,EGRAM,"We and others have shown that FGF8b may efficiently transform the midbrain into a cerebellum fate, whereas FGF8a can promote midbrain development.","{'0': 'FGF8b', '1': 'the midbrain', 'M-MOD': 'can'}"
+111,EGRAM,"We and others have shown that FGF8b may have efficiently transformed the midbrain into a cerebellum fate, whereas FGF8a can promote midbrain development.","{'0': 'FGF8b', '1': 'the midbrain', 'M-MOD': 'can'}"
+112,EGRAM,"We and others have shown that FGF8b may have transformed the midbrain into a cerebellum fate, whereas FGF8a can promote midbrain development.","{'0': 'FGF8b', '1': 'the midbrain', 'M-MOD': 'can'}"
+113,EGRAM,"We and others have shown that FGF8b may transform the midbrain into a cerebellum fate, whereas FGF8a can promote midbrain development.","{'0': 'FGF8b', '1': 'the midbrain', 'M-MOD': 'can'}"
+114,EGRAM,"We and others have shown that FGF8b transformed the midbrain into a cerebellum fate, whereas FGF8a can promote midbrain development.","{'0': 'FGF8b', '1': 'the midbrain', 'M-MOD': 'can'}"
+115,EGRAM,"We and others have shown that FGF8b transforms the midbrain into a cerebellum fate, whereas FGF8a can promote midbrain development.","{'0': 'FGF8b', '1': 'the midbrain', 'M-MOD': 'can'}"
+116,EGRAM,"We and others have shown that FGF8b will efficiently transform the midbrain into a cerebellum fate, whereas FGF8a can promote midbrain development.","{'0': 'FGF8b', '1': 'the midbrain', 'M-MOD': 'can'}"
+117,EGRAM,"We and others have shown that FGF8b will transform the midbrain into a cerebellum fate, whereas FGF8a can promote midbrain development.","{'0': 'FGF8b', '1': 'the midbrain', 'M-MOD': 'can'}"
+118,EGRAM,"pET28a-5, for expression of the recombinant protein, can be probably transformed into Escherichia coli strain BL21(DE3).","{'1': 'pET28a-5, for expression of the recombinant protein,'}"
+119,EGRAM,"pET28a-5, for expression of the recombinant protein, can be transformed into Escherichia coli strain BL21(DE3).","{'1': 'pET28a-5, for expression of the recombinant protein,'}"
+120,EGRAM,"pET28a-5, for expression of the recombinant protein, has been probably transformed into Escherichia coli strain BL21(DE3).","{'1': 'pET28a-5, for expression of the recombinant protein,'}"
+121,EGRAM,"pET28a-5, for expression of the recombinant protein, has been shown to be probably transformed into Escherichia coli strain BL21(DE3).","{'1': 'pET28a-5, for expression of the recombinant protein,'}"
+122,EGRAM,"pET28a-5, for expression of the recombinant protein, has been shown to be transformed into Escherichia coli strain BL21(DE3).","{'1': 'pET28a-5, for expression of the recombinant protein,'}"
+123,EGRAM,"pET28a-5, for expression of the recombinant protein, has been transformed into Escherichia coli strain BL21(DE3).","{'1': 'pET28a-5, for expression of the recombinant protein,'}"
+124,EGRAM,"pET28a-5, for expression of the recombinant protein, has the ability to be probably transformed into Escherichia coli strain BL21(DE3).","{'1': 'pET28a-5, for expression of the recombinant protein,'}"
+125,EGRAM,"pET28a-5, for expression of the recombinant protein, has the ability to be transformed into Escherichia coli strain BL21(DE3).","{'1': 'pET28a-5, for expression of the recombinant protein,'}"
+126,EGRAM,"pET28a-5, for expression of the recombinant protein, is able to be probably transformed into Escherichia coli strain BL21(DE3).","{'1': 'pET28a-5, for expression of the recombinant protein,'}"
+127,EGRAM,"pET28a-5, for expression of the recombinant protein, is able to be transformed into Escherichia coli strain BL21(DE3).","{'1': 'pET28a-5, for expression of the recombinant protein,'}"
+128,EGRAM,"pET28a-5, for expression of the recombinant protein, is likely to be probably transformed into Escherichia coli strain BL21(DE3).","{'1': 'pET28a-5, for expression of the recombinant protein,'}"
+129,EGRAM,"pET28a-5, for expression of the recombinant protein, is likely to be transformed into Escherichia coli strain BL21(DE3).","{'1': 'pET28a-5, for expression of the recombinant protein,'}"
+130,EGRAM,"pET28a-5, for expression of the recombinant protein, is observed to be probably transformed into Escherichia coli strain BL21(DE3).","{'1': 'pET28a-5, for expression of the recombinant protein,'}"
+131,EGRAM,"pET28a-5, for expression of the recombinant protein, is observed to be transformed into Escherichia coli strain BL21(DE3).","{'1': 'pET28a-5, for expression of the recombinant protein,'}"
+132,EGRAM,"pET28a-5, for expression of the recombinant protein, is probably transformed into Escherichia coli strain BL21(DE3).","{'1': 'pET28a-5, for expression of the recombinant protein,'}"
+133,EGRAM,"pET28a-5, for expression of the recombinant protein, is transformed into Escherichia coli strain BL21(DE3).","{'1': 'pET28a-5, for expression of the recombinant protein,'}"
+134,EGRAM,"pET28a-5, for expression of the recombinant protein, may be probably transformed into Escherichia coli strain BL21(DE3).","{'1': 'pET28a-5, for expression of the recombinant protein,'}"
+135,EGRAM,"pET28a-5, for expression of the recombinant protein, may be transformed into Escherichia coli strain BL21(DE3).","{'1': 'pET28a-5, for expression of the recombinant protein,'}"
+136,EGRAM,"pET28a-5, for expression of the recombinant protein, may have been probably transformed into Escherichia coli strain BL21(DE3).","{'1': 'pET28a-5, for expression of the recombinant protein,'}"
+137,EGRAM,"pET28a-5, for expression of the recombinant protein, may have been transformed into Escherichia coli strain BL21(DE3).","{'1': 'pET28a-5, for expression of the recombinant protein,'}"
+138,EGRAM,"pET28a-5, for expression of the recombinant protein, will be probably transformed into Escherichia coli strain BL21(DE3).","{'1': 'pET28a-5, for expression of the recombinant protein,'}"
+139,EGRAM,"pET28a-5, for expression of the recombinant protein, will be transformed into Escherichia coli strain BL21(DE3).","{'1': 'pET28a-5, for expression of the recombinant protein,'}"
