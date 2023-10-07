@@ -62,7 +62,6 @@ def read_data(readPath):
     return taskData
 
 def get_embedding(line):
-  
     tokens_id = line['token_id']
     segments_id = line['type_id']
     

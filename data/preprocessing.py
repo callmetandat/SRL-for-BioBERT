@@ -16,10 +16,12 @@ class Preprocessing:
       self.data_role = None
       self.min_threshold = 0.1
       self.output_data = PATH_DATA + 'interim/' + file_name.split('.')[0] + '.csv'
+      # self.output_data = PATH_DATA + 'interim/' + 'ner_catalyse_full.csv'
       self.path_statistic_data = PATH_DATA + 'statistics/' + file_name.split('.')[0] + '.csv'
       
    def read_xml_file(self):
       mydoc = minidom.parse(PATH_DATA + 'data/GramVar/' + self.file_name)
+      #mydoc = minidom.parse(PATH_DATA + 'data/GramVar/' + 'encode_full.xml')
       self.predicate = mydoc.getElementsByTagName('predicate')[0].getAttribute('lemma')
       self.roles = dict()
       for arg in mydoc.getElementsByTagName('role'):
@@ -97,23 +99,28 @@ class Preprocessing:
             for j in range(len(self.data_arg['arguments'][i])):
                if token.text in list(self.data_arg['arguments'][i].items())[j][1] and token.head.text == root.text:
                   count_args[j] += 1
-      for j in range(len(count_args)):
-         if count_args[j] < len(self.data_arg) * self.min_threshold:
-            lst_index_remove.append(j)
-      for index in sorted(lst_index_remove, reverse=True):
-         self.__remove_argument__(index)
+      # for j in range(len(count_args)):
+      #    if count_args[j] < len(self.data_arg) * self.min_threshold:
+      #       lst_index_remove.append(j)
+      # for index in sorted(lst_index_remove, reverse=True):
+      #    self.__remove_argument__(index)
       self.data_arg.to_csv(self.output_data, index=False)
       # self.statistic_arg()
    
    
    
-filenames = os.listdir(PATH_DATA + 'data/GramVar')
-for filename in filenames:
-   print(filename)
-   preprocessor = Preprocessing(filename)
-   preprocessor.read_xml_file()
-   preprocessor.dependency_parsing()
+# filenames = os.listdir(PATH_DATA + 'data/GramVar')
+# for filename in filenames:
+#    print(filename)
+   # preprocessor = Preprocessing(filename)
+   # preprocessor.read_xml_file()
+   # preprocessor.dependency_parsing()
 
-   
+  
+# filename = PATH_DATA+ 'data/GramVar/'+ 'encode_full.xml'
+
+preprocessor = Preprocessing('encode_full.xml')
+preprocessor.read_xml_file()
+preprocessor.dependency_parsing()
 
 

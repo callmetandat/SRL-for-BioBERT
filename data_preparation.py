@@ -8,7 +8,7 @@ from utils.task_utils import TasksParam
 from utils.data_utils import TaskType, NLP_MODELS
 from keras_preprocessing.sequence import pad_sequences
 
-def load_data(dataPath, taskType, hasLabels):
+def load_data(dataPath, hasLabels):
     '''
     This fn loads data from tsv file in according to the format in taskType
     dataPath - path/name of file to read
@@ -185,8 +185,7 @@ def main():
     for taskId, taskName in tasks.taskIdNameMap.items():
         for file in tasks.fileNamesMap[taskName]:
             print('Loading raw data for task {} from {}'.format(taskName, os.path.join(args.data_dir, file)))
-            rows = load_data(os.path.join(args.data_dir, file), tasks.taskTypeMap[taskName],
-                            hasLabels = args.has_labels)
+            rows = load_data(os.path.join(args.data_dir, file), hasLabels = args.has_labels)
             #wrtFile = os.path.join(dataPath, '{}.json'.format(file.split('.')[0]))
             wrtFile = os.path.join(dataPath, '{}.json'.format(file.lower().replace('.tsv', '')))
             print('Processing Started...')
