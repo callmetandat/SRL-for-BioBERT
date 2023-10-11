@@ -3,36 +3,56 @@ import torch
 import torch.nn as nn
 import logging
 import numpy as np
-from models import dropout 
-from MLM.loss import ModifiedLoss
-from transformers import AutoModelForMaskedLM, AutoTokenizer 
+import loss
+import json
+from transformers import AutoModelForMaskedLM, AutoTokenizer, Trainer, TrainingArguments
+from transformers import DataCollatorForLanguageModeling
 
-class modified_MLM(nn.Module):
-    def __init__(self,):
-        super(modified_MLM, self).__init__()
-        self.dropout = dropout.Dropout(0.1)
-        self.loss = ModifiedLoss()
-        self.shared_model = AutoModelForMaskedLM.from_pretrained('dmis-lab/biobert-base-cased-v1.2')
-        self.tokenizer = AutoTokenizer.from_pretrained('dmis-lab/biobert-base-cased-v1.2')
-    
-    def forward(self, input_id):
-        
-        for i in range(len(outputs.logits)):
-            losses = []
-            logits = []
-            
-            labels = [-100] * len(input_id)
-            
-            input_id[i] = self.tokenizer.mask_token_id
-            labels[i] = input_id[i]
-            
-            outputs = self.shared_model(**input_id)
-            logit =  outputs.logits
-            loss = self.loss(logit, labels)
-            
-            losses.append(loss)
-            logits.append(logit)
-        
-        
-    
-    
+# Load the model 
+model = AutoModelForMaskedLM.from_pretrained('dmis-lab/biobert-base-cased-v1.2')
+optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
+loss_fn = loss.CustomLoss() 
+tokenizer = AutoTokenizer.from_pretrained('dmis-lab/biobert-base-cased-v1.2')
+data_collator = DataCollatorForLanguageModeling(tokenizer=tokenizer, mlm_probability=0.15)
+
+class CustomTrainer(Trainer):
+    def compute_loss(self, model, inputs, return_outputs=False):
+        labels = inputs.pop("labels")
+        outputs = model(**inputs)
+        logits = outputs.get("logits")
+        # modified loss function
+        loss = loss_fn(logits, labels)
+        return (loss, outputs) if return_outputs else loss
+
+batch_size = 32
+dataset_train = json.load(open("./mlm_prepared_data/ner_coNLL_train.json"))
+
+# Show the training loss with every epoch
+logging_steps = len(dataset_train) // batch_size
+model_name = 'dmis-lab/biobert-base-cased-v1.2'
+
+training_args = TrainingArguments(
+    output_dir=f"{model_name}-finetuned-imdb",
+    overwrite_output_dir=True,
+    evaluation_strategy="epoch",
+    learning_rate=2e-5,
+    weight_decay=0.01,
+    per_device_train_batch_size=batch_size,
+    per_device_eval_batch_size=batch_size,
+    push_to_hub=True,
+    fp16=True,
+    logging_steps=logging_steps,
+)
+
+
+trainer = Trainer(
+    model=model,
+    args=training_args,
+    train_dataset=dataset_train,
+    eval_dataset=dataset_train["test"],
+    data_collator=data_collator,
+    tokenizer=tokenizer,
+)
+
+print(data_collator)
+trainer.evaluate()

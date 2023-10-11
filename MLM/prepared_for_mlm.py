@@ -4,9 +4,8 @@ import numpy as np
 import pandas as pd
 import json
 from ast import literal_eval
-import spacy
 from sklearn.model_selection import train_test_split
-from keras_preprocessing.sequence import pad_sequences
+import spacy
 
 # Load the English language model
 nlp = spacy.load("en_core_web_sm")
@@ -59,7 +58,7 @@ def convert_to_ner_format(df, file):
         ner_tags = ['O'] * len(words)
         
         # Detect the predicate in the sentence
-        #predicate_token = detect_base_verbs(text, predicate)
+        # Predicate_token = detect_base_verbs(text, predicate)
         
         for i in range(len(words)):
             lemma, pos = analyze_word(words[i])
@@ -67,10 +66,8 @@ def convert_to_ner_format(df, file):
                 words[i] = '#' + words[i]
                 ner_tags[i] = 'B-V'
                 break
-
-                
-        for arg_id, arg_text in arguments.items():
-            
+         
+        for arg_id, arg_text in arguments.items():           
             arg_text = arg_text.lower()
             # Tokenize the argument into words
             arg_words = re.split(r'([.,;\s])', arg_text)    
@@ -88,7 +85,6 @@ def convert_to_ner_format(df, file):
         ner_format.append(ner_tags)
         words_tokenized.append(words)
     return ner_format, words_tokenized
-
 
 def convert_csv_to_tsv(readDir, writeDir):
     # read csv file, ignore first line
@@ -109,46 +105,32 @@ def convert_csv_to_tsv(readDir, writeDir):
             nerW.write("{}\t{}\t{}\n".format(uid[i], labelNer[i], text[i]))
     nerW.close()
     
-
 def data_split(dataDir, wriDir):
-    #read tsv file
+    #read json
     #read all files in dataDir
     files = []
     for path in os.listdir(dataDir):
         if os.path.isfile(os.path.join(dataDir, path)):
             files.append(path)
-    
-    write_file = open(os.path.join(wriDir, 'ner_coNLL_train.tsv'), 'w')
+
+    df = pd.DataFrame()
     for file in files:
-        df = pd.read_table(os.path.join(dataDir, file), header=None)
-        train, dev, test = np.split(df.sample(frac=1), [int(.6*len(df)), int(.8*len(df))])
+        f = open(os.path.join(dataDir, file))
+        json_data = pd.read_json(f, lines=True)
+        #train, dev, test = np.split(df.sample(frac=1), [int(.6*len(df)), int(.8*len(df))])
+        train, testt = train_test_split(json_data, test_size=0.4)
+        dev, test = train_test_split(testt, test_size=0.5)
         
-        # write train to tsv file
-    
-        train.to_csv(write_file, sep='\t', index=False, header=False)
+        df = pd.concat([df, train], ignore_index=True)
         
-        dev.to_csv(os.path.join(wriDir, 'dev_{}.tsv'.format(file.split('.')[0])), sep='\t', index=False, header=False)
+        print("Processing file: ", file)
+        dev.to_json(os.path.join(wriDir, 'dev_{}.json'.format(file.split('.')[0])), orient='records', lines=True)
+        test.to_json(os.path.join(wriDir, 'test_{}.json'.format(file.split('.')[0])), orient='records', lines=True)   
         
-        test.to_csv(os.path.join(wriDir, 'test_{}.tsv'.format(file.split('.')[0])), sep='\t', index=False, header=False)
-        # testW = open(os.path.join(wriDir, 'ner_coNLL_test_{}.tsv'.format(file.split('.')[0])), 'w')
-        # testW.write("{}\t{}\t{}\n".format(test[0], test[1], test[2]))
-        
-    
+    df.to_json(os.path.join(wriDir, 'ner_coNLL_train.json'), orient='records', lines=True)
+   
 #convert_csv_to_tsv('../MLM/interim/', 'test_ner_output')
-#data_split('test_ner_output', 'coNLL_tsv')
-def load_tsv_data(file):
-    allData = []
-    for line in open(file):
-        cols = line.strip("\n").split("\t")
-
-        assert len(cols) == 3, "Data not in NER format"
-        row = {"uid":cols[0], "text":literal_eval(cols[2])}
-        
-        assert type(row['text'])==list, "Sentence should be in list of token labels format in data"
-
-        allData.append(row)
-
-    return allData
+#data_split('mlm_output', 'mlm_prepared_data')
 
 def create_data_mlm(dataDir, wriDir, tokenizer, maxSeqLen):
     '''
@@ -159,7 +141,7 @@ def create_data_mlm(dataDir, wriDir, tokenizer, maxSeqLen):
     sample['label] :- list of corresponding tag for token in sentence ed. ['O', 'O', 'O', 'B-A1']
     '''
     
-    # read train file
+    # Read train file
     files = []
     for path in os.listdir(dataDir):
         if os.path.isfile(os.path.join(dataDir, path)):
@@ -168,39 +150,48 @@ def create_data_mlm(dataDir, wriDir, tokenizer, maxSeqLen):
     for file in files:
         writefile = os.path.join(wriDir, 'mlm_{}.json'.format(file.split('.')[0]))
         with open(writefile, 'w') as wf:
-            data = load_tsv_data(os.path.join(dataDir, file))
-            print("processing file: ", file)
-            for idx, row in enumerate(data):
-                uids = row['uid']
-                for sample in row['text']:    
-                    out = tokenizer.encode_plus(text = sample, add_special_tokens=True,
-                                            max_length = maxSeqLen, pad_to_max_length=True, return_tensors='pt')
+            data = pd.read_csv(os.path.join(dataDir, file))
+            print("Processing file: ", file)
+            
+            for idx, sample in enumerate(data['text']) :    
+                uids = data['id'][idx]   
+
+                # Process the tokenized text with spaCy
+                doc = nlp(sample)
+
+                # Get POS tags for each token
+                pos_tags = [token.pos_ for token in doc]
+
+                out = tokenizer.encode_plus(text = sample, add_special_tokens=True,
+                                    truncation_strategy ='only_first',
+                                    max_length = maxSeqLen, pad_to_max_length=True)
+                # print(out.keys())  dict_keys(['input_ids', 'token_type_ids', 'attention_mask'])
+                typeIds = None
+                inputMask = None
+                tokenIds = out['input_ids']
+                if 'token_type_ids' in out.keys():
+                    typeIds = out['token_type_ids']
+                if 'attention_mask' in out.keys():
+                    inputMask = out['attention_mask']
+                           
+                assert len(tokenIds) == maxSeqLen, "Mismatch between processed tokens and labels"
+                    # feature = {'uid': uids, 'token_id': tokenIds[0], 'mask': inputMask[0]}
+                feature = {'uid':str(uids), 'token_id': tokenIds, 'mask': inputMask, 'pos': pos_tags}
                     
-                    # print(out.keys())  dict_keys(['input_ids', 'token_type_ids', 'attention_mask'])
-                    typeIds = None
-                    inputMask = None
-                    tokenIds = out['input_ids']
-                    if 'token_type_ids' in out.keys():
-                        typeIds = out['token_type_ids']
-                    if 'attention_mask' in out.keys():
-                        inputMask = out['attention_mask']
-                    
-                    # tokenIds = tokenIds[0].squeeze().tolist()
-                    # inputMask = inputMask[0].squeeze().tolist()
-                    
-                    assert len(tokenIds[0]) == maxSeqLen, "Mismatch between processed tokens and labels"
-                    feature = {'uid': uids, 'token_id': tokenIds[0], 'mask': inputMask[0]}
-                          
-                    wf.write('{}\n'.format(json.dumps(feature)))
-        print("done file: ", file)
+                wf.write('{}\n'.format(json.dumps(feature)))
+            print("Done file: ", file)
     
-# chia train test ngay từ đầu         
-# 1.hàm xử lí từng câu(duyệt qua từng token trong câu) - for để mask từng token 
+def masking_sentence(token_ids):
+    for token in token_ids:
+        
+    return 
+# Chia train test ngay từ đầu         
+# 1. Hàm xử lí từng câu(duyệt qua từng token trong câu) - for để mask từng token 
 # 
-# 2.hàm xử lí file train(duyệt qua từng câu trong file) => return df
-
-# 3.hàm train truyền vào df, return model
-
+# 2. Hàm xử lí file train(duyệt qua từng câu trong file) => return df
+#
+# 3. Hàm train truyền vào df, return model
+#
 # data gom: id, token_id, attention_mask, pos 
 # df gom: id, masked_token_id, label 
 
@@ -216,13 +207,18 @@ labels[input_ids != tokenizer.mask_token_id] = -100
 loss, scores = model(input_ids = input_ids, attention_mask = inputs['attention_mask'] , token_type_ids=inputs['token_type_ids'] , labels=labels)
 print('loss',loss)
 
+
+["DET", "NOUN", "PUNCT", "ADP", "PUNCT", "NOUN", "NOUN", "ADP", "DET", "ADJ", "NOUN", "ADP", "NOUN", "NUM", "ADP", "NOUN", "NUM", "VERB", "ADJ", "NOUN", "PUNCT"]
+21
+A G-to-A transition at the first nucleotide of intron 2 of patient 1 abolished normal splicing.
 '''
 # df_train: [input_ids, attention_mask, label]
 # file data train bự:
 # input_ids, attention_mask, label
-from transformers import AutoTokenizer
-model_checkpoint = "dmis-lab/biobert-base-cased-v1.2"
 
-tokenizer = AutoTokenizer.from_pretrained(model_checkpoint)
+# from transformers import AutoTokenizer
+# model_checkpoint = "dmis-lab/biobert-base-cased-v1.2"
 
-create_data_mlm('./test_ner_output/', './mlm_output/', tokenizer, 50)
+# tokenizer = AutoTokenizer.from_pretrained(model_checkpoint)
+
+# create_data_mlm('./interim/', './mlm_output/', tokenizer, 50)

@@ -68,7 +68,7 @@ def create_data_ner(data, chunkNumber, tempList, maxSeqLen, tokenizer, labelMap)
                         #only first piece would be marked with label
                         if m==0:
                             tempLabels.append(label)
-                        else:
+                        else: 
                             tempLabels.append('X')
                 # adding [SEP] at end
                 tempTokens.append('[SEP]')
