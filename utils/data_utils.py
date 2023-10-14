@@ -12,8 +12,11 @@ from utils.eval_metrics import *
 
 bioBertTokenizer = BertTokenizer.from_pretrained('dmis-lab/biobert-base-cased-v1.2', do_lower_case=True,truncation=True)
 
+MAX_SEQ_LEN = 50
+
 NLP_MODELS = {
     "bert": (BertConfig, BertModel, bioBertTokenizer, 'bert-base-uncased'),
+    
 }
 
 TRANSFORM_FUNCS = {

@@ -25,7 +25,7 @@ class CustomTrainer(Trainer):
         return (loss, outputs) if return_outputs else loss
 
 batch_size = 32
-dataset_train = json.load(open("./mlm_prepared_data/ner_coNLL_train.json"))
+dataset_train = json.load(open("./mlm_prepared_data/train_mlm.json"))
 
 # Show the training loss with every epoch
 logging_steps = len(dataset_train) // batch_size

@@ -20,8 +20,8 @@ class Preprocessing:
       self.path_statistic_data = PATH_DATA + 'statistics/' + file_name.split('.')[0] + '.csv'
       
    def read_xml_file(self):
-      mydoc = minidom.parse(PATH_DATA + 'data/GramVar/' + self.file_name)
-      #mydoc = minidom.parse(PATH_DATA + 'data/GramVar/' + 'encode_full.xml')
+      mydoc = minidom.parse(PATH_DATA + 'raw/GramVar/' + self.file_name)
+      #mydoc = minidom.parse(PATH_DATA + 'raw/GramVar/' + 'encode_full.xml')
       self.predicate = mydoc.getElementsByTagName('predicate')[0].getAttribute('lemma')
       self.roles = dict()
       for arg in mydoc.getElementsByTagName('role'):
@@ -78,7 +78,7 @@ class Preprocessing:
       self.data_role.to_csv(self.path_statistic_data, index=False)
       
    def dependency_parsing(self):
-      def print_dependency_parsing(token):
+      def print_dependency_parsing(token): 
          print(
             f"""
                TOKEN: {token.text}
@@ -109,18 +109,13 @@ class Preprocessing:
    
    
    
-# filenames = os.listdir(PATH_DATA + 'data/GramVar')
-# for filename in filenames:
-#    print(filename)
-   # preprocessor = Preprocessing(filename)
-   # preprocessor.read_xml_file()
-   # preprocessor.dependency_parsing()
+filenames = os.listdir(PATH_DATA + 'raw/GramVar')
+for filename in filenames:
+   print(filename)
+   preprocessor = Preprocessing(filename)
+   preprocessor.read_xml_file()
+   preprocessor.dependency_parsing()
 
-  
-# filename = PATH_DATA+ 'data/GramVar/'+ 'encode_full.xml'
 
-preprocessor = Preprocessing('encode_full.xml')
-preprocessor.read_xml_file()
-preprocessor.dependency_parsing()
 
 
