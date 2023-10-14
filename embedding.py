@@ -51,8 +51,17 @@ def cosine_module_similarity(sen1, sen2):
         res_vec.append(cosine_module_2_tensors(sen1[word], sen2[word]))
     return res_vec
 
+def read_data(readPath):
+    
+    with open(readPath, 'r', encoding = 'utf-8') as file:
+        taskData = []
+        for i, line in enumerate(file):
+            sample = json.loads(line)
+            taskData.append(sample)
+            
+    return taskData
+
 def get_embedding(line):
-  
     tokens_id = line['token_id']
     segments_id = line['type_id']
     
@@ -61,7 +70,6 @@ def get_embedding(line):
     
     segments_tensors = torch.tensor([segments_id])
     
-    print("Processed {} rows...".format(i))
     with torch.no_grad():
         outputs = bertmodel(tokens_tensor, segments_tensors)
         print("")
@@ -89,7 +97,7 @@ def get_embedding(line):
 def get_embedding_finetuned(line):
    
     # Load finetuned model 
-    loadedDict = torch.load('../output/multi_task_model_9_13050.pt', map_location=torch.device('cpu'))
+    loadedDict = torch.load('./output/multi_task_model_0_1305.pt', map_location=torch.device('cpu'))
 
     taskParams = loadedDict['task_params']
 
@@ -103,24 +111,24 @@ def get_embedding_finetuned(line):
     allParams['epsilon'] = 1e-8
 
     multiTask = model.multiTaskModel(allParams)
-    multiTask.load_multi_task_model(loadedDict)
     
     tokens_id = line['token_id']
     segments_id = line['type_id']
     
-    attention_mask = line['mask']
+    attention_mask = torch.tensor([line['mask']])
     
     # Convert inputs to PyTorch tensors
     tokens_tensor = torch.tensor([tokens_id])
     
     segments_tensors = torch.tensor([segments_id])
     
-    print("Processed {} rows...".format(i))
     with torch.no_grad():
         outputs = multiTask.network(tokens_tensor, segments_tensors, attention_mask, 0, 'conllsrl')
         print("")
-        hidden_states = outputs[1][2]
+        print(outputs.shape)
+        hidden_states = outputs[0][2]
     
+
     ## WORD EMBEDDING
     token_embeddings = torch.stack(hidden_states, dim=0)
     token_embeddings = torch.squeeze(token_embeddings, dim=1)
@@ -178,8 +186,7 @@ def main():
     
     for file in files:
         features = {}
-        with open(os.path.join(args.data_dir, file), 'rb') as f:
-            data = pickle.load(f)
+        data = read_data(os.path.join(args.data_dir, file))
          
         for i, line in enumerate(data):   
             vec_origin = get_embedding(line)
