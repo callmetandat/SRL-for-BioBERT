@@ -6,8 +6,7 @@ import argparse
 import os
 import pickle
 from models import model
-from utils import transform_utils
-from utils import data_utils 
+from utils import transform_utils, data_utils 
 from transformers import BertTokenizer, BertModel
 
 bertmodel = BertModel.from_pretrained('bert-base-uncased', output_hidden_states =True)

@@ -184,8 +184,6 @@ def make_data_handlers(taskParams, mode, isTrain, gpu):
 
     return allData, batchSampler, multiTaskDataLoader
 
-    
-
 def main():
     allParams = vars(args)
     logger.info('ARGS : {}'.format(allParams))
@@ -250,7 +248,7 @@ def main():
                                                                                 gpu=allParams['gpu'])
     # if evaluation on test set is required during training. Labels are required
     # It will occur at the end of each epoch
-    if args.test_while_train:
+    if args.test_while_train:  # m đâu r Phát
         logger.info("Creating data handlers for test...")
         allDataTest, BatchSamplerTest, multiTaskDataLoaderTest = make_data_handlers(taskParams,
                                                                                 "test", isTrain=False,
@@ -543,7 +541,7 @@ def main():
                                                                                 "truncate_test", isTrain=False,
                                                                                 gpu=allParams['gpu']) 
 
-    #making multi-task model
+    #making multi-task model 
     allParams['num_train_steps'] = math.ceil(len(multiTaskDataLoaderTrain)/args.train_batch_size) *args.epochs // args.grad_accumulation_steps
     allParams['warmup_steps'] = args.num_of_warmup_steps
     allParams['learning_rate'] = args.learning_rate
@@ -576,7 +574,7 @@ def main():
         totalEpochLoss = 0
         text = "Epoch: {}".format(epoch)
         tt = int(allParams['num_train_steps']*args.grad_accumulation_steps/args.epochs)
-        print("train.py: tt: ", tt)
+        print("train.py: tt: ", tt) 
         with tqdm(total = tt, position=epoch, desc=text) as progress:
             
             for i, (batchMetaData, batchData) in enumerate(multiTaskDataLoaderTrain):

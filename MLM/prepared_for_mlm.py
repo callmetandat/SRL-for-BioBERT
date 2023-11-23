@@ -7,13 +7,38 @@ import json
 from ast import literal_eval
 from sklearn.model_selection import train_test_split
 import spacy
-
-from transformers import BertTokenizer #chạy đc xíu r kìa
+from torch.utils.data import DataLoader, RandomSampler, SequentialSampler
+from transformers import BertTokenizer 
+from pathlib import Path
+from tqdm import tqdm, trange
 MAX_SEQ_LEN = 50
 
 wwm_probability = 0.1
 # Load the English language model
 nlp = spacy.load("en_core_web_sm")
+
+
+def get_pos_tag(text, index):
+    # Process the text with spaCy
+    doc = nlp(text)
+
+    # Check if the index is within the bounds
+    if index < 0 or index >= len(doc):
+        return "Index out of bounds"
+
+    # Get the POS tag for the word at the specified index
+    pos_tag = doc[index].pos_
+    return pos_tag
+
+def get_pos_tags(data):
+    pos_tags = []
+    for line in data:
+        pos_tag = get_pos_tag(line, index)
+        line['pos_tag'] = pos_tag
+        
+
+def pos_match(textA, textB, index):
+    return 1 if get_pos_tag(textA, index) == get_pos_tag(textB, index) else 0
 
 def get_files(dir):
     files = []
@@ -167,7 +192,7 @@ def masked_df(df, tokenizer):
     df['label_id'] = labels
     return df
 
-def data_split(dataDir, wriDir, tokenizer):
+def data_split(dataDir, wriDir, tokenizer, batch_size=32):
     
     '''
     data_split('mlm_output', 'mlm_prepared_data', tokenizer)
@@ -176,6 +201,9 @@ def data_split(dataDir, wriDir, tokenizer):
     files = get_files(dataDir)
 
     train_df = pd.DataFrame()
+    dev_df = pd.DataFrame()
+    test_df = pd.DataFrame()
+    
     for file in files:
         f = open(os.path.join(dataDir, file))
         json_data = pd.read_json(f, lines=True)
@@ -184,23 +212,79 @@ def data_split(dataDir, wriDir, tokenizer):
         dev, test = train_test_split(testt, test_size=0.5)
         train_df = pd.concat([train_df, train], ignore_index=True)
         
-        dev_df = masked_df(dev, tokenizer)
-        test_df = masked_df(test, tokenizer)
+        dev_df = pd.concat([dev_df, dev], ignore_index=True)
+        test_df = pd.concat([test_df, test], ignore_index=True)
         
         print("Processing file: ", file)
-        dev_df.to_json(os.path.join(wriDir, 'dev_{}.json'.format(file.split('.')[0])), orient='records', lines=True)
-        test_df.to_json(os.path.join(wriDir, 'test_{}.json'.format(file.split('.')[0])), orient='records', lines=True)   
+        # dev_df.to_json(os.path.join(wriDir, 'dev_{}.json'.format(file.split('.')[0])), orient='records', lines=True)
+        # test_df.to_json(os.path.join(wriDir, 'test_{}.json'.format(file.split('.')[0])), orient='records', lines=True)   
     
     train_df = masked_df(train_df, tokenizer)    
+    dev_df = masked_df(dev_df, tokenizer)    
+    test_df = masked_df(test_df, tokenizer)  
+    
     train_df.to_json(os.path.join(wriDir, 'train_mlm.json'), orient='records', lines=True)
+    dev_df.to_json(os.path.join(wriDir, 'dev_mlm.json'), orient='records', lines=True)
+    test_df.to_json(os.path.join(wriDir, 'test_mlm.json'), orient='records', lines=True)
+    
+    # We'll take training samples in random order. 
+    train_dataloader = DataLoader(
+                train_df,  # The training samples.
+                sampler = RandomSampler(train_df), # Select batches randomly
+                batch_size = batch_size # Trains with this batch size.
+            )
+    validation_dataloader = DataLoader(
+                dev_df, # The validation samples.
+                sampler = SequentialSampler(dev_df), # Pull out batches sequentially.
+                batch_size = batch_size # Evaluate with this batch size.
+          )
+  
+    test_dataloader = DataLoader(
+                test_df, # The validation samples.
+                sampler = SequentialSampler(test_df), # Pull out batches sequentially.
+                batch_size = batch_size # Evaluate with this batch size.
+            )
+    #return train_dataloader, validation_dataloader, test_dataloader
+    return train_df, dev_df, test_df
+from multiprocessing import Pool
+EPOCHS = 5 
+NUMBER_WORKERS = 5 
+BERT_PRETRAINED_MODEL = 'dmis-lab/biobert-base-cased-v1.2'
 
+def create_training_file(docs, epoch_num, output_dir):
+    epoch_filename = output_dir / f"{BERT_PRETRAINED_MODEL}_epoch_{epoch_num}.json"
+    num_instances = 0
+    with epoch_filename.open('w') as epoch_file:
+        for doc_idx in trange(len(docs), desc="Document"):
+            doc_instances = docs[doc_idx]
+            doc_instances = [json.dumps(instance) for instance in doc_instances]
+            for instance in doc_instances:
+                epoch_file.write(instance + '\n')
+                num_instances += 1
+    metrics_file = output_dir / f"{BERT_PRETRAINED_MODEL}_epoch_{epoch_num}_metrics.json"
+  
 
+def create_training_data(dataDir, wriDir, tokenizer):
+    output_dir = Path(wriDir)
+    output_dir.mkdir(exist_ok=True, parents=True)
+    vocab_list = list(tokenizer.vocab.keys())    
+    f = open(dataDir + '/train_mlm.json')
+    docs = json.load(f)
+    f.close()
+    if NUMBER_WORKERS > 1:
+        writer_workers = Pool(min(NUMBER_WORKERS, EPOCHS))
+        arguments = [(docs, idx, output_dir) for idx in range(EPOCHS)]
+        writer_workers.starmap(create_training_file, arguments)
+    else:
+        for epoch in trange(EPOCHS, desc="Epoch"):
+            create_training_file(docs, epoch, output_dir)
+            
 def main():
     tokenizer = BertTokenizer.from_pretrained('dmis-lab/biobert-base-cased-v1.2')
     #tokenize_csv_to_json('./interim/', './mlm_output/', tokenizer)
     data_split('mlm_output', 'mlm_prepared_data', tokenizer)
     
-   
+  
 if __name__ == "__main__":
     main() 
     
