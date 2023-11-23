@@ -103,7 +103,7 @@ class Batcher(BatchSampler):
             random.shuffle(taskIdxs)
         return taskIdxs
 
-    #over riding BatchSampler functions to generate iterators for all tasks
+    # over riding BatchSampler functions to generate iterators for all tasks
     # and iterate
     def __len__(self):
         return sum(len(data) for taskId, data in self.allTasksData.items())

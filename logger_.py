@@ -10,7 +10,7 @@ def make_logger(name, logFile, debugMode = False, silent = False):
     log.setLevel(logging.DEBUG)
     log.propagate = False
     # Create handlers
-    #setting level
+    # Setting level
     if debugMode:
         c_handler = logging.StreamHandler()
         f_handler = logging.FileHandler(logFile)
