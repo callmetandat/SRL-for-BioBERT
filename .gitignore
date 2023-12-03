@@ -11,6 +11,8 @@ MLM/coNLL_tsv/
 MLM/interim/
 MLM/mlm_finetune_output/
 MLM/mlm_finetune_output_test/
+MLM/mlm_output/
+MLM/mlm_prepared_data/
 MLM/raw/
 
 
