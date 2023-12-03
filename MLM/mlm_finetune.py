@@ -9,8 +9,15 @@ import numpy as np
 import pandas as pd
 from collections import namedtuple, defaultdict
 from tempfile import TemporaryDirectory
+import torch.nn as nn
+import torch
 import sys
+from scipy.special import softmax
+
 sys.path.insert(1, '../')
+
+# import sys
+# sys.path.insert(1, '/content/SRL-for-BioBERT')
 from embedding import read_data
 from torch.utils.data import DataLoader, Dataset, RandomSampler
 from torch.utils.data.distributed import DistributedSampler
@@ -19,12 +26,16 @@ from tqdm import tqdm
 from transformers import BertTokenizer, BertConfig, AdamW, get_linear_schedule_with_warmup, BertForMaskedLM
 from utils_mlm import count_num_cpu_gpu
 from prepared_for_mlm import data_split
+import spacy
+nlp = spacy.load("en_core_web_sm")
+tokenizer = BertTokenizer.from_pretrained("dmis-lab/biobert-base-cased-v1.2", do_lower_case=True)
 
 MLM_IGNORE_LABEL_IDX = -1
 BATCH_SIZE = 32
 EPOCHS = 10
 FP16 = True
 NUM_CPU = count_num_cpu_gpu()[0]
+
 class PregeneratedDataset(Dataset):
     def __init__(self, training_path, epoch, tokenizer, num_data_epochs, reduce_memory=False):
         self.vocab = tokenizer.vocab
@@ -43,17 +54,17 @@ class PregeneratedDataset(Dataset):
         if reduce_memory:
             self.temp_dir = TemporaryDirectory()
             self.working_dir = Path(self.temp_dir.name)
-            input_ids = np.memmap(filename=self.working_dir/'input_ids.memmap',
+            self.input_ids = np.memmap(filename=self.working_dir/'input_ids.memmap',
                                   mode='w+', dtype=np.int32, shape=(num_samples, seq_len))
-            input_masks = np.memmap(filename=self.working_dir/'input_masks.memmap',
+            self.input_masks = np.memmap(filename=self.working_dir/'input_masks.memmap',
                                     shape=(num_samples, seq_len), mode='w+', dtype=np.bool)
-            lm_label_ids = np.memmap(filename=self.working_dir/'lm_label_ids.memmap',
+            self.lm_label_ids = np.memmap(filename=self.working_dir/'lm_label_ids.memmap',
                                      shape=(num_samples, seq_len), mode='w+', dtype=np.int32)
-            lm_label_ids[:] = MLM_IGNORE_LABEL_IDX
+            #lm_label_ids[:] = MLM_IGNORE_LABEL_IDX
         else:
-            input_ids = np.zeros(shape=(num_samples, seq_len), dtype=np.int32)
-            input_masks = np.zeros(shape=(num_samples, seq_len), dtype=np.bool)
-            lm_label_ids = np.full(shape=(num_samples, seq_len), dtype=np.int32, fill_value=MLM_IGNORE_LABEL_IDX)
+            self.input_ids = np.zeros(shape=(num_samples, seq_len), dtype=np.int32)
+            self.input_masks = np.zeros(shape=(num_samples, seq_len), dtype=np.bool)
+            self.lm_label_ids = np.full(shape=(num_samples, seq_len), dtype=np.int32, fill_value=MLM_IGNORE_LABEL_IDX)
         logging.info(f"Loading training examples for epoch {epoch}")
         # with data_file.open() as f:
         #     for i, line in enumerate(tqdm(f, total=num_samples, desc="Training examples")):
@@ -69,7 +80,7 @@ class PregeneratedDataset(Dataset):
         self.num_samples = num_samples
         self.seq_len = seq_len
         #
-        self.input_ids = train_df['token_id']
+        self.input_ids = train_df['masked_token_id']
         self.input_masks = train_df['mask']
         self.lm_label_ids = train_df['label_id']
         
@@ -80,6 +91,46 @@ class PregeneratedDataset(Dataset):
         return (torch.tensor(np.array(self.input_ids[item]), dtype = torch.int64),
                 torch.tensor(np.array(self.input_masks[item]), dtype = torch.int64),
                 torch.tensor(np.array(self.lm_label_ids[item]), dtype = torch.int64))
+
+def get_pos_tag(text, index):
+    # Process the text with spaCy
+    doc = nlp(text)
+
+    # Check if the index is within the bounds
+    #if index < 0 or index >= len(doc):
+    #    return "Index out of bounds"
+
+    # Get the POS tag for the word at the specified index
+    pos_tag = doc[index].pos_
+    return pos_tag
+
+def is_POS_match(logits, input_ids, lm_label_ids):
+    # origin_input = input_ids + lm_label_ids
+    # if input_ids has 103, then replace it with lm_label_ids at the same index. in one sentence may have many 103
+    
+    origin_input = input_ids
+    while 103 in origin_input:
+        
+        masked_idx = (origin_input == 103).nonzero(as_tuple=False).squeeze(1)
+        print(masked_idx)
+        origin_input[masked_idx] = lm_label_ids[masked_idx]
+    
+   
+    origin_text = tokenizer.decode(origin_input)
+    print("Origin Text", len(origin_text))
+    pos_tag_origin = [get_pos_tag(origin_text, idx) for idx in masked_idx]
+    print("POS TAG ORIGIN", pos_tag_origin)
+    # truyền qua nlp để lấy POS
+    # logit cũng truyền qua nlp để lấy POS
+    
+    logits_tag = [get_pos_tag(tokenizer.decode(logits), idx) for idx in masked_idx]
+    print("LOGITS text", tokenizer.decode(logits))
+    print("LOGITS TAG", logits_tag)
+    return pos_tag_origin == logits_tag    
+
+def custom_loss(predictions, labels, masked_idx):
+    loss = 0.5 * (-torch.log(1 - softmax(predictions))[labels]) + (1 - is_POS_match())
+    return loss.mean()
 
 def pretrain_on_treatment(args):
     # assert args.pregenerated_data.is_file(), \
@@ -129,10 +180,7 @@ def pretrain_on_treatment(args):
     if args.output_dir.is_dir() and list(args.output_dir.iterdir()):
         logging.warning(f"Output directory ({args.output_dir}) already exists and is not empty!")
     args.output_dir.mkdir(parents=True, exist_ok=True)
-
-    tokenizer = BertTokenizer.from_pretrained(args.bert_model, do_lower_case=args.do_lower_case)
-    
-    
+ 
     # total_train_examples = 0
     # for i in range(args.epochs):
     #     # The modulo takes into account the fact that we may loop over limited epochs of data
@@ -162,8 +210,7 @@ def pretrain_on_treatment(args):
          'weight_decay': 0.01},
         {'params': [p for n, p in param_optimizer if any(nd in n for nd in no_decay)], 'weight_decay': 0.0}
     ]
-
-    
+   
     optimizer = AdamW(optimizer_grouped_parameters, lr=args.learning_rate, eps=args.adam_epsilon)
     scheduler = get_linear_schedule_with_warmup(optimizer,
                                                 num_warmup_steps=args.warmup_steps,
@@ -184,15 +231,21 @@ def pretrain_on_treatment(args):
         else:
             train_sampler = DistributedSampler(epoch_dataset)
         train_dataloader = DataLoader(epoch_dataset, sampler=train_sampler, batch_size=args.train_batch_size, num_workers=NUM_CPU)
+        
+        #print("TRAIN DATALOADER", *train_dataloader[0])
         # train_dataloader = data_split('mlm_output', 'mlm_prepared_data', tokenizer)[0]
         tr_loss = 0 
         nb_tr_examples, nb_tr_steps = 0, 0
         with tqdm(total=len(train_dataloader), desc=f"Epoch {epoch}") as pbar:
             for step, batch in enumerate(train_dataloader):
                 
-                batch = tuple(t.to(device) for t in batch)
-                input_ids, input_mask, lm_label_ids = batch
+                batch = tuple(t.to(device) for t in batch)               
+                input_ids, input_mask, lm_label_ids = batch              
                 outputs = model(input_ids=input_ids, attention_mask=input_mask, labels=lm_label_ids)
+                print(is_POS_match(outputs[1][0], input_ids[0], lm_label_ids[0]))
+                #idx = input_ids[0].index('103')
+                # print top 10 masked tokens
+                # print(tokenizer.convert_ids_to_tokens(torch.topk(outputs.logits[0, idx, :], 10).indices))
                 loss = outputs[0]
                 if n_gpu > 1:
                     loss = loss.mean() # mean() to average on multi-gpu.
@@ -285,7 +338,7 @@ def main():
     parser.add_argument("--corpus_type", type=str, required=False, default="")
     args = parser.parse_args()
 
-    args.output_dir = Path('mlm_finetune_output') / "model"
+    args.output_dir = Path('mlm_finetune_output_test') / "model"
    
     pretrain_on_treatment(args)
    

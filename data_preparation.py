@@ -76,7 +76,7 @@ def create_data_ner(data, chunkNumber, tempList, maxSeqLen, tokenizer, labelMap)
                 out = tokenizer.encode_plus(text = tempTokens, add_special_tokens=False,
                                         truncation_strategy ='only_first',
                                         max_length = maxSeqLen, pad_to_max_length=True)
-                # print("len vocab: ", len(tokenizer.get_vocab()))  #30522
+                # print("len vocab: ", len(tokenizer.get_vocab()))  #30522 
                 typeIds = None
                 inputMask = None
                 tokenIds = out['input_ids']
