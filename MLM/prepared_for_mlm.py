@@ -12,7 +12,7 @@ from transformers import BertTokenizer
 from pathlib import Path
 from tqdm import tqdm, trange
 MAX_SEQ_LEN = 50
-
+VOCAB_SIZE = 28996 
 wwm_probability = 0.1
 # Load the English language model
 nlp = spacy.load("en_core_web_sm")
@@ -30,13 +30,13 @@ def get_pos_tag(text, index):
     pos_tag = doc[index].pos_
     return pos_tag
 
+
 def get_pos_tags(data):
     pos_tags = []
     for line in data:
         pos_tag = get_pos_tag(line, index)
         line['pos_tag'] = pos_tag
         
-
 def pos_match(textA, textB, index):
     return 1 if get_pos_tag(textA, index) == get_pos_tag(textB, index) else 0
 
@@ -68,7 +68,7 @@ def convert_csv_to_tsv(readDir, writeDir):
             # Tokenize the text into words while preserving selected punctuation
             words = re.split(r'([.,;\s])', text)    
             words = [word for word in words if word != ' ' and word != ''] 
-        
+
             ner_tags = ['O'] * len(words)
             
             for i in range(len(words)):
@@ -107,6 +107,7 @@ def convert_csv_to_tsv(readDir, writeDir):
         labelNer = ner_format[0]
         uid = data_df['id']                      
         text = ner_format[1]
+        
         nerW = open(os.path.join(writeDir, 'ner_{}.tsv'.format(file.split('.')[0])), 'w')
         for i in range(len(uid)):
             nerW.write("{}\t{}\t{}\n".format(uid[i], labelNer[i], text[i]))
@@ -132,16 +133,20 @@ def tokenize_csv_to_json(dataDir, wriDir, tokenizer):
             
             for idx, sample in enumerate(data['text']) :    
                 uids = data['id'][idx]   
-
+                
                 # Process the tokenized text with spaCy
-                doc = nlp(sample)
+                #doc = nlp(sample)
+                words = re.split(r'([.,;\s])', sample)    
+                words = [word for word in words if word != ' ' and word != ''] 
+                
+                mask, labels = masking_sentence_word(words, tokenizer)  # mask là masked_sentence
+                #['A', 'G-to-A', 'transition', 'at', '[MASK]', 'first', 'nucleotide', 'of', 'intron', '2', 'of', '[MASK]', '1', 'abolished', 'normal', 'splicing', '.']
+              
+                #pos_tags = [token.pos_ for token in doc]
 
-                # Get POS tags for each token
-                pos_tags = [token.pos_ for token in doc]
-
-                out = tokenizer.encode_plus(text = sample, add_special_tokens=True,
+                out = tokenizer.encode_plus(text = ' '.join(mask), add_special_tokens=True,
                                     truncation_strategy ='only_first',
-                                    max_length = MAX_SEQ_LEN, pad_to_max_length=True)
+                                    max_length = VOCAB_SIZE, pad_to_max_length=True)
                 
                 inputMask = None
                 tokenIds = out['input_ids']
@@ -149,12 +154,13 @@ def tokenize_csv_to_json(dataDir, wriDir, tokenizer):
                 if 'attention_mask' in out.keys():
                     inputMask = out['attention_mask']
                            
-                assert len(tokenIds) == MAX_SEQ_LEN, "Mismatch between processed tokens and labels"
+                assert len(tokenIds) == VOCAB_SIZE, "Mismatch between processed tokens and labels"
                 
-                feature = {'uid':str(uids), 'token_id': tokenIds, 'mask': inputMask, 'pos': pos_tags}
-                    
+                feature = {'uid':str(uids), 'token_id': tokenIds, 'mask': inputMask, 'labels': labels}
+                
                 wf.write('{}\n'.format(json.dumps(feature)))
             print("Done file: ", file)
+           
 
 def masking_sentence(token_ids, tokenizer):
         '''
@@ -166,6 +172,7 @@ def masking_sentence(token_ids, tokenizer):
         
         token_ids_copy = copy.deepcopy(token_ids)
         
+        
         labels = [-100] * len(token_ids)
         for idx, token in enumerate(token_ids):
             
@@ -174,6 +181,28 @@ def masking_sentence(token_ids, tokenizer):
                 labels[idx] = token
             
         return token_ids_copy, labels
+
+def masking_sentence_word(tokens, tokenizer):
+    '''
+    Function to mask random token in a sentence and return the masked sentence and the corresponding label ids
+    '''
+    except_tokens = [tokenizer.cls_token, tokenizer.sep_token, tokenizer.pad_token]
+    
+    masked_idx = np.random.binomial(1, 0.1, (len(tokens),))   # Masking each token with 15% probability
+    
+    word_copy = copy.deepcopy(tokens)
+    
+    labels = [-100] * VOCAB_SIZE 
+    
+    for idx, token in enumerate(tokens):
+        #if (idx in np.where(masked_idx)[0]):
+        if (idx in np.where(masked_idx)[0]) and (token not in except_tokens):
+            word_copy[idx] = tokenizer.mask_token # [MASK]
+          
+            labels[idx] = tokenizer.convert_tokens_to_ids([token])[0]
+        # embedding :  ## em, ## bed, ##ding 
+    return word_copy, labels
+    # 
     
 def masked_df(df, tokenizer):
     '''
@@ -218,32 +247,32 @@ def data_split(dataDir, wriDir, tokenizer, batch_size=32):
         print("Processing file: ", file)
         # dev_df.to_json(os.path.join(wriDir, 'dev_{}.json'.format(file.split('.')[0])), orient='records', lines=True)
         # test_df.to_json(os.path.join(wriDir, 'test_{}.json'.format(file.split('.')[0])), orient='records', lines=True)   
-    
-    train_df = masked_df(train_df, tokenizer)    
-    dev_df = masked_df(dev_df, tokenizer)    
-    test_df = masked_df(test_df, tokenizer)  
+   
+    # train_df = masked_df(train_df, tokenizer)    
+    # dev_df = masked_df(dev_df, tokenizer)    
+    # test_df = masked_df(test_df, tokenizer)  
     
     train_df.to_json(os.path.join(wriDir, 'train_mlm.json'), orient='records', lines=True)
     dev_df.to_json(os.path.join(wriDir, 'dev_mlm.json'), orient='records', lines=True)
     test_df.to_json(os.path.join(wriDir, 'test_mlm.json'), orient='records', lines=True)
     
     # We'll take training samples in random order. 
-    train_dataloader = DataLoader(
-                train_df,  # The training samples.
-                sampler = RandomSampler(train_df), # Select batches randomly
-                batch_size = batch_size # Trains with this batch size.
-            )
-    validation_dataloader = DataLoader(
-                dev_df, # The validation samples.
-                sampler = SequentialSampler(dev_df), # Pull out batches sequentially.
-                batch_size = batch_size # Evaluate with this batch size.
-          )
+    # train_dataloader = DataLoader(
+    #             train_df,  # The training samples.
+    #             sampler = RandomSampler(train_df), # Select batches randomly
+    #             batch_size = batch_size # Trains with this batch size.
+    #         )
+    # validation_dataloader = DataLoader(
+    #             dev_df, # The validation samples.
+    #             sampler = SequentialSampler(dev_df), # Pull out batches sequentially.
+    #             batch_size = batch_size # Evaluate with this batch size.
+    #       )
   
-    test_dataloader = DataLoader(
-                test_df, # The validation samples.
-                sampler = SequentialSampler(test_df), # Pull out batches sequentially.
-                batch_size = batch_size # Evaluate with this batch size.
-            )
+    # test_dataloader = DataLoader(
+    #             test_df, # The validation samples.
+    #             sampler = SequentialSampler(test_df), # Pull out batches sequentially.
+    #             batch_size = batch_size # Evaluate with this batch size.
+    #         )
     #return train_dataloader, validation_dataloader, test_dataloader
     return train_df, dev_df, test_df
 from multiprocessing import Pool
@@ -251,43 +280,44 @@ EPOCHS = 5
 NUMBER_WORKERS = 5 
 BERT_PRETRAINED_MODEL = 'dmis-lab/biobert-base-cased-v1.2'
 
-def create_training_file(docs, epoch_num, output_dir):
-    epoch_filename = output_dir / f"{BERT_PRETRAINED_MODEL}_epoch_{epoch_num}.json"
-    num_instances = 0
-    with epoch_filename.open('w') as epoch_file:
-        for doc_idx in trange(len(docs), desc="Document"):
-            doc_instances = docs[doc_idx]
-            doc_instances = [json.dumps(instance) for instance in doc_instances]
-            for instance in doc_instances:
-                epoch_file.write(instance + '\n')
-                num_instances += 1
-    metrics_file = output_dir / f"{BERT_PRETRAINED_MODEL}_epoch_{epoch_num}_metrics.json"
-  
+# def create_training_file(docs, epoch_num, output_dir):
+#     epoch_filename = output_dir / f"{BERT_PRETRAINED_MODEL}_epoch_{epoch_num}.json"
+#     num_instances = 0
+#     with epoch_filename.open('w') as epoch_file:
+#         for doc_idx in trange(len(docs), desc="Document"):
+#             doc_instances = docs[doc_idx]
+#             doc_instances = [json.dumps(instance) for instance in doc_instances]
+#             for instance in doc_instances:
+#                 epoch_file.write(instance + '\n')
+#                 num_instances += 1
+#     metrics_file = output_dir / f"{BERT_PRETRAINED_MODEL}_epoch_{epoch_num}_metrics.json"
 
-def create_training_data(dataDir, wriDir, tokenizer):
-    output_dir = Path(wriDir)
-    output_dir.mkdir(exist_ok=True, parents=True)
-    vocab_list = list(tokenizer.vocab.keys())    
-    f = open(dataDir + '/train_mlm.json')
-    docs = json.load(f)
-    f.close()
-    if NUMBER_WORKERS > 1:
-        writer_workers = Pool(min(NUMBER_WORKERS, EPOCHS))
-        arguments = [(docs, idx, output_dir) for idx in range(EPOCHS)]
-        writer_workers.starmap(create_training_file, arguments)
-    else:
-        for epoch in trange(EPOCHS, desc="Epoch"):
-            create_training_file(docs, epoch, output_dir)
+
+# def create_training_data(dataDir, wriDir, tokenizer):
+#     output_dir = Path(wriDir)
+#     output_dir.mkdir(exist_ok=True, parents=True)
+#     vocab_list = list(tokenizer.vocab.keys())    
+#     f = open(dataDir + '/train_mlm.json')
+#     docs = json.load(f)
+#     f.close()
+#     if NUMBER_WORKERS > 1:
+#         writer_workers = Pool(min(NUMBER_WORKERS, EPOCHS))
+#         arguments = [(docs, idx, output_dir) for idx in range(EPOCHS)]
+#         writer_workers.starmap(create_training_file, arguments)
+#     else:
+#         for epoch in trange(EPOCHS, desc="Epoch"):
+#             create_training_file(docs, epoch, output_dir)
             
 def main():
     tokenizer = BertTokenizer.from_pretrained('dmis-lab/biobert-base-cased-v1.2')
     #tokenize_csv_to_json('./interim/', './mlm_output/', tokenizer)
+    
     data_split('mlm_output', 'mlm_prepared_data', tokenizer)
     
-  
 if __name__ == "__main__":
     main() 
-    
+
+# là giờ lên colab train hả 
 # Chia train test ngay từ đầu         
 # 1. Hàm xử lí từng câu(duyệt qua từng token trong câu) - for để mask từng token 
 # 
@@ -295,7 +325,7 @@ if __name__ == "__main__":
 #
 # 3. Hàm train truyền vào df, return model
 #
-# data gom: id, token_id, attention_mask, pos 
+# data gom: id, token_id, attention_mask
 # df gom: id, masked_token_id, label 
 
 '''

@@ -7,11 +7,10 @@ word_vecs_output/
 *.tsv
 data/
 logs/
-MLM/mlm_finetune_output/
-MLM/raw/
-MLM/interim/
-MLM/mlm_prepared_data/
 MLM/coNLL_tsv/
-MLM/mlm_output/
+MLM/interim/
+MLM/mlm_finetune_output/
+MLM/mlm_finetune_output_test/
+MLM/raw/
 
 
