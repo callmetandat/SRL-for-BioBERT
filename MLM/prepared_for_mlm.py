@@ -11,9 +11,10 @@ from torch.utils.data import DataLoader, RandomSampler, SequentialSampler
 from transformers import BertTokenizer 
 from pathlib import Path
 from tqdm import tqdm, trange
-MAX_SEQ_LEN = 50
+MAX_SEQ_LEN = 70
 VOCAB_SIZE = 28996 
 wwm_probability = 0.1
+import random
 # Load the English language model
 nlp = spacy.load("en_core_web_sm")
 
@@ -135,74 +136,69 @@ def tokenize_csv_to_json(dataDir, wriDir, tokenizer):
                 uids = data['id'][idx]   
                 
                 # Process the tokenized text with spaCy
-                #doc = nlp(sample)
+                # doc = nlp(sample)
                 words = re.split(r'([.,;\s])', sample)    
                 words = [word for word in words if word != ' ' and word != ''] 
                 
-                mask, labels = masking_sentence_word(words, tokenizer)  # mask là masked_sentence
-                #['A', 'G-to-A', 'transition', 'at', '[MASK]', 'first', 'nucleotide', 'of', 'intron', '2', 'of', '[MASK]', '1', 'abolished', 'normal', 'splicing', '.']
-              
-                #pos_tags = [token.pos_ for token in doc]
-
-                out = tokenizer.encode_plus(text = ' '.join(mask), add_special_tokens=True,
+                mask_10, labels_10 = masking_sentence_word(words, tokenizer)  # mask là masked_sentence
+                # ['A', 'G-to-A', 'transition', 'at', '[MASK]', 'first', 'nucleotide', 'of', 'intron', '2', 'of', '[MASK]', '1', 'abolished', normal', 'splicing', '.']
+                
+                # pos_tags = [token.pos_ for token in doc]
+                for mask, label in zip(mask_10, labels_10):
+                   
+                    out = tokenizer.encode_plus(text = ' '.join(mask), add_special_tokens=True,
                                     truncation_strategy ='only_first',
-                                    max_length = VOCAB_SIZE, pad_to_max_length=True)
-                
-                inputMask = None
-                tokenIds = out['input_ids']
-                
-                if 'attention_mask' in out.keys():
-                    inputMask = out['attention_mask']
-                           
-                assert len(tokenIds) == VOCAB_SIZE, "Mismatch between processed tokens and labels"
-                
-                feature = {'uid':str(uids), 'token_id': tokenIds, 'mask': inputMask, 'labels': labels}
-                
-                wf.write('{}\n'.format(json.dumps(feature)))
+                                    max_length = MAX_SEQ_LEN, pad_to_max_length=True) 
+
+                    attention_mask = None
+                    tokenIds = out['input_ids']                
+                    if 'attention_mask' in out.keys():
+                        attention_mask = out['attention_mask']
+                            
+                    assert len(tokenIds) == MAX_SEQ_LEN, "Mismatch between processed tokens and labels"
+                    
+                    feature = {'uid':str(uids), 'token_id': tokenIds, 'attention_mask': attention_mask, 'labels': label}
+                    
+                    wf.write('{}\n'.format(json.dumps(feature))) # mà chắc được mà chỉ cần khác cái mask là oke ùa hong cần 
             print("Done file: ", file)
            
+def is_in_vocab(token, tokenizer):
+    '''
+    Function to check if a token is in the vocabulary
+    '''
+    return 1 if str(token).lower() in tokenizer.vocab.keys() else 0
 
-def masking_sentence(token_ids, tokenizer):
-        '''
-        Function to mask random token in a sentence and return the masked sentence and the corresponding label ids
-        '''
-        except_tokens = [tokenizer.cls_token_id, tokenizer.sep_token_id, tokenizer.pad_token_id]
-        
-        mask = np.random.binomial(1, 0.1, (len(token_ids),))   # Masking each token with 15% probability
-        
-        token_ids_copy = copy.deepcopy(token_ids)
-        
-        
-        labels = [-100] * len(token_ids)
-        for idx, token in enumerate(token_ids):
-            
-            if (idx in np.where(mask)[0]) and (token not in except_tokens):
-                token_ids_copy[idx] = tokenizer.mask_token_id
-                labels[idx] = token
-            
-        return token_ids_copy, labels
-
-def masking_sentence_word(tokens, tokenizer):
+def masking_sentence_word(words, tokenizer):
     '''
     Function to mask random token in a sentence and return the masked sentence and the corresponding label ids
     '''
     except_tokens = [tokenizer.cls_token, tokenizer.sep_token, tokenizer.pad_token]
     
-    masked_idx = np.random.binomial(1, 0.1, (len(tokens),))   # Masking each token with 15% probability
+    masked_idx = random.sample(range(len(words)), 15)
     
-    word_copy = copy.deepcopy(tokens)
+    # create 10 sentences with 10 masked tokens
     
-    labels = [-100] * VOCAB_SIZE 
-    
-    for idx, token in enumerate(tokens):
-        #if (idx in np.where(masked_idx)[0]):
-        if (idx in np.where(masked_idx)[0]) and (token not in except_tokens):
-            word_copy[idx] = tokenizer.mask_token # [MASK]
-          
-            labels[idx] = tokenizer.convert_tokens_to_ids([token])[0]
-        # embedding :  ## em, ## bed, ##ding 
-    return word_copy, labels
-    # 
+    sen_10 = []
+    label_10 = []
+    labels = [-100] * MAX_SEQ_LEN 
+  
+    for i in range(15): 
+        tmp_sen = copy.deepcopy(words)
+       
+        tmp_label = copy.deepcopy(labels)
+        if len(sen_10) < 10:
+            masked_token = tmp_sen[masked_idx[i]]
+            if (masked_token not in except_tokens) and is_in_vocab(tmp_sen[masked_idx[i]], tokenizer) == 1:
+               
+                tmp_label[masked_idx[i]] = tokenizer.convert_tokens_to_ids(tmp_sen[masked_idx[i]])
+                tmp_sen[masked_idx[i]] = tokenizer.mask_token
+                
+                sen_10.append(tmp_sen)
+                label_10.append(tmp_label)
+        else :
+            break
+       
+    return sen_10, label_10
     
 def masked_df(df, tokenizer):
     '''
@@ -212,7 +208,7 @@ def masked_df(df, tokenizer):
     masked_sentences = []
     labels = []
     for idx, sen in enumerate(df['token_id']):
-        masked_sentence, label = masking_sentence(sen, tokenizer)
+        masked_sentence, label = masking_sentence_word(sen, tokenizer)
 
         masked_sentences.append(masked_sentence)
         labels.append(label)
