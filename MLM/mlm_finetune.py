@@ -155,17 +155,19 @@ def pretrain_on_treatment(args):
     # else:
     #     num_data_epochs = args.epochs
 
-    # if args.local_rank == -1 or args.no_cuda:
-    device = torch.device("cuda" if torch.cuda.is_available() and not args.no_cuda else "cpu")
-    n_gpu = torch.cuda.device_count()
-    # else:
-    #     torch.cuda.set_device(args.local_rank)
-    #     device = torch.device("cuda", args.local_rank)
-    #     n_gpu = 1
-    #     # Initializes the distributed backend which will take care of sychronizing nodes/GPUs
-    #     torch.distributed.init_process_group(backend='nccl')
-    # logging.info("device: {} n_gpu: {}, distributed training: {}, 16-bits training: {}".format(
-    #     device, n_gpu, bool(args.local_rank != -1), args.fp16))
+    if args.local_rank == -1 or args.no_cuda:
+        device = torch.device("cuda" if torch.cuda.is_available() and not args.no_cuda else "cpu")
+        n_gpu = torch.cuda.device_count()
+    else:
+        torch.cuda.set_device(args.local_rank)
+        device = torch.device("cuda", args.local_rank)
+        n_gpu = 1
+        
+        # Initializes the distributed backend which will take care of sychronizing nodes/GPUs
+        torch.distributed.init_process_group(backend='nccl')
+    
+    logging.info("device: {} n_gpu: {}, distributed training: {}, 16-bits training: {}".format(
+        device, n_gpu, bool(args.local_rank != -1), args.fp16))
 
     if args.gradient_accumulation_steps < 1:
         raise ValueError("Invalid gradient_accumulation_steps parameter: {}, should be >= 1".format(
@@ -197,8 +199,9 @@ def pretrain_on_treatment(args):
     
     # Prepare model
     model = BertForMaskedLM.from_pretrained(args.bert_model)
-    # if args.fp16:
-    #     model.half()
+    if args.fp16:
+        model.half()
+        
     model.to(device)
     
     if n_gpu > 1:
@@ -254,10 +257,10 @@ def pretrain_on_treatment(args):
                     loss = loss.mean() # mean() to average on multi-gpu.
                 if args.gradient_accumulation_steps > 1:
                     loss = loss / args.gradient_accumulation_steps
-                # if args.fp16:
-                #     optimizer.backward(loss)
-                # else:
-                loss.backward()
+                if args.fp16:
+                    optimizer.backward(loss)
+                else:
+                    loss.backward()
                 tr_loss += loss.item()
                 nb_tr_examples += input_ids.size(0)
                 nb_tr_steps += 1
