@@ -159,7 +159,7 @@ def tokenize_csv_to_json(dataDir, wriDir, tokenizer):
                     
                     feature = {'uid':str(uids), 'token_id': tokenIds, 'attention_mask': attention_mask, 'labels': label}
                     
-                    wf.write('{}\n'.format(json.dumps(feature))) # mà chắc được mà chỉ cần khác cái mask là oke ùa hong cần 
+                    wf.write('{}\n'.format(json.dumps(feature))) 
             print("Done file: ", file)
            
 def is_in_vocab(token, tokenizer):
@@ -230,13 +230,15 @@ def data_split(dataDir, wriDir, tokenizer, batch_size=32):
     test_df = pd.DataFrame()
     
     for file in files:
-        f = open(os.path.join(dataDir, file))
-        json_data = pd.read_json(f, lines=True)
+        #f = open(os.path.join(dataDir, file))
+        with open(os.path.join(dataDir, file)) as f:
+            json_data = pd.read_json(f, lines=True)
         
         train, testt = train_test_split(json_data, test_size=0.4)
         dev, test = train_test_split(testt, test_size=0.5)
-        train_df = pd.concat([train_df, train], ignore_index=True)
         
+        
+        train_df = pd.concat([train_df, train], ignore_index=True)
         dev_df = pd.concat([dev_df, dev], ignore_index=True)
         test_df = pd.concat([test_df, test], ignore_index=True)
         
@@ -253,7 +255,7 @@ def data_split(dataDir, wriDir, tokenizer, batch_size=32):
     test_df.to_json(os.path.join(wriDir, 'test_mlm.json'), orient='records', lines=True)
     
     # We'll take training samples in random order. 
-    # train_dataloader = DataLoader(
+    # train_dataloader  = DataLoader(
     #             train_df,  # The training samples.
     #             sampler = RandomSampler(train_df), # Select batches randomly
     #             batch_size = batch_size # Trains with this batch size.
