@@ -11,7 +11,7 @@ from torch.utils.data import DataLoader, RandomSampler, SequentialSampler
 from transformers import BertTokenizer 
 from pathlib import Path
 from tqdm import tqdm, trange
-MAX_SEQ_LEN = 70
+MAX_SEQ_LEN = 85
 VOCAB_SIZE = 28996 
 wwm_probability = 0.1
 import random
@@ -174,15 +174,15 @@ def masking_sentence_word(words, tokenizer):
     '''
     except_tokens = [tokenizer.cls_token, tokenizer.sep_token, tokenizer.pad_token]
     
-    masked_idx = random.sample(range(len(words)), 15)
-    
+    masked_idx = random.sample(range(len(words)), len(words) - 2)
+    print(masked_idx)
     # create 10 sentences with 10 masked tokens
     
     sen_10 = []
     label_10 = []
     labels = [-100] * MAX_SEQ_LEN 
   
-    for i in range(15): 
+    for i in range(len(words)-2): 
         tmp_sen = copy.deepcopy(words)
        
         tmp_label = copy.deepcopy(labels)
@@ -243,12 +243,7 @@ def data_split(dataDir, wriDir, tokenizer, batch_size=32):
         test_df = pd.concat([test_df, test], ignore_index=True)
         
         print("Processing file: ", file)
-        # dev_df.to_json(os.path.join(wriDir, 'dev_{}.json'.format(file.split('.')[0])), orient='records', lines=True)
-        # test_df.to_json(os.path.join(wriDir, 'test_{}.json'.format(file.split('.')[0])), orient='records', lines=True)   
-   
-    # train_df = masked_df(train_df, tokenizer)    
-    # dev_df = masked_df(dev_df, tokenizer)    
-    # test_df = masked_df(test_df, tokenizer)  
+    
     
     train_df.to_json(os.path.join(wriDir, 'train_mlm.json'), orient='records', lines=True)
     dev_df.to_json(os.path.join(wriDir, 'dev_mlm.json'), orient='records', lines=True)

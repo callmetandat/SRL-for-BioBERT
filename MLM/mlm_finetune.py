@@ -80,9 +80,9 @@ class PregeneratedDataset(Dataset):
         self.num_samples = num_samples
         self.seq_len = seq_len
         #
-        self.input_ids = train_df['masked_token_id']
-        self.input_masks = train_df['mask']
-        self.lm_label_ids = train_df['label_id']
+        self.input_ids = train_df['token_id']
+        self.input_masks = train_df['attention_mask']
+        self.lm_label_ids = train_df['labels']
         
     def __len__(self):
         return self.num_samples
@@ -97,8 +97,8 @@ def get_pos_tag(text, index):
     doc = nlp(text)
 
     # Check if the index is within the bounds
-    #if index < 0 or index >= len(doc):
-    #    return "Index out of bounds"
+    if index < 0 or index >= len(doc):
+       return "Index out of bounds"
 
     # Get the POS tag for the word at the specified index
     pos_tag = doc[index].pos_
@@ -108,28 +108,30 @@ def is_POS_match(logits, input_ids, lm_label_ids):
     # origin_input = input_ids + lm_label_ids
     # if input_ids has 103, then replace it with lm_label_ids at the same index. in one sentence may have many 103
     
-    origin_input = input_ids
-    while 103 in origin_input:
-        
-        masked_idx = (origin_input == 103).nonzero(as_tuple=False).squeeze(1)
-        print(masked_idx)
-        origin_input[masked_idx] = lm_label_ids[masked_idx]
+    origin_input_id = input_ids
     
+    # Create a pandas dataframe
+    df = pd.DataFrame({"values": lm_label_ids})
+
+    # Find the index of the first element not equal to -100
+    masked_idx = df.loc[df["values"] != -100].index[0]
+    
+    for i in range(len(origin_input_id)):
+        if origin_input_id[i] == 103:
+            origin_input_id[i] = lm_label_ids[masked_idx]
+    
+    # get pos tag of origin text
+    origin_text = tokenizer.decode(origin_input_id)
    
-    origin_text = tokenizer.decode(origin_input)
-    print("Origin Text", len(origin_text))
-    pos_tag_origin = [get_pos_tag(origin_text, idx) for idx in masked_idx]
-    print("POS TAG ORIGIN", pos_tag_origin)
-    # truyền qua nlp để lấy POS
-    # logit cũng truyền qua nlp để lấy POS
-    
-    logits_tag = [get_pos_tag(tokenizer.decode(logits), idx) for idx in masked_idx]
-    print("LOGITS text", tokenizer.decode(logits))
-    print("LOGITS TAG", logits_tag)
+    pos_tag_origin = get_pos_tag(origin_text, masked_idx)
+ 
+    # get pos tag of logits
+    logits_tag = get_pos_tag(tokenizer.decode(logits), masked_idx)
+   
     return pos_tag_origin == logits_tag    
 
-def custom_loss(predictions, labels, masked_idx):
-    loss = 0.5 * (-torch.log(1 - softmax(predictions))[labels]) + (1 - is_POS_match())
+def custom_loss(input_ids, logits, labels):
+    loss = 0.5 * (-torch.log(1 - softmax(logits))[labels]) + (1 - is_POS_match(logits=logits, input_ids=input_ids, lm_label_ids=labels))
     return loss.mean()
 
 def pretrain_on_treatment(args):
@@ -199,8 +201,8 @@ def pretrain_on_treatment(args):
     #     model.half()
     model.to(device)
     
-    # if n_gpu > 1:
-    #     model = torch.nn.DataParallel(model)
+    if n_gpu > 1:
+        model = torch.nn.DataParallel(model)
 
     # Prepare optimizer
     param_optimizer = list(model.named_parameters())
@@ -232,8 +234,7 @@ def pretrain_on_treatment(args):
             train_sampler = DistributedSampler(epoch_dataset)
         train_dataloader = DataLoader(epoch_dataset, sampler=train_sampler, batch_size=args.train_batch_size, num_workers=NUM_CPU)
         
-        #print("TRAIN DATALOADER", *train_dataloader[0])
-        # train_dataloader = data_split('mlm_output', 'mlm_prepared_data', tokenizer)[0]
+       
         tr_loss = 0 
         nb_tr_examples, nb_tr_steps = 0, 0
         with tqdm(total=len(train_dataloader), desc=f"Epoch {epoch}") as pbar:
@@ -242,11 +243,13 @@ def pretrain_on_treatment(args):
                 batch = tuple(t.to(device) for t in batch)               
                 input_ids, input_mask, lm_label_ids = batch              
                 outputs = model(input_ids=input_ids, attention_mask=input_mask, labels=lm_label_ids)
-                print(is_POS_match(outputs[1][0], input_ids[0], lm_label_ids[0]))
-                #idx = input_ids[0].index('103')
+                # outputs: loss, logits, hidden_states, attentions
+               
                 # print top 10 masked tokens
                 # print(tokenizer.convert_ids_to_tokens(torch.topk(outputs.logits[0, idx, :], 10).indices))
-                loss = outputs[0]
+                loss = custom_loss(input_ids=input_ids, logits=outputs.logits[0], labels=lm_label_ids)
+                
+                #loss = outputs[0]
                 if n_gpu > 1:
                     loss = loss.mean() # mean() to average on multi-gpu.
                 if args.gradient_accumulation_steps > 1:
@@ -338,7 +341,7 @@ def main():
     parser.add_argument("--corpus_type", type=str, required=False, default="")
     args = parser.parse_args()
 
-    args.output_dir = Path('mlm_finetune_output_test') / "model"
+    args.output_dir = Path('mlm_finetune_output') / "model"
    
     pretrain_on_treatment(args)
    
