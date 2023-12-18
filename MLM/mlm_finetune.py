@@ -28,6 +28,7 @@ from utils_mlm import count_num_cpu_gpu
 from prepared_for_mlm import data_split
 import spacy
 import pathlib
+import torch.nn.functional as F
 nlp = spacy.load("en_core_web_sm")
 tokenizer = BertTokenizer.from_pretrained("dmis-lab/biobert-base-cased-v1.2", do_lower_case=True)
 
@@ -139,8 +140,19 @@ def is_POS_match(logits, input_ids, lm_label_ids):
     return pos_tag_origin == logits_tag    
 
 def custom_loss(input_ids, logits, labels):
-    loss = 0.5 * (-torch.log(1 - softmax(logits))[labels]) + (1 - is_POS_match(logits=logits, input_ids=input_ids, lm_label_ids=labels))
-    return loss.mean()
+    # loss = 0.5 * (-torch.log(1 - softmax(logits))[labels]) + (1 - is_POS_match(logits=logits, input_ids=input_ids, lm_label_ids=labels))
+    # return loss.mean()
+    # Cross-entropy term
+    
+    cross_entropy_term = F.cross_entropy(logits, labels)
+
+    # Custom matching term
+    matching_term = is_POS_match(logits=logits, input_ids=input_ids, lm_label_ids=labels)
+
+    # Combine terms
+    loss = 0.5 * cross_entropy_term + (1 - matching_term)
+
+    return loss
 
 def pretrain_on_treatment(args):
     # assert args.pregenerated_data.is_file(), \
@@ -240,7 +252,14 @@ def pretrain_on_treatment(args):
                
                 # print top 10 masked tokens
                 # print(tokenizer.convert_ids_to_tokens(torch.topk(outputs.logits[0, idx, :], 10).indices))
-                loss = custom_loss(input_ids=input_ids, logits=outputs.logits[0], labels=lm_label_ids)
+                #print("Input id shape: ", input_ids.shape)  
+                #print("Logits shape: ", outputs.logits.shape) # ([32, 85, 28996])  input (N=batch_sz, C=nb_of_class)
+                # logits (torch.FloatTensor of shape (batch_size, sequence_length, config.vocab_size)) 
+                #print("Target shape: ", lm_label_ids.shape)  # torch.Size([32, 85]) Target:  shape (), (N)
+                
+                num_classes = outputs.logits[0].size(1) # Output:  shape (), (N)
+                #print("Num classes ", num_classes) # 28996
+                loss = custom_loss(input_ids=input_ids, logits=outputs.logits.view(-1, num_classes), labels=lm_label_ids.view(-1))
                 
                 #loss = outputs[0]
                 if n_gpu > 1:
