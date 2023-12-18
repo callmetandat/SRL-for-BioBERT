@@ -27,6 +27,7 @@ from transformers import BertTokenizer, BertConfig, AdamW, get_linear_schedule_w
 from utils_mlm import count_num_cpu_gpu
 from prepared_for_mlm import data_split
 import spacy
+import pathlib
 nlp = spacy.load("en_core_web_sm")
 tokenizer = BertTokenizer.from_pretrained("dmis-lab/biobert-base-cased-v1.2", do_lower_case=True)
 
@@ -42,16 +43,22 @@ class PregeneratedDataset(Dataset):
         self.tokenizer = tokenizer
         self.epoch = epoch
         self.data_epoch = epoch % num_data_epochs
-        # metrics_file = training_path / f"mlm_bert-base-uncased_epoch_{self.data_epoch}_metrics.json"
-        # assert data_file.is_file() and metrics_file.is_file()
-        # metrics = json.loads(metrics_file.read_text())
+        train_file = training_path / "train_mlm.json"
+        assert train_file.is_file() 
+        data_list = []
+        with open(train_file) as f:
+            for line in f:
+                data = json.loads(line)
+                data_list.append(data)
         # num_samples = metrics['num_training_examples']
-        train_df = data_split('mlm_output', 'mlm_prepared_data', tokenizer)[0]
+        train_df = pd.DataFrame(data_list)
+        
         num_samples = len(train_df)
         seq_len = 50
         self.temp_dir = None
         self.working_dir = None
         if reduce_memory:
+            print("reduce memory")
             self.temp_dir = TemporaryDirectory()
             self.working_dir = Path(self.temp_dir.name)
             self.input_ids = np.memmap(filename=self.working_dir/'input_ids.memmap',
@@ -84,6 +91,7 @@ class PregeneratedDataset(Dataset):
         self.input_masks = train_df['attention_mask']
         self.lm_label_ids = train_df['labels']
         
+       
     def __len__(self):
         return self.num_samples
 
@@ -105,9 +113,9 @@ def get_pos_tag(text, index):
     return pos_tag
 
 def is_POS_match(logits, input_ids, lm_label_ids):
-    # origin_input = input_ids + lm_label_ids
-    # if input_ids has 103, then replace it with lm_label_ids at the same index. in one sentence may have many 103
-    
+    '''
+    Function to check if the POS tag of the masked token in the logits is the same as the POS tag of the masked token in the original text.
+    '''
     origin_input_id = input_ids
     
     # Create a pandas dataframe
@@ -138,23 +146,6 @@ def pretrain_on_treatment(args):
     # assert args.pregenerated_data.is_file(), \
     #     "--pregenerated_data should point to the folder of files made by pregenerate_training_data.py!"
 
-    # samples_per_epoch = []
-    # for i in range(args.epochs):
-    #     epoch_file = args.pregenerated_data / f"mlm_bert-base-uncased_epoch_{i}.json"
-    #     metrics_file = args.pregenerated_data / f"mlm_bert-base-uncased_epoch_{i}_metrics.json"
-    #     if epoch_file.is_file() and metrics_file.is_file():
-    #         metrics = json.loads(metrics_file.read_text())
-    #         samples_per_epoch.append(metrics['num_training_examples']) 
-    #     else:
-    #         if i == 0: 
-    #             exit("No training data was found!")
-    #         print(f"Warning! There are fewer epochs of pregenerated data ({i}) than training epochs ({args.epochs}).")
-    #         print("This script will loop over the available data, but training diversity may be negatively impacted.")
-    #         num_data_epochs = i
-    #         break
-    # else:
-    #     num_data_epochs = args.epochs
-
     if args.local_rank == -1 or args.no_cuda:
         device = torch.device("cuda" if torch.cuda.is_available() and not args.no_cuda else "cpu")
         n_gpu = torch.cuda.device_count()
@@ -170,11 +161,10 @@ def pretrain_on_treatment(args):
         device, n_gpu, bool(args.local_rank != -1), args.fp16))
 
     if args.gradient_accumulation_steps < 1:
-        raise ValueError("Invalid gradient_accumulation_steps parameter: {}, should be >= 1".format(
-                            args.gradient_accumulation_steps))
+        raise ValueError("Invalid gradient_accumulation_steps parameter: {}, should be >= 1".format(args.gradient_accumulation_steps))
 
     args.train_batch_size = args.train_batch_size // args.gradient_accumulation_steps
-
+    print("args.train_batch_size", args.train_batch_size)
     random.seed(args.seed)
     np.random.seed(args.seed)
     torch.manual_seed(args.seed)
@@ -345,7 +335,9 @@ def main():
     args = parser.parse_args()
 
     args.output_dir = Path('mlm_finetune_output') / "model"
-   
+    args.pregenerated_data = pathlib.Path('mlm_prepared_data')
+    
+    # data_split('mlm_output', 'mlm_prepared_data', tokenizer)[0]
     pretrain_on_treatment(args)
    
 

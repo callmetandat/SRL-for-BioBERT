@@ -221,7 +221,7 @@ def data_split(dataDir, wriDir, tokenizer, batch_size=32):
     
     '''
     data_split('mlm_output', 'mlm_prepared_data', tokenizer)
-    Function to split data into train, dev, test (60, 20, 20) and write to json files.
+    Function to split data into train, dev, test (60, 20, 20) and merge to json files.
     '''
     files = get_files(dataDir)
 
