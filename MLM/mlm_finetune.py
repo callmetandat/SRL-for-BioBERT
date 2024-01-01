@@ -19,7 +19,7 @@ from scipy.special import softmax
 
 sys.path.insert(1, '../')
 
-# import sys
+import sys
 # sys.path.insert(1, '/content/SRL-for-BioBERT')
 from embedding import read_data
 from torch.utils.data import DataLoader, Dataset, RandomSampler, SequentialSampler
@@ -34,6 +34,9 @@ import spacy
 import pathlib
 import tensorflow as tf
 import torch.nn.functional as F
+from torch.utils.tensorboard import SummaryWriter
+tb = SummaryWriter()
+
 nlp = spacy.load("en_core_web_sm")
 tokenizer = BertTokenizer.from_pretrained("dmis-lab/biobert-base-cased-v1.2", do_lower_case=True)
 
@@ -45,10 +48,10 @@ MAX_SEQ_LEN = 85
 NUM_CPU = count_num_cpu_gpu()[0]
 
 class PregeneratedDataset(Dataset):
-    def __init__(self, training_path, file_name,  epoch, tokenizer, reduce_memory=False):
+    def __init__(self, training_path, file_name, tokenizer, reduce_memory=False):
         self.vocab = tokenizer.vocab
         self.tokenizer = tokenizer
-        self.epoch = epoch
+        # self.epoch = epoch
         # self.data_epoch = epoch % num_data_epochs
         
         # train_file = training_path / "train_mlm.json"
@@ -102,7 +105,8 @@ class PregeneratedDataset(Dataset):
 
     def read_df(self, training_path, file_name):
         train_file = training_path / file_name
-        assert train_file.is_file() 
+        print("train file: ", train_file)
+        # assert train_file.is_file() 
         data_list = []
         with open(train_file) as f:
             for line in f:
@@ -190,8 +194,7 @@ def custom_loss(input_ids, logits, labels):
     # Combine terms
     loss = 0.5 * cross_entropy_term + (1 - matching_term)
     return loss
-from torch.utils.tensorboard import SummaryWriter
-tb = SummaryWriter()
+
 
 
 
@@ -236,7 +239,7 @@ def eval_model(args, model, validation_dataloader):
     avg_eval_accuracy = total_eval_accuracy / len(validation_dataloader) 
     return (avg_eval_loss, avg_eval_accuracy)
 
-def train(args, model, optimizer, scheduler, validation_dataloader):
+def train(args, model, optimizer, scheduler, validation_dataloader, train_dataloader):
     # assert args.pregenerated_data.is_file(), \
     #     "--pregenerated_data should point to the folder of files made by pregenerate_training_data.py!"
 
@@ -291,16 +294,6 @@ def train(args, model, optimizer, scheduler, validation_dataloader):
         model.train()
         print('put model in train mode')
 
-        # prepare train dataloader
-        epoch_dataset = PregeneratedDataset(epoch=epoch, training_path=args.pregenerated_data, file_name='train_mlm.json', tokenizer=tokenizer,
-                                             reduce_memory=args.reduce_memory)
-        if args.local_rank == -1:
-            train_sampler = RandomSampler(epoch_dataset)
-        else:
-            train_sampler = DistributedSampler(epoch_dataset)
-        train_dataloader = DataLoader(epoch_dataset, sampler=train_sampler, batch_size=args.train_batch_size, num_workers=NUM_CPU)
-        
-    
         with tqdm(total=len(train_dataloader), desc=f"Epoch {epoch}") as pbar:
             for step, batch in enumerate(train_dataloader):
                 
@@ -324,6 +317,7 @@ def train(args, model, optimizer, scheduler, validation_dataloader):
                 accuracy = m.result().numpy()
                 #accuracy = accuracy_score(b_labels_np, logits_np)
                 
+                elapsed = 0
                 if step % 50 == 0 and step > 0:
                     elapsed = format_time(time.time() - t0)
                 print('  Batch {:>5,}  of  {:>5,}.    Elapsed: {:}. loss is {:} accuracy is {:}'.format(step, len(train_dataloader), elapsed, loss.item(), accuracy ))
@@ -412,7 +406,7 @@ def train(args, model, optimizer, scheduler, validation_dataloader):
     #     df.to_csv(args.output_dir/"losses.csv")
 def prepare_data(args):
     
-    val_dataset = PregeneratedDataset(epoch=args.epochs, training_path=args.pregenerated_data, file_name='dev_mlm.json', tokenizer=tokenizer,  reduce_memory=args.reduce_memory)
+    val_dataset = PregeneratedDataset(training_path=args.pregenerated_data, file_name='dev_mlm.json', tokenizer=tokenizer,  reduce_memory=args.reduce_memory)
     
     validation_dataloader = DataLoader(
         val_dataset, 
@@ -420,8 +414,17 @@ def prepare_data(args):
         batch_size=args.train_batch_size, 
         num_workers=NUM_CPU)
     
+    # prepare train dataloader
+    epoch_dataset = PregeneratedDataset(training_path=args.pregenerated_data, file_name='train_mlm.json', tokenizer=tokenizer,
+                                            reduce_memory=args.reduce_memory)
+    if args.local_rank == -1:
+        train_sampler = RandomSampler(epoch_dataset)
+    else:
+        train_sampler = DistributedSampler(epoch_dataset)
+    train_dataloader = DataLoader(epoch_dataset, sampler=train_sampler, batch_size=args.train_batch_size, num_workers=NUM_CPU)
     
-    test_dataset = PregeneratedDataset(epoch=args.epochs, training_path=args.pregenerated_data, file_name='test_mlm.json', tokenizer=tokenizer,  reduce_memory=args.reduce_memory)
+    
+    test_dataset = PregeneratedDataset(training_path=args.pregenerated_data, file_name='test_mlm.json', tokenizer=tokenizer,  reduce_memory=args.reduce_memory)
     
     test_data_loader = DataLoader(
         test_dataset, 
@@ -429,18 +432,19 @@ def prepare_data(args):
         batch_size=args.train_batch_size, 
         num_workers=NUM_CPU)
     
-    return validation_dataloader, test_data_loader
+    return validation_dataloader, train_dataloader, test_data_loader
 
 
 def pretrain_on_treatment(args):
     model = BertForMaskedLM.from_pretrained(args.bert_model)
     
-    validation_dataloader, test_dataloader = prepare_data(args)
-    
+    validation_dataloader, train_dataloader, test_dataloader = prepare_data(args)
+    print("len dataloader: ", len(validation_dataloader), len(test_dataloader), len(train_dataloader))
  
     # Prepare parameters
     args.train_batch_size = args.train_batch_size // args.gradient_accumulation_steps
     num_train_optimization_steps = math.ceil(args.num_samples/args.train_batch_size) // args.gradient_accumulation_steps
+    # num_train_optimization_steps = len(train_dataloader) // (args.gradient_accumulation_steps * args.epochs)
     print("Num train optimization steps: ", num_train_optimization_steps)
     
     # Prepare optimizer
@@ -457,7 +461,7 @@ def pretrain_on_treatment(args):
                                                 num_warmup_steps=args.warmup_steps,
                                                 num_training_steps=num_train_optimization_steps)
     
-    train(args, model, optimizer, scheduler, validation_dataloader)
+    train(args, model, optimizer, scheduler, validation_dataloader, train_dataloader)
     
     test_loss, test_accuracy = eval_model(args, model, test_dataloader)
     print(f'Test loss: {test_loss} Test accuracy: {test_accuracy}')
@@ -513,8 +517,10 @@ def main():
 
     parser.add_argument("--corpus_type", type=str, required=False, default="")
     args = parser.parse_args()
-
+    
+    #args.output_dir = Path('/content/drive/MyDrive/Colab Notebooks/mlm_finetune_output')/ 'model'
     args.output_dir = Path('mlm_finetune_output') / "model"
+    #args.pregenerated_data = pathlib.Path('/content/drive/MyDrive/Colab Notebooks/mlm_prepare_data')
     args.pregenerated_data = pathlib.Path('mlm_prepared_data')
     
     # data_split('mlm_output', 'mlm_prepared_data', tokenizer)[0]
