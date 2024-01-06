@@ -65,8 +65,7 @@ class PregeneratedDataset(Dataset):
         # train_df = pd.DataFrame(data_list)
         
         train_df = self.read_df(training_path, file_name)
-        
-        
+
         num_samples = len(train_df)
         seq_len = MAX_SEQ_LEN
         
@@ -196,8 +195,6 @@ def custom_loss(input_ids, logits, labels):
     return loss
 
 
-
-
     
 def eval_model(args, model, validation_dataloader):
     if args.local_rank == -1 or args.no_cuda:
@@ -220,8 +217,9 @@ def eval_model(args, model, validation_dataloader):
     
     for step, batch in enumerate(validation_dataloader):    
         batch = tuple(t.to(device) for t in batch)
-        b_input_ids, b_input_attention_mask, b_labels = batch    
         
+        b_input_ids, b_input_attention_mask, b_labels = batch    
+        print("b_input_ids: ", b_input_ids.shape)
         with torch.no_grad():       
             output = model(b_input_ids, attention_mask=b_input_attention_mask, labels=b_labels) 
             # Assuming b_labels and logits are NumPy arrays
@@ -265,6 +263,7 @@ def train(args, model, optimizer, scheduler, validation_dataloader, train_datalo
     train_steps = 0
     
     m = tf.metrics.Accuracy()
+    m_f1 = tf.metrics.F1Score(num_classes=2, average='micro')
     print('\n========   Evaluate before training   ========')
     
     val_loss, val_accuracy = eval_model(args, model, validation_dataloader)
@@ -297,7 +296,8 @@ def train(args, model, optimizer, scheduler, validation_dataloader, train_datalo
         with tqdm(total=len(train_dataloader), desc=f"Epoch {epoch}") as pbar:
             for step, batch in enumerate(train_dataloader):
                 
-                batch = tuple(t.to(device) for t in batch)               
+                batch = tuple(t.to(device) for t in batch)  
+                print("Batch: ", batch)             
                 input_ids, input_mask, lm_label_ids = batch     
                 model.zero_grad() 
                 outputs = model(input_ids=input_ids, attention_mask=input_mask, labels=lm_label_ids)
@@ -306,7 +306,7 @@ def train(args, model, optimizer, scheduler, validation_dataloader, train_datalo
                 loss = outputs.loss
                 logits = outputs.logits
                 m.update_state(lm_label_ids.cpu(), torch.argmax(logits, dim=-1).cpu())
-                
+                m_f1.update_state(lm_label_ids.cpu(), torch.argmax(logits, dim=-1).cpu())
                 #b_labels_np = lm_label_ids.cpu().numpy()
                 #print("LOGIT TYPE: ", type(logits)) 
             
@@ -320,7 +320,7 @@ def train(args, model, optimizer, scheduler, validation_dataloader, train_datalo
                 elapsed = 0
                 if step % 50 == 0 and step > 0:
                     elapsed = format_time(time.time() - t0)
-                print('  Batch {:>5,}  of  {:>5,}.    Elapsed: {:}. loss is {:} accuracy is {:}'.format(step, len(train_dataloader), elapsed, loss.item(), accuracy ))
+                    print('  Batch {:>5,}  of  {:>5,}.    Elapsed: {:}. loss is {:} accuracy is {:}'.format(step, len(train_dataloader), elapsed, loss.item(), accuracy ))
                 
                 
                 #returns the average loss of batch

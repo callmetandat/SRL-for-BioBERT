@@ -99,13 +99,9 @@ class Preprocessing:
             for j in range(len(self.data_arg['arguments'][i])):
                if token.text in list(self.data_arg['arguments'][i].items())[j][1] and token.head.text == root.text:
                   count_args[j] += 1
-      # for j in range(len(count_args)):
-      #    if count_args[j] < len(self.data_arg) * self.min_threshold:
-      #       lst_index_remove.append(j)
-      # for index in sorted(lst_index_remove, reverse=True):
-      #    self.__remove_argument__(index)
+      
       self.data_arg.to_csv(self.output_data, index=False)
-      # self.statistic_arg()
+
    
    
    

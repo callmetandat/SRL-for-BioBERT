@@ -15,8 +15,7 @@ bioBertTokenizer = BertTokenizer.from_pretrained('dmis-lab/biobert-base-cased-v1
 MAX_SEQ_LEN = 50
 
 NLP_MODELS = {
-    "bert": (BertConfig, BertModel, bioBertTokenizer, 'bert-base-uncased'),
-    
+    "bert": (BertConfig, BertModel, bioBertTokenizer, 'dmis-lab/biobert-base-cased-v1.2'),
 }
 
 TRANSFORM_FUNCS = {

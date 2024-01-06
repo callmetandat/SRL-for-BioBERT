@@ -31,6 +31,7 @@ class multiTaskNetwork(nn.Module):
         
         #making headers
         self.allDropouts, self.allHeaders = self.make_multitask_heads()
+        
         #making pooler layer. Will be used as required
         self.poolerLayer = self.make_pooler_layer()
         self.initialize_headers()
@@ -301,7 +302,7 @@ class multiTaskModel:
             
             return predictedTags, predScoreTags
         else:
-            return predicted, predScore
+            return predicted, predScoretaskParams
        
 
     def save_multi_task_model(self, savePath):
