@@ -4,6 +4,11 @@ The input data file here has to be the data prepared file for the corresponding 
 
 For getting inference on a test file, (say test.tsv) 
 """
+
+import sys
+sys.path.insert(1, '/content/SRL-for-BioBERT')
+import torch
+import logging
 from utils.task_utils import TasksParam
 from utils.data_utils import TaskType, ModelType, NLP_MODELS
 from models.eval import evaluate
@@ -13,8 +18,8 @@ from models.data_manager import allTasksDataset, Batcher, batchUtils
 from torch.utils.data import Dataset, DataLoader, BatchSampler
 import argparse
 import os
-import torch
-import logging
+
+
 logger = logging.getLogger("multi_task")
 device = torch.device('cpu')
 if torch.cuda.is_available():
@@ -22,7 +27,7 @@ if torch.cuda.is_available():
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--pred_file_path', type=str, required=True,
+    parser.add_argument('--pred_file_name', type=str, required=True,
                         help="path to the tsv file on which predictions to be made")
     parser.add_argument('--out_dir', type = str, required=True,
                         help="path to save the predictions")
@@ -41,13 +46,13 @@ def main():
     args = parser.parse_args()
 
     allParams = vars(args)
-    assert os.path.exists(args.saved_model_path), "saved model not present at {}".format(args.saved_model_path)
-    assert os.path.exists(args.pred_file_path), "prediction tsv file not present at {}".format(args.pred_file_path)
+    #assert os.path.exists(args.saved_model_path), "saved model not present at {}".format(args.saved_model_path)
+    assert os.path.exists(args.pred_file_name), "prediction tsv file not present at {}".format(args.pred_file_name)
     
     if not os.path.exists(args.out_dir):
         os.makedirs(args.out_dir)
         
-    loadedDict = torch.load(args.saved_model_path, map_location=device)
+    loadedDict = torch.load(args.saved_model_path)
     taskParamsModel = loadedDict['task_params']
     logger.info('Task Params loaded from saved model.')
 
@@ -57,7 +62,7 @@ def main():
     taskType = taskParamsModel.taskTypeMap[args.task_name]
 
     # preparing data from tsv file
-    rows = load_data(args.pred_file_path, taskType, hasLabels = args.has_labels)
+    rows = load_data(args.pred_file_name, args.has_labels)
 
     modelName = taskParamsModel.modelType.name.lower()
     _, _ , tokenizerClass, defaultName = NLP_MODELS[modelName]
@@ -72,7 +77,7 @@ def main():
     dataPath = os.path.join(args.out_dir, '{}_prediction_data'.format(configName))
     if not os.path.exists(dataPath):
         os.makedirs(dataPath)
-    wrtFile = os.path.join(dataPath, '{}.json'.format(args.pred_file_path.split('/')[-1].split('.')[0]))
+    wrtFile = os.path.join(dataPath, '{}.json'.format(args.pred_file_name.split('/')[-1].split('.')[0]))
     print('Processing Started...')
     create_data_multithreaded(rows, wrtFile, tokenizer, taskParamsModel, args.task_name,
                             args.max_seq_len, multithreaded = True)
@@ -105,11 +110,11 @@ def main():
     model.load_multi_task_model(loadedDict)
 
     
-    text = ["in addition, deletion of the distal tor box (box1) abolished torc induction whereas the presence of a dna fragment starting three bases upstream from box1 suffices for normal torc expression."]
+    #text = ["in addition, deletion of the distal tor box (box1) abolished torc induction whereas the presence of a dna fragment starting three bases upstream from box1 suffices for normal torc expression."]
     
     with torch.no_grad():
         wrtPredFile = 'predictions.tsv'
-        model.network(**text)
+        # model.network(**text)
         evaluate(allData, batchSampler, inferDataLoader, taskParamsModel,
                 model, gpu=allParams['gpu'], evalBatchSize=args.eval_batch_size, needMetrics=False, hasTrueLabels=False,
                 wrtDir=args.out_dir, wrtPredPath=wrtPredFile)

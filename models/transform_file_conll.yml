@@ -73,7 +73,7 @@ transform2:
     - coNLL_testb1.txt
     - coNLL_testb1_dummy.txt
   read_dir: ../data/coNLL_data
-  save_dir: ../data/coNLL_tsv
+  save_dir: ../
 
 transform3:
   transform_func: coNLL_ner_pos_to_tsv
