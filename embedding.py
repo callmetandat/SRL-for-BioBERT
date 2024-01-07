@@ -8,8 +8,9 @@ import pickle
 from models import model
 from utils import transform_utils, data_utils 
 from transformers import BertTokenizer, BertModel
+from models.model import multiTaskModel
 
-bertmodel = BertModel.from_pretrained('bert-base-uncased', output_hidden_states =True)
+bertmodel = BertModel.from_pretrained('dmis-lab/biobert-base-cased-v1.2', output_hidden_states =True)
 
 def cosine_similarity_2_tensors(tensor1, tensor2):
     
@@ -71,7 +72,6 @@ def get_embedding(line):
     
     with torch.no_grad():
         outputs = bertmodel(tokens_tensor, segments_tensors)
-        print("")
         hidden_states = outputs[2]
     
     ## WORD EMBEDDING
@@ -109,8 +109,8 @@ def get_embedding_finetuned(line):
     allParams['learning_rate'] = 2e-5
     allParams['epsilon'] = 1e-8
 
-    multiTask = model.multiTaskModel(allParams)
-    
+    model = multiTaskModel(allParams)
+    model.load_multi_task_model(loadedDict)
     tokens_id = line['token_id']
     segments_id = line['type_id']
     
@@ -122,8 +122,7 @@ def get_embedding_finetuned(line):
     segments_tensors = torch.tensor([segments_id])
     
     with torch.no_grad():
-        outputs = multiTask.network(tokens_tensor, segments_tensors, attention_mask, 0, 'conllsrl')
-        print("")
+        outputs = model.network(tokens_tensor, segments_tensors, attention_mask, 0, 'conllsrl')
         print(outputs.shape)
         hidden_states = outputs[0][2]
     
@@ -176,7 +175,12 @@ def main():
     
     parser.add_argument('--wrt_dir', type=str, required=True)
     
+    
     args = parser.parse_args()
+    
+    if not os.path.exists(args.wrt_dir):
+        os.makedirs(args.wrt_dir)
+        
     files = []
     for path in os.listdir(args.data_dir):
         if os.path.isfile(os.path.join(args.data_dir, path)):
@@ -186,19 +190,23 @@ def main():
     for file in files:
         features = {}
         data = read_data(os.path.join(args.data_dir, file))
-         
+        print("Reading {}...".format(file))
         for i, line in enumerate(data):   
             vec_origin = get_embedding(line)
-            vec_finetuned = get_embedding_finetuned(line)
-            cosine = cosine_similarity(vec_origin, vec_finetuned)
-            cosine_module_sim = cosine_module_similarity(vec_origin, vec_finetuned)
+            # vec_finetuned = get_embedding_finetuned(line)
+            # cosine = cosine_similarity(vec_origin, vec_finetuned)
+            # cosine_module_sim = cosine_module_similarity(vec_origin, vec_finetuned)
         
-            feature = {'uid': line['uid'], 'cosine': cosine, 'cosine_module': cosine_module_sim}
-            features[i] = feature
-            print("done {} rows...".format(i))
+            # feature = {'uid': line['uid'], 'cosine': cosine, 'cosine_module': cosine_module_sim}
+            # features[i] = feature
+            features[i] = {'uid': line['uid'], 'word_present': vec_origin}
+            
+            if i % 100 == 0:
+                print("done {} rows...".format(i))
             
         with open(os.path.join(args.wrt_dir, 'vecs_{}.pkl'.format(file.split('.')[0])), 'wb') as vecs_wri:
             pickle.dump(features, vecs_wri)
+        break
  
 if __name__ == '__main__':
     main()

@@ -116,15 +116,15 @@ def coNLL_ner_pos_to_tsv(dataDir, readFile, wrtDir, transParamDict, isTrainFile=
 
     nerW = open(os.path.join(wrtDir, 'ner_{}.tsv'.format(readFile.split('.')[0])), 'w')
 
-    posW = open(os.path.join(wrtDir, 'pos_{}.tsv'.format(readFile.split('.')[0])), 'w')
+    # posW = open(os.path.join(wrtDir, 'pos_{}.tsv'.format(readFile.split('.')[0])), 'w')
     
     labelMapNer = {}
-    labelMapPos = {}
+    # labelMapPos = {}
     
     sentence = []
     senLens = []
     labelNer = []
-    labelPos = []
+    # labelPos = []
     uid = 0
     print("Making data from file {} ...".format(readFile))
     for i, line in enumerate(f):
@@ -138,26 +138,26 @@ def coNLL_ner_pos_to_tsv(dataDir, readFile, wrtDir, transParamDict, isTrainFile=
                 nerW.write("{}\t{}\t{}\n".format(uid, labelNer, sentence))
                 senLens.append(len(sentence))
                 
-                posW.write("{}\t{}\t{}\n".format(uid, labelPos, sentence))
+                # posW.write("{}\t{}\t{}\n".format(uid, labelPos, sentence))
                 
                 sentence = []
                 labelNer = []
-                labelPos = []
+                # labelPos = []
                 uid += 1
             continue
             
         sentence.append(wordSplit[0])
-        labelPos.append(wordSplit[-2])
+        # labelPos.append(wordSplit[-2])
         labelNer.append(wordSplit[-1])
         if isTrainFile:
             if wordSplit[-1] not in labelMapNer:
                 # ONLY TRAIN FILE SHOULD BE USED TO CREATE LABEL MAP FILE.
                 labelMapNer[wordSplit[-1]] = len(labelMapNer)
-            if wordSplit[-2] not in labelMapPos:
-                labelMapPos[wordSplit[-2]] = len(labelMapPos)
+            # if wordSplit[-2] not in labelMapPos:
+            #     labelMapPos[wordSplit[-2]] = len(labelMapPos)
     
     print("NER File Written at {}".format(wrtDir))
-    print("POS File Written at {}".format(wrtDir))
+    # print("POS File Written at {}".format(wrtDir))
     #writing label map
     if labelMapNer != {} and isTrainFile:
         print("Created NER label map from train file {}".format(readFile))
@@ -166,16 +166,16 @@ def coNLL_ner_pos_to_tsv(dataDir, readFile, wrtDir, transParamDict, isTrainFile=
         joblib.dump(labelMapNer, labelMapNerPath)
         print("label Map NER written at {}".format(labelMapNerPath))
         
-    if labelMapPos != {} and isTrainFile:
-        print("Created POS label map from train file {}".format(readFile))
-        print(labelMapPos)
-        labelMapPosPath = os.path.join(wrtDir, "pos_{}_label_map.joblib".format(readFile.split('.')[0]))
-        joblib.dump(labelMapPos, labelMapPosPath)
-        print("label Map POS written at {}".format(labelMapPosPath))
+    # if labelMapPos != {} and isTrainFile:
+    #     print("Created POS label map from train file {}".format(readFile))
+    #     print(labelMapPos)
+    #     labelMapPosPath = os.path.join(wrtDir, "pos_{}_label_map.joblib".format(readFile.split('.')[0]))
+    #     joblib.dump(labelMapPos, labelMapPosPath)
+    #     print("label Map POS written at {}".format(labelMapPosPath))
         
     f.close()
     nerW.close()
-    posW.close()
+    # posW.close()
     
     print('Max len of sentence: ', max(senLens))
     print('Mean len of sentences: ', sum(senLens)/len(senLens))

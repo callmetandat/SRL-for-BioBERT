@@ -43,6 +43,10 @@ def main():
     allParams = vars(args)
     assert os.path.exists(args.saved_model_path), "saved model not present at {}".format(args.saved_model_path)
     assert os.path.exists(args.pred_file_path), "prediction tsv file not present at {}".format(args.pred_file_path)
+    
+    if not os.path.exists(args.out_dir):
+        os.makedirs(args.out_dir)
+        
     loadedDict = torch.load(args.saved_model_path, map_location=device)
     taskParamsModel = loadedDict['task_params']
     logger.info('Task Params loaded from saved model.')
@@ -100,6 +104,7 @@ def main():
     model = multiTaskModel(allParams)
     model.load_multi_task_model(loadedDict)
 
+    
     text = ["in addition, deletion of the distal tor box (box1) abolished torc induction whereas the presence of a dna fragment starting three bases upstream from box1 suffices for normal torc expression."]
     
     with torch.no_grad():

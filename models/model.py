@@ -85,7 +85,7 @@ class multiTaskNetwork(nn.Module):
         if typeIds is not None and attentionMasks is not None:
             outputs = self.sharedModel(input_ids = tokenIds,
                                     token_type_ids = typeIds,
-                                    attention_mask = attentionMasks)
+                                    attention_mask = attentionMasks, hidden_states=True)
         elif typeIds is None and attentionMasks is not None:
             outputs = self.sharedModel(input_ids = tokenIds,
                                     attention_mask = attentionMasks)
@@ -108,15 +108,15 @@ class multiTaskNetwork(nn.Module):
 
         if taskType == data_utils.TaskType.NER:
             sequenceOutput = self.allDropouts[taskName](sequenceOutput)
-            #task specific header. In NER case, sequence output is 3-D, also has maxSeqLen.
+            # task specific header. In NER case, sequence output is 3-D, also has maxSeqLen.
             # but the pytorch liner layer now can hangle this as long as the last dimension is the given dimensions
             logits = self.allHeaders[taskName](sequenceOutput)
             return logits
             
         else:
-            #adding dropout layer after shared output
+            # adding dropout layer after shared output
             pooledOutput = self.allDropouts[taskName](pooledOutput)
-            #adding task specific header
+            # adding task specific header
             logits = self.allHeaders[taskName](pooledOutput)
             return logits
         
@@ -161,9 +161,7 @@ class multiTaskModel:
 
 
     def make_optimizer(self, numTrainSteps, lr, eps, warmupSteps=0):
-        # we will use AdamW optimizer from huggingface transformers. This optimizer is 
-        #widely used with BERT. It is modified form of Adam which is used in Tensorflow 
-        #implementations        
+        # we will use AdamW optimizer from huggingface       
         optimizer = AdamW(self.network.parameters(), lr=lr, eps = eps)
 
         # lr scheduler
