@@ -85,7 +85,7 @@ class multiTaskNetwork(nn.Module):
         if typeIds is not None and attentionMasks is not None:
             outputs = self.sharedModel(input_ids = tokenIds,
                                     token_type_ids = typeIds,
-                                    attention_mask = attentionMasks, hidden_states=True)
+                                    attention_mask = attentionMasks)
         elif typeIds is None and attentionMasks is not None:
             outputs = self.sharedModel(input_ids = tokenIds,
                                     attention_mask = attentionMasks)

@@ -150,7 +150,7 @@ def make_data_handlers(taskParams, mode, isTrain, gpu):
     allTaskslist = []
     for taskId, taskName in taskParams.taskIdNameMap.items():
         taskType = taskParams.taskTypeMap[taskName]
-        print("train.py taskType:", taskType)
+        # print("train.py taskType:", taskType)
         if mode == "test":
             assert len(taskParams.fileNamesMap[taskName])!=100, "test file is required along with train, dev"
         #dataFileName =  '{}.json'.format(taskParams.fileNamesMap[taskName][modeIdx].split('.')[0])
@@ -164,15 +164,15 @@ def make_data_handlers(taskParams, mode, isTrain, gpu):
         allTaskslist.append(taskDict)
 
     allData = allTasksDataset(allTaskslist)
-    print("train.py allData:", allData)
-    print("train.py batchsize:", args.train_batch_size)
-    print("MODE: ", mode, "isTrain: ", isTrain, "modelType: ", taskParams.modelType, "maxSeqLen: ", args.max_seq_len)
+    # print("train.py allData:", allData)
+    # print("train.py batchsize:", args.train_batch_size)
+    # print("MODE: ", mode, "isTrain: ", isTrain, "modelType: ", taskParams.modelType, "maxSeqLen: ", args.max_seq_len)
     if mode == "train":
-        print("train.py mode:", mode)
+        #print("train.py mode:", mode)
         batchSize = args.train_batch_size
-        print("train.py train batchSize:", batchSize)
+        #print("train.py train batchSize:", batchSize)
     else:
-        print("train.py mode eval:", mode)
+        #print("train.py mode eval:", mode)
         batchSize = args.eval_batch_size
 
     batchSampler = Batcher(allData, batchSize=batchSize, seed = args.seed)
@@ -248,7 +248,7 @@ def main():
                                                                                 gpu=allParams['gpu'])
     # if evaluation on test set is required during training. Labels are required
     # It will occur at the end of each epoch
-    if args.test_while_train:  # m đâu r Phát
+    if args.test_while_train:  
         logger.info("Creating data handlers for test...")
         allDataTest, BatchSamplerTest, multiTaskDataLoaderTest = make_data_handlers(taskParams,
                                                                                 "test", isTrain=False,
@@ -590,8 +590,7 @@ def main():
                     progress.update(1)
                     continue
                 model.update_step(batchMetaData, batchData)
-                print("len batchMetaData", len(batchMetaData))
-                print("len batchData", len(batchData))
+                
                 totalEpochLoss += model.taskLoss.item()
 
                 if model.globalStep % args.log_per_updates == 0 and (model.accumulatedStep+1 == args.grad_accumulation_steps):

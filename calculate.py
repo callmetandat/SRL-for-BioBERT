@@ -5,7 +5,7 @@ def read_pred_file(filePath):
     data = []
     predictions = []
     labels = []
-    filePath = "./output2/"+ filePath
+    # filePath = "./output2/"+ filePath
     with open(filePath, "r") as f:
         for line in f:
             # delete the first line
@@ -39,7 +39,7 @@ def processing_data(labels, predictions):
 
 
 def main():
-    dirPath = "./output2"
+    dirPath = "./output_SRL_finetuned"
     files = []
     for path in os.listdir(dirPath):
         if os.path.isfile(os.path.join(dirPath, path)):
@@ -51,7 +51,7 @@ def main():
     for file in files:
         if "test_" not in file:
             continue
-        labels, predictions = read_pred_file(file)
+        labels, predictions = read_pred_file(os.path.join(dirPath, file))
         trueLabels, predLabels = processing_data(labels, predictions)
         
         trueLabels = [item for sublist in trueLabels for item in sublist]
