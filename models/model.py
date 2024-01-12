@@ -95,8 +95,12 @@ class multiTaskNetwork(nn.Module):
         elif typeIds is None and attentionMasks is None:
             outputs = self.sharedModel(input_ids = tokenIds)
         
+        #print("\n SIZE OF OUTPUT:", len(outputs))  # 3
+        #print("\n HIDDEN SIZE:", self.hiddenSize) # 768
+        #print("\n HIDDEN STAGE:", outputs.hidden_states)
+        hidden_states = outputs.hidden_states
         # some of the encoder model doesnt output the pooler output. It has to be made from hidden state
-        #ouputs in those cases
+        # ouputs in those cases
         # SequenceOutput has shape : (batchSize, maxSeqLen, hiddenSize))
         sequenceOutput = outputs[0]
         if len(outputs) > 1:
@@ -111,14 +115,14 @@ class multiTaskNetwork(nn.Module):
             # task specific header. In NER case, sequence output is 3-D, also has maxSeqLen.
             # but the pytorch liner layer now can hangle this as long as the last dimension is the given dimensions
             logits = self.allHeaders[taskName](sequenceOutput)
-            return logits
+            return outputs, logits
             
         else:
             # adding dropout layer after shared output
             pooledOutput = self.allDropouts[taskName](pooledOutput)
             # adding task specific header
             logits = self.allHeaders[taskName](pooledOutput)
-            return logits
+            return outputs, logits
         
 class multiTaskModel:
     '''
@@ -217,7 +221,7 @@ class multiTaskModel:
         modelInputs += [taskName]
         
         logger.debug('size of model inputs {}'.format(len(modelInputs)))
-        logits = self.network(*modelInputs)
+        logits = self.network(*modelInputs)[1]
         
         #calculating task loss
         self.taskLoss = 0
@@ -261,7 +265,7 @@ class multiTaskModel:
         logger.debug("Pred model input length: {}".format(len(modelInputs)))
 
         #making forward pass to get logits
-        outLogits = self.network(*modelInputs)
+        outLogits = self.network(*modelInputs)[1]
         logger.debug("Pred model logits shape: {}".format(outLogits.size()))
         #process logits as per task type
         # if taskType in (TaskType.SingleSenClassification, TaskType.SentencePairClassification):

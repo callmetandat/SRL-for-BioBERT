@@ -96,7 +96,7 @@ def get_embedding(line):
 def get_embedding_finetuned(line):
    
     # Load finetuned model 
-    loadedDict = torch.load('./output/multi_task_model_0_1305.pt', map_location=torch.device('cpu'))
+    loadedDict = torch.load('./output/multi_task_model_0_1305.pt', map_location=torch.device('cuda:0'))
 
     taskParams = loadedDict['task_params']
 
@@ -111,6 +111,8 @@ def get_embedding_finetuned(line):
 
     model = multiTaskModel(allParams)
     model.load_multi_task_model(loadedDict)
+    
+    
     tokens_id = line['token_id']
     segments_id = line['type_id']
     
@@ -118,13 +120,12 @@ def get_embedding_finetuned(line):
     
     # Convert inputs to PyTorch tensors
     tokens_tensor = torch.tensor([tokens_id])
-    
     segments_tensors = torch.tensor([segments_id])
     
     with torch.no_grad():
         outputs = model.network(tokens_tensor, segments_tensors, attention_mask, 0, 'conllsrl')
-        print(outputs.shape)
-        hidden_states = outputs[0][2]
+       
+        hidden_states = outputs[0].hidden_states
     
 
     ## WORD EMBEDDING
@@ -192,14 +193,14 @@ def main():
         data = read_data(os.path.join(args.data_dir, file))
         print("Reading {}...".format(file))
         for i, line in enumerate(data):   
-            vec_origin = get_embedding(line)
-            # vec_finetuned = get_embedding_finetuned(line)
+            #vec_origin = get_embedding(line)
+            vec_finetuned = get_embedding_finetuned(line)
             # cosine = cosine_similarity(vec_origin, vec_finetuned)
             # cosine_module_sim = cosine_module_similarity(vec_origin, vec_finetuned)
         
             # feature = {'uid': line['uid'], 'cosine': cosine, 'cosine_module': cosine_module_sim}
             # features[i] = feature
-            features[i] = {'uid': line['uid'], 'word_present': vec_origin}
+            features[i] = {'uid': line['uid'], 'word_present': vec_finetuned}
             
             if i % 100 == 0:
                 print("done {} rows...".format(i))
