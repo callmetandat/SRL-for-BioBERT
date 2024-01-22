@@ -91,7 +91,8 @@ logger = make_logger(name = "multi_task", debugMode=args.debug_mode,
                     logFile=os.path.join(logDir, args.log_file), silent=args.silent)
 logger.info("logger created.")
 
-device = torch.device('cpu')       
+device = torch.device('cpu')     
+  
 #setting seed
 random.seed(args.seed)
 np.random.seed(args.seed)
@@ -164,9 +165,7 @@ def make_data_handlers(taskParams, mode, isTrain, gpu):
         allTaskslist.append(taskDict)
 
     allData = allTasksDataset(allTaskslist)
-    # print("train.py allData:", allData)
-    # print("train.py batchsize:", args.train_batch_size)
-    # print("MODE: ", mode, "isTrain: ", isTrain, "modelType: ", taskParams.modelType, "maxSeqLen: ", args.max_seq_len)
+   
     if mode == "train":
         #print("train.py mode:", mode)
         batchSize = args.train_batch_size

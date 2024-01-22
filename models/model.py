@@ -49,6 +49,8 @@ class multiTaskNetwork(nn.Module):
 
         # taskIdNameMap is orderedDict, it will preserve the order of tasks
         for taskId, taskName in self.taskParams.taskIdNameMap.items():
+            print("line 52 model.py taskId, taskName: ", taskId, taskName)
+            
             taskType = self.taskParams.taskTypeMap[taskName]
             numClasses = int(self.taskParams.classNumMap[taskName])
             dropoutValue = self.taskParams.dropoutProbMap[taskName]
@@ -109,7 +111,9 @@ class multiTaskNetwork(nn.Module):
             pooledOutput = nn.ReLU()(self.poolerLayer(sequenceOutput[:, 0]))
 
         taskType = self.taskParams.taskTypeMap[self.taskParams.taskIdNameMap[taskId]]
-
+        print("line 112 model.py taskType: ", taskType)
+        print("line 113 model.py taskName: ", taskName)
+        
         if taskType == data_utils.TaskType.NER:
             sequenceOutput = self.allDropouts[taskName](sequenceOutput)
             # task specific header. In NER case, sequence output is 3-D, also has maxSeqLen.

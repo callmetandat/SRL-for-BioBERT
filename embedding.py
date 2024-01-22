@@ -9,7 +9,8 @@ from models import model
 from utils import transform_utils, data_utils 
 from transformers import BertTokenizer, BertModel
 from models.model import multiTaskModel
-
+from tqdm import tqdm
+from torchsummary import summary
 bertmodel = BertModel.from_pretrained('dmis-lab/biobert-base-cased-v1.2', output_hidden_states =True)
 
 def cosine_similarity_2_tensors(tensor1, tensor2):
@@ -88,15 +89,18 @@ def get_embedding(line):
     for token in token_embeddings:                  # `token` is a [12 x 768] tensor
 
         cat_vec = torch.cat((token[-1], token[-2], token[-3], token[-4]), dim=0) # last four layers
-       
-        token_vecs_cat.append(cat_vec) #cat_vec is 3072
+        # token_vecs_cat.append(cat_vec) #cat_vec is 3072
+        
+        # get the last layer
+        token_vecs_cat.append(cat_vec)
     return token_vecs_cat
         
             
 def get_embedding_finetuned(line):
-   
+       
+    device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
     # Load finetuned model 
-    loadedDict = torch.load('./output/multi_task_model_0_1305.pt', map_location=torch.device('cuda:0'))
+    loadedDict = torch.load('./output/multi_task_model_0_1305cu.pt', map_location=torch.device(device))
 
     taskParams = loadedDict['task_params']
 
@@ -112,22 +116,20 @@ def get_embedding_finetuned(line):
     model = multiTaskModel(allParams)
     model.load_multi_task_model(loadedDict)
     
-    
     tokens_id = line['token_id']
     segments_id = line['type_id']
     
-    attention_mask = torch.tensor([line['mask']])
+    attention_mask = torch.tensor([line['mask']], device=device)
     
     # Convert inputs to PyTorch tensors
-    tokens_tensor = torch.tensor([tokens_id])
-    segments_tensors = torch.tensor([segments_id])
+    tokens_tensor = torch.tensor([tokens_id],  device=device)
+    segments_tensors = torch.tensor([segments_id],  device=device)
     
     with torch.no_grad():
         outputs = model.network(tokens_tensor, segments_tensors, attention_mask, 0, 'conllsrl')
        
         hidden_states = outputs[0].hidden_states
     
-
     ## WORD EMBEDDING
     token_embeddings = torch.stack(hidden_states, dim=0)
     token_embeddings = torch.squeeze(token_embeddings, dim=1)
@@ -140,10 +142,11 @@ def get_embedding_finetuned(line):
     for token in token_embeddings:
         
         cat_vec = torch.cat((token[-1], token[-2], token[-3], token[-4]), dim=0)
-        
+        # print("cat_vec shape: ", cat_vec.shape) # 3072
         # Use `cat_vec` to represent `token`.
         token_vecs_cat.append(cat_vec)
 
+    #print ('Shape token_vecs_catis: %d x %d' % (len(token_vecs_cat), len(token_vecs_cat[0])))  # 50 x 3072
     return token_vecs_cat
        
 def main():
@@ -187,27 +190,31 @@ def main():
         if os.path.isfile(os.path.join(args.data_dir, path)):
             files.append(path)
             
-    
-    for file in files:
-        features = {}
-        data = read_data(os.path.join(args.data_dir, file))
-        print("Reading {}...".format(file))
-        for i, line in enumerate(data):   
-            #vec_origin = get_embedding(line)
-            vec_finetuned = get_embedding_finetuned(line)
-            # cosine = cosine_similarity(vec_origin, vec_finetuned)
-            # cosine_module_sim = cosine_module_similarity(vec_origin, vec_finetuned)
+    train_files = 'ner_conll_train.json'
+    #for file in files:
+    features = {}
+    data = read_data(os.path.join(args.data_dir, train_files))
+    print("Reading {}...".format(train_files))
+    print("len data: ", len(data))
+    # print("len data: ", len(data)) # 280
+    for i, line in tqdm(enumerate(data)):   
+        vec_origin = get_embedding(line)
+        #print("vec_origin shape: ", len(vec_origin)) # 50
+        vec_finetuned = get_embedding_finetuned(line)
+        # print("vec_finetuned shape: ", len(vec_finetuned)) # 50
+        cosine = cosine_similarity(vec_origin, vec_finetuned)
+        cosine_module_sim = cosine_module_similarity(vec_origin, vec_finetuned)
+        # print("cosine: ", len(cosine))
+        # print("cosine_module_sim: ", len(cosine_module_sim))
+        feature = {'uid': line['uid'], 'cosine': cosine, 'cosine_module': cosine_module_sim}
+        features[i] = feature
+        print("feature: ", feature)
+        if i % 100 == 0:
+            print("done {} rows...".format(i))
         
-            # feature = {'uid': line['uid'], 'cosine': cosine, 'cosine_module': cosine_module_sim}
-            # features[i] = feature
-            features[i] = {'uid': line['uid'], 'word_present': vec_finetuned}
-            
-            if i % 100 == 0:
-                print("done {} rows...".format(i))
-            
-        with open(os.path.join(args.wrt_dir, 'vecs_{}.pkl'.format(file.split('.')[0])), 'wb') as vecs_wri:
-            pickle.dump(features, vecs_wri)
-        break
+    with open(os.path.join(args.wrt_dir, 'vecs_{}.pkl'.format(files[0].split('.')[0])), 'wb') as vecs_wri:
+        pickle.dump(features, vecs_wri)
+    # break
  
 if __name__ == '__main__':
     main()
