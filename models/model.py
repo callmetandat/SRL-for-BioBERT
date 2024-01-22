@@ -18,9 +18,9 @@ class multiTaskNetwork(nn.Module):
         # making shared base encoder model
         # Initializing with a config file does not load the weights associated with the model,
         # only the configuration. Check out the from_pretrained() method to load the model weights.
-        #modelName = ModelType(self.modelType).name.lower()
+        
         modelName = self.modelType.name.lower()
-        configClass, modelClass, tokenizerClass, defaultName = data_utils.NLP_MODELS[modelName]
+        _, modelClass, _, defaultName = data_utils.NLP_MODELS[modelName]
         if self.taskParams.modelConfig is not None:
             logger.info('Making shared model from given config name {}'.format(self.taskParams.modelConfig))
             self.sharedModel = modelClass.from_pretrained(self.taskParams.modelConfig, output_hidden_states=True)
@@ -49,7 +49,7 @@ class multiTaskNetwork(nn.Module):
 
         # taskIdNameMap is orderedDict, it will preserve the order of tasks
         for taskId, taskName in self.taskParams.taskIdNameMap.items():
-            print("line 52 model.py taskId, taskName: ", taskId, taskName)
+            # taskId:0, taskName:conllsrl
             
             taskType = self.taskParams.taskTypeMap[taskName]
             numClasses = int(self.taskParams.classNumMap[taskName])
@@ -81,28 +81,28 @@ class multiTaskNetwork(nn.Module):
         
         return poolerLayer
 
-    def forward(self, tokenIds, typeIds, attentionMasks, taskId, taskName):
+    def forward(self, tokenIds=None, typeIds=None, attentionMasks=None, taskId=0, taskName='conllsrl'):
 
         # taking out output from shared encoder. 
-        if typeIds is not None and attentionMasks is not None:
-            outputs = self.sharedModel(input_ids = tokenIds,
-                                    token_type_ids = typeIds,
-                                    attention_mask = attentionMasks)
-        elif typeIds is None and attentionMasks is not None:
-            outputs = self.sharedModel(input_ids = tokenIds,
-                                    attention_mask = attentionMasks)
-        elif typeIds is not None and attentionMasks is None:
-            outputs = self.sharedModel(input_ids = tokenIds,
-                                    token_type_ids = typeIds)
-        elif typeIds is None and attentionMasks is None:
-            outputs = self.sharedModel(input_ids = tokenIds)
+        #if typeIds is not None and attentionMasks is not None:
+        outputs = self.sharedModel(input_ids = tokenIds, token_type_ids = typeIds, attention_mask = attentionMasks)
+                                    
+        # elif typeIds is None and attentionMasks is not None:
+        #     outputs = self.sharedModel(input_ids = tokenIds,
+        #                             attention_mask = attentionMasks)
+        # elif typeIds is not None and attentionMasks is None:
+        #     outputs = self.sharedModel(input_ids = tokenIds,
+        #                             token_type_ids = typeIds)
+        # elif typeIds is None and attentionMasks is None:
+        #     outputs = self.sharedModel(input_ids = tokenIds)
+        
         
         #print("\n SIZE OF OUTPUT:", len(outputs))  # 3
         #print("\n HIDDEN SIZE:", self.hiddenSize) # 768
-        #print("\n HIDDEN STAGE:", outputs.hidden_states)
-        hidden_states = outputs.hidden_states
+       
+        
         # some of the encoder model doesnt output the pooler output. It has to be made from hidden state
-        # ouputs in those cases
+        # outputs in those cases
         # SequenceOutput has shape : (batchSize, maxSeqLen, hiddenSize))
         sequenceOutput = outputs[0]
         if len(outputs) > 1:
@@ -111,8 +111,8 @@ class multiTaskNetwork(nn.Module):
             pooledOutput = nn.ReLU()(self.poolerLayer(sequenceOutput[:, 0]))
 
         taskType = self.taskParams.taskTypeMap[self.taskParams.taskIdNameMap[taskId]]
-        print("line 112 model.py taskType: ", taskType)
-        print("line 113 model.py taskName: ", taskName)
+        # print("line 112 model.py taskType: ", taskType) # TaskType.NER
+        # print("line 113 model.py taskName: ", taskName) # conllsrl
         
         if taskType == data_utils.TaskType.NER:
             sequenceOutput = self.allDropouts[taskName](sequenceOutput)
