@@ -86,7 +86,7 @@ class multiTaskNetwork(nn.Module):
         outputs = self.sharedModel(input_ids = tokenIds, token_type_ids = typeIds, attention_mask = attentionMasks)
        
         # SequenceOutput has shape: (batchSize, maxSeqLen, hiddenSize=768))
-        # sequenceOutput = self.allDropouts[taskName](outputs[0])
+        #sequenceOutput = self.allDropouts[taskName](outputs[0])
         sequenceOutput = outputs[0]
         logits = self.allHeaders[taskName](sequenceOutput)
         

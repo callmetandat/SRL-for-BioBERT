@@ -19,13 +19,13 @@ def read_pred_file(filePath):
 
 
 def processing_data(labels, predictions):
-    lineToks = [ast.literal_eval(label) for label in labels]
-    lineLabs = [ast.literal_eval(prediction) for prediction in predictions]
+    lineTokens = [ast.literal_eval(label) for label in labels]
+    lineLabels = [ast.literal_eval(prediction) for prediction in predictions]
 
     trueLabels = [] # labels
     predictLabels = [] # predictions
 
-    for lineTok, lineLab in zip(lineToks, lineLabs):
+    for lineTok, lineLab in zip(lineTokens, lineLabels):
         if lineLab in ['[CLS]','[SEP]', 'X']: # replace non-text tokens with O. These will not be evaluated.
             predictLabels.append('O')
             trueLabels.append('O')

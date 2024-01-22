@@ -90,9 +90,9 @@ def get_embedding(line):
 
         cat_vec = torch.cat((token[-1], token[-2], token[-3], token[-4]), dim=0) # last four layers
         # token_vecs_cat.append(cat_vec) #cat_vec is 3072
-        
+        # cat_vec = torch.cat((token[-1], token[-2]), dim=0) # last two layers
         # get the last layer
-        token_vecs_cat.append(cat_vec)
+        token_vecs_cat.append(token[-1])
     return token_vecs_cat
         
             
@@ -100,7 +100,7 @@ def get_embedding_finetuned(line):
        
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
     # Load finetuned model 
-    loadedDict = torch.load('./output/multi_task_model_0_1305cu.pt', map_location=torch.device(device))
+    loadedDict = torch.load('./output/multi_task_model_8_11745.pt', map_location=torch.device(device))
 
     taskParams = loadedDict['task_params']
 
@@ -144,7 +144,7 @@ def get_embedding_finetuned(line):
         cat_vec = torch.cat((token[-1], token[-2], token[-3], token[-4]), dim=0)
         # print("cat_vec shape: ", cat_vec.shape) # 3072
         # Use `cat_vec` to represent `token`.
-        token_vecs_cat.append(cat_vec)
+        token_vecs_cat.append(token[-1])
 
     #print ('Shape token_vecs_catis: %d x %d' % (len(token_vecs_cat), len(token_vecs_cat[0])))  # 50 x 3072
     return token_vecs_cat
