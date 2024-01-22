@@ -217,7 +217,7 @@ def read_prepare_data_train(models, epochs=4, lr=1e-5, print_every=100, batch_si
     test_loss, test_accuracy = eval_model(models, test_dataloader)
     print(f'Test loss: {test_loss} Test accuracy: {test_accuracy}')
 
-models = BertForMaskedLM.from_pretrained('bert-base-uncased')
+models = BertForMaskedLM.from_pretrained('dmis-lab/biobert-base-cased-v1.2')
 #model.save_pretrained("/content/drive/My Drive/Colab Notebooks/classification/mlm/")
 def main():
     read_prepare_data_train(models, epochs=5, lr=1e-2, print_every=50, batch_size=128)

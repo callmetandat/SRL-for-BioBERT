@@ -182,7 +182,7 @@ def coNLL_ner_pos_to_tsv(dataDir, readFile, wrtDir, transParamDict, isTrainFile=
     print('Median len of sentences: ', median(senLens))
 
 
-bertmodel = BertModel.from_pretrained('bert-base-uncased', output_hidden_states =True)
+bertmodel = BertModel.from_pretrained('dmis-lab/biobert-base-cased-v1.2', output_hidden_states =True)
 
 def read_data(readPath):
 

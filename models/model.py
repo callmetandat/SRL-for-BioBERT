@@ -59,7 +59,6 @@ class multiTaskNetwork(nn.Module):
             allDropouts[taskName] = dropoutLayer
             allHeaders[taskName] = outLayer
             
-
         return allDropouts, allHeaders
 
     def initialize_headers(self):
@@ -83,51 +82,17 @@ class multiTaskNetwork(nn.Module):
 
     def forward(self, tokenIds=None, typeIds=None, attentionMasks=None, taskId=0, taskName='conllsrl'):
 
-        # taking out output from shared encoder. 
-        #if typeIds is not None and attentionMasks is not None:
+        # Taking out output from shared encoder. 
         outputs = self.sharedModel(input_ids = tokenIds, token_type_ids = typeIds, attention_mask = attentionMasks)
-                                    
-        # elif typeIds is None and attentionMasks is not None:
-        #     outputs = self.sharedModel(input_ids = tokenIds,
-        #                             attention_mask = attentionMasks)
-        # elif typeIds is not None and attentionMasks is None:
-        #     outputs = self.sharedModel(input_ids = tokenIds,
-        #                             token_type_ids = typeIds)
-        # elif typeIds is None and attentionMasks is None:
-        #     outputs = self.sharedModel(input_ids = tokenIds)
-        
-        
-        #print("\n SIZE OF OUTPUT:", len(outputs))  # 3
-        #print("\n HIDDEN SIZE:", self.hiddenSize) # 768
        
-        
-        # some of the encoder model doesnt output the pooler output. It has to be made from hidden state
-        # outputs in those cases
-        # SequenceOutput has shape : (batchSize, maxSeqLen, hiddenSize))
+        # SequenceOutput has shape: (batchSize, maxSeqLen, hiddenSize=768))
+        # sequenceOutput = self.allDropouts[taskName](outputs[0])
         sequenceOutput = outputs[0]
-        if len(outputs) > 1:
-            pooledOutput = outputs[1]
-        else:
-            pooledOutput = nn.ReLU()(self.poolerLayer(sequenceOutput[:, 0]))
-
-        taskType = self.taskParams.taskTypeMap[self.taskParams.taskIdNameMap[taskId]]
-        # print("line 112 model.py taskType: ", taskType) # TaskType.NER
-        # print("line 113 model.py taskName: ", taskName) # conllsrl
+        logits = self.allHeaders[taskName](sequenceOutput)
         
-        if taskType == data_utils.TaskType.NER:
-            sequenceOutput = self.allDropouts[taskName](sequenceOutput)
-            # task specific header. In NER case, sequence output is 3-D, also has maxSeqLen.
-            # but the pytorch liner layer now can hangle this as long as the last dimension is the given dimensions
-            logits = self.allHeaders[taskName](sequenceOutput)
-            return outputs, logits
+        return outputs, logits
             
-        else:
-            # adding dropout layer after shared output
-            pooledOutput = self.allDropouts[taskName](pooledOutput)
-            # adding task specific header
-            logits = self.allHeaders[taskName](pooledOutput)
-            return outputs, logits
-        
+    
 class multiTaskModel:
     '''
     This is the model helper class which is responsible for building the 
@@ -154,11 +119,12 @@ class multiTaskModel:
             self.network = multiTaskNetwork(params)
             logger.info('Using single GPU')
 
+
         # transfering to gpu if available
         if self.params['gpu']:
             self.network.cuda()
 
-        #print(self.network.state_dict().keys())
+        
         #optimizer and scheduler
         self.optimizer, self.scheduler = self.make_optimizer(numTrainSteps=self.params['num_train_steps'],
                                                             warmupSteps=self.params['warmup_steps'],
@@ -169,13 +135,16 @@ class multiTaskModel:
 
 
     def make_optimizer(self, numTrainSteps, lr, eps, warmupSteps=0):
+        
         # we will use AdamW optimizer from huggingface       
         optimizer = AdamW(self.network.parameters(), lr=lr, eps = eps)
 
+        
         # lr scheduler
         scheduler = get_linear_schedule_with_warmup(optimizer,
                                                     num_warmup_steps=warmupSteps,
                                                     num_training_steps=numTrainSteps)
+       
         logger.debug("optimizer and scheduler created")
         return optimizer, scheduler
 
@@ -201,20 +170,24 @@ class multiTaskModel:
         return y 
 
     def update_step(self, batchMetaData, batchData):
-        #changing to train mode
+        # train mode
         self.network.train()
         target = batchData[batchMetaData['label_pos']]
-        #transfering label to gpu if present
+        
+        # send label to gpu if present
         if self.params['gpu']:
             target = self._to_cuda(target)
+
 
         taskId = batchMetaData['task_id']
         taskName = self.taskParams.taskIdNameMap[taskId]
         logger.debug('task id for batch {}'.format(taskId))
-        #making forward pass
-        #batchData: [tokenIdsBatchTensor, typeIdsBatchTensor, masksBatchTensor, labelsTensor]
+        
+        
+        # making forward pass
+        # batchData: [tokenIdsBatchTensor, typeIdsBatchTensor, masksBatchTensor, labelsTensor]
         # batchData would have typeIdsBatchTensor or masksBatchTensor as None if the model doesn't support it
-        #model forward function input [tokenIdsBatchTensor, typeIdsBatchTensor, masksBatchTensor, taskId]
+        # model forward function input [tokenIdsBatchTensor, typeIdsBatchTensor, masksBatchTensor, taskId]
         # we are not going to send labels in batch
         logger.debug('len of batch data {}'.format(len(batchData)))
         logger.debug('label position in batch data {}'.format(batchMetaData['label_pos']))
@@ -233,15 +206,16 @@ class multiTaskModel:
         logger.debug('size of target {}'.format(target.size())) #torch.Size([32, 50])
         if self.lossClassList[taskId] and (target is not None):
             self.taskLoss = self.lossClassList[taskId](logits, target, attnMasks=modelInputs[2])
-            #tensorboard details
+           
+            # tensorboard details
             self.tbTaskId = taskId
             self.tbTaskLoss = self.taskLoss.item()
+        
         taskLoss = self.taskLoss / self.params['grad_accumulation_steps']
         taskLoss.backward()
         self.accumulatedStep += 1
 
-        #gradients will be updated only when accumulated steps become
-        #mentioned number in grad_acc_steps (one global update)
+        # gradients will be updated only when accumulated steps become mentioned number in grad_acc_steps (one global update)
         if self.accumulatedStep == self.params['grad_accumulation_steps']:
             logging.debug('model updated.')
             if self.params['grad_clip_value'] > 0:
@@ -253,7 +227,8 @@ class multiTaskModel:
 
             self.optimizer.zero_grad()
             self.globalStep += 1
-            #resetting accumulated steps
+           
+            # reset accumulated steps
             self.accumulatedStep = 0
         
     def predict_step(self, batchMetaData, batchData):
@@ -264,37 +239,28 @@ class multiTaskModel:
         self.network.eval()
         taskId = batchMetaData['task_id']
         taskName = self.taskParams.taskIdNameMap[taskId]
-        # taskType = batchMetaData['task_type']
+      
         modelInputs = batchData + [taskId] + [taskName]
         logger.debug("Pred model input length: {}".format(len(modelInputs)))
 
         #making forward pass to get logits
         outLogits = self.network(*modelInputs)[1]
         logger.debug("Pred model logits shape: {}".format(outLogits.size()))
-        #process logits as per task type
-        # if taskType in (TaskType.SingleSenClassification, TaskType.SentencePairClassification):
-        #     outLogitsSoftmax = nn.functional.softmax(outLogits, dim = 1).data.cpu().numpy()
-        #     outLogitsSigmoid = nn.functional.sigmoid(outLogits).data.cpu().numpy()
-        #     predictedClass = np.argmax(outLogitsSoftmax, axis = 1)
-
-        #     logger.debug("Final Predictions shape after argmx: {}".format(predictedClass.shape))
-        #     predictedClass = predictedClass.tolist()
-        #     return predictedClass, outLogitsSigmoid
-
-        # if taskType == TaskType.NER:
-        
+      
+    
         outLogitsSoftmax = nn.functional.softmax(outLogits, dim = 2).data.cpu().numpy()
         ouLogitsSigmoid = nn.functional.sigmoid(outLogits).data.cpu().numpy()
         #shape of outlogits now (batchSize, maxSeqLen, classNum)
         
         predicted = np.argmax(outLogitsSoftmax, axis = 2)
-        # here in score, we only want to give out the score of the class of tag 
-        #which is maximum
+        # here in score, we only want to give out the score of the class of tag, which is maximum
         predScore = np.max(ouLogitsSigmoid, axis = 2).tolist()
         
         #shape of predicted now (batchSize, maxSeqLen)
         logger.debug("Final Predictions shape after argmx: {}".format(predicted.shape))
         predicted = predicted.tolist()
+        
+        
         # get the attention masks, we need to discard the predictions made for extra padding
         attnMasksBatch = batchData[2]
         predictedTags = []
@@ -308,15 +274,14 @@ class multiTaskModel:
             
             return predictedTags, predScoreTags
         else:
-            return predicted, predScoretaskParams
+            return predicted, predScore
        
 
     def save_multi_task_model(self, savePath):
         '''
         We will save the model parameters with state dict.
         Also the current optimizer state.
-        Along with the current global_steps and epoch which would help
-        for resuming training
+        Along with the current global_steps and epoch which would help for resuming training
         Plus we will save the task parameters object created from the task file.
         The same object shall be used for this saved model
         '''
@@ -326,6 +291,7 @@ class multiTaskModel:
                 'scheduler_state' : self.scheduler.state_dict(),
                 'global_step' : self.globalStep,
                 'task_params' : self.taskParams}
+        
         torch.save(toSave, savePath)
         logger.info('model saved in {} global step at {}'.format(self.globalStep, savePath))
 
@@ -334,14 +300,13 @@ class multiTaskModel:
         '''
         Need to check state dict for multi-gpu and single-gpu compatibility
         '''
-        # anyway stripping module from front (if present/not present)
+        
         loadedDict['model_state_dict'] = {k.lstrip('module.'):v for k, v in loadedDict['model_state_dict'].items()}
         if torch.cuda.device_count() > 1:
-            #current network requires 'module'
             loadedDict['model_state_dict'] = {'module.'+k : v for k, v in loadedDict['model_state_dict'].items()}
 
+
         self.network.load_state_dict(loadedDict['model_state_dict'])
-        #print(self.network.state_dict().keys())
         self.optimizer.load_state_dict(loadedDict['optimizer_state'])
         self.scheduler.load_state_dict(loadedDict['scheduler_state'])
         self.globalStep = loadedDict['global_step']
@@ -353,25 +318,26 @@ class multiTaskModel:
             #current network requires 'module'
             loadedDict['model_state_dict'] = {'module.'+k : v for k, v in loadedDict['model_state_dict'].items()}
 
-        #filling in weights from saved shared model to model
+        # filling in weights from saved shared model to model
         pretrainedDict = loadedDict['model_state_dict']
         pretrainedTaskParams = loadedDict['task_params']
-        #print('pretrained model keys: ', pretrainedDict.keys())
+       
         modelDict = self.network.state_dict()
-        #print('new model keys: ', modelDict.keys())
-
         logger.info('transferring weight of shared model')
+        
         updateDict = {k :pretrainedDict[k] for k in modelDict if k.startswith('sharedModel') or k.startswith('poolerLayer')}
         logger.info('number of parameters transferred for shared model {}'.format(len(updateDict)))
 
         logger.info('looking for common parameters for task specific headers...')
+        
+        
         for taskId, taskName in pretrainedTaskParams.taskIdNameMap.items():
             for key in modelDict:
                 if key.startswith('allHeaders.{}'.format(taskName)):
                     updateDict[key] = pretrainedDict[key]
                     logger.info('transferring parameter for task header: {}'.format(taskName))
         
-        #print('update dict: ', updateDict.keys())
+       
         modelDict.update(updateDict)
         self.network.load_state_dict(modelDict)
 
